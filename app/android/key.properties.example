@@ -1,0 +1,5 @@
+# Copy to key.properties (which git ignores) and fill in. Never commit the real file or the keystore.
+storeFile=C:/path/outside/the/repo/exodite-anima-release.jks
+storePassword=
+keyAlias=exodite-anima
+keyPassword=

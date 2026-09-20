@@ -229,7 +229,7 @@ Execution log: Physical Android phone, 2026-09-20, owner-reported (checklist `..
 
 Note: Depends on the release process.
 
-Execution log:
+Execution log: Then, 2026-09-20: release key created by the owner (outside the repository); `flutter build apk --release --split-per-abi` now signs with it. `apksigner verify --print-certs` shows the same certificate (SHA-256 1eb278fb...07892e4) on the arm64-v8a, armeabi-v7a and x86_64 APKs, not the debug certificate, and `app/tool/check_release_manifest.sh` passes (not debuggable). Partial overall: the check for debug logging in a release build was not done beyond TC-086's device-log search. The earlier failure (debug key) is resolved.
 
 | Date | Build | Environment | Result | Evidence | Defect |
 |------|-------|-------------|--------|----------|--------|

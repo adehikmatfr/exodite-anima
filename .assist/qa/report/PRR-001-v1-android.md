@@ -18,6 +18,8 @@ The owner ran `qa/workflow/phone-test-checklist.md` on a physical Android phone 
 
 A second physical phone (Android 11) was then connected to `adb`: the release APK installed and ran onboarding, save, lock and unlock. TC-083, TC-085, TC-086 and TC-090 gained partial evidence from it (no network permission, no backup flag, no marker word or passcode in the device log). Key derivation was then measured on that phone (`technical-spike-plan.md`, S4): opening with the passcode takes a median 2.95 s (worst 3.34 s) with the current setting, and the export setting takes 5.8 s; two lanes at 64 MiB took 1.28 s. The owner chose 64 MiB, 3 passes, 2 lanes and it is built (the in-app time after the change was not measured). G1 stays open until a second phone is measured and the design is reviewed; the Security row stays Partial.
 
+**Signing, 2026-09-20:** the owner created the release key and the build signs with it (TC-091: the debug-key failure is resolved; the case is Partial because debug logging was not reviewed beyond TC-086). The row 10 condition about the release key is met; the key backup is the owner's to confirm. The counts above were written before this and are not recomputed.
+
 ## Review table (T1 column)
 | # | Area | Check | T1 | Status | Verified in | Evidence | Unblocked by |
 |---|------|-------|----|--------|-------------|----------|--------------|
@@ -50,7 +52,7 @@ A second physical phone (Android 11) was then connected to `adb`: the release AP
 ## Conditions
 | Row | Condition | Verified when | Owner | Met (date, evidence) |
 |-----|-----------|---------------|-------|----------------------|
-| 10 | The release build is signed with the release key | Before submission | project owner | not met |
+| 10 | The release build is signed with the release key | Before submission | project owner | met 2026-09-20: `apksigner` shows the release certificate on all three APKs (TC-091 log) |
 | 10 | The staged-rollout halt numbers are set from the first internal-test baseline | After the internal test | project owner | not met |
 
 ## Sign-off

@@ -33,7 +33,7 @@ RISK-001 scores 20 and is covered by the owner's written acceptance in ADR-001.
 | Decision or action | Blocks |
 |--------------------|--------|
 | Numeric import limits (`ImportLimits`: file size, unpacked size, entries, entry size) | Final answer for TC-065 |
-| Create the release signing key, kept outside the repository with a backup (TC-091) | Any store upload |
+| Back up the release key and both passwords in a second place (the key itself exists since 2026-09-20; TC-091) | Any store upload, and every update |
 | Push to the private repository, switch on private vulnerability reporting, let CI run once | G10, the public release |
 | Read the risk and legal notes and confirm they may be public; run a final scan before making the repository public | The first public push |
 | Owner reads and signs off `product-manager/report/legal-self-assessment-v1.md` (not legal advice) | First store release in each region |
@@ -98,3 +98,6 @@ RISK-001 (data loss, 20), RISK-002 (format compatibility, 15), RISK-003 (side-ch
 | 2026-09-20 | Second physical phone (Android 11) connected to `adb`: release APK installed and driven through onboarding, save, lock and unlock; partial evidence for TC-083, TC-085, TC-086, TC-090 |
 | 2026-09-20 | Key derivation measured on a physical phone: 2.95 s median to open with the passcode at the current setting (5.8 s for exports); parameters to be decided by the owner (G1) |
 | 2026-09-20 | Owner chose Argon2id 64 MiB, 3 passes, 2 lanes for the passcode (decision `key-derivation-settings`); default changed in `key_vault.dart`, test added for older vaults, release APKs rebuilt and the manifest check passes |
+| 2026-09-20 | Sharing images built (`product-design/design/social/`): four post slides, repository banner, logo pack; screens are real debug-build screenshots with made-up entries |
+| 2026-09-20 | Release signing wired in Gradle (`key.properties`, falls back to the debug key without it) and documented (`frontend-mobile/workflow/release-signing.md`); waiting for the owner to create the key |
+| 2026-09-20 | Release key created by the owner; release APKs signed with it and verified (`apksigner`, manifest check); TC-091 now Partial instead of failed |
