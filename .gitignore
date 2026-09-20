@@ -1,0 +1,31 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Secrets and signing material: never commit
+.env
+.env.*
+*.jks
+*.keystore
+key.properties
+*.p12
+*.p8
+*.mobileprovision
+google-services.json
+GoogleService-Info.plist
+
+# Participant data and recordings (research)
+*.mp4
+*.mov
+*.m4a
+*.wav
+consent-forms/
+
+# Local scratch
+.claude/settings.local.json
+
+# Python caches from the design and test generators
+__pycache__/
+*.pyc

@@ -1,0 +1,1110 @@
+{
+  "version": "2.14",
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": "#1B1815"
+    },
+    "surface": {
+      "type": "color",
+      "value": "#25211D"
+    },
+    "text": {
+      "type": "color",
+      "value": "#EDE6DC"
+    },
+    "muted": {
+      "type": "color",
+      "value": "#A99F93"
+    },
+    "border": {
+      "type": "color",
+      "value": "#3A342E"
+    },
+    "accent": {
+      "type": "color",
+      "value": "#8FB09E"
+    },
+    "on-accent": {
+      "type": "color",
+      "value": "#14201A"
+    },
+    "danger": {
+      "type": "color",
+      "value": "#E5806F"
+    }
+  },
+  "children": [
+    {
+      "type": "frame",
+      "id": "f27",
+      "name": "S1 Welcome (FEAT-004)",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f26",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f1",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f3",
+          "name": "Logo placeholder",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f2",
+              "name": "Logo placeholder inner",
+              "children": [],
+              "width": 36,
+              "height": 36,
+              "cornerRadius": 999,
+              "fill": "$bg"
+            }
+          ],
+          "width": 72,
+          "height": 72,
+          "cornerRadius": 999,
+          "fill": "$accent",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f4",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 32
+        },
+        {
+          "type": "text",
+          "id": "t5",
+          "name": "A journal only you can r",
+          "content": "A journal only you can read",
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "600",
+          "lineHeight": 1.3,
+          "fill": "$text",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f6",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "text",
+          "id": "t7",
+          "name": "Everything you write sta",
+          "content": "Everything you write stays on this phone. Nothing is uploaded, ever.",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 1.5,
+          "fill": "$muted",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f8",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f11",
+          "name": "Point",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f9",
+              "name": "dot",
+              "children": [],
+              "width": 8,
+              "height": 8,
+              "cornerRadius": 999,
+              "fill": "$accent"
+            },
+            {
+              "type": "text",
+              "id": "t10",
+              "name": "No account or sign-up",
+              "content": "No account or sign-up",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "gap": 12,
+          "alignItems": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f12",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "frame",
+          "id": "f15",
+          "name": "Point",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f13",
+              "name": "dot",
+              "children": [],
+              "width": 8,
+              "height": 8,
+              "cornerRadius": 999,
+              "fill": "$accent"
+            },
+            {
+              "type": "text",
+              "id": "t14",
+              "name": "No ads, no tracking",
+              "content": "No ads, no tracking",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "gap": 12,
+          "alignItems": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f16",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "frame",
+          "id": "f19",
+          "name": "Point",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f17",
+              "name": "dot",
+              "children": [],
+              "width": 8,
+              "height": 8,
+              "cornerRadius": 999,
+              "fill": "$accent"
+            },
+            {
+              "type": "text",
+              "id": "t18",
+              "name": "Free, for good",
+              "content": "Free, for good",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "gap": 12,
+          "alignItems": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f20",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f22",
+          "name": "Button Get started",
+          "children": [
+            {
+              "type": "text",
+              "id": "t21",
+              "name": "Get started",
+              "content": "Get started",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$on-accent"
+            }
+          ],
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$accent",
+          "cornerRadius": 20,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f23",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 8
+        },
+        {
+          "type": "frame",
+          "id": "f25",
+          "name": "Link Restore from a backup",
+          "children": [
+            {
+              "type": "text",
+              "id": "t24",
+              "name": "Restore from a backup",
+              "content": "Restore from a backup",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "500",
+              "fill": "$accent"
+            }
+          ],
+          "width": "fill_container",
+          "height": 48,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        }
+      ],
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true
+    },
+    {
+      "type": "frame",
+      "id": "f46",
+      "name": "S2 Set passcode (FEAT-004)",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f45",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f29",
+          "name": "Back",
+          "children": [
+            {
+              "type": "text",
+              "id": "t28",
+              "name": "←",
+              "content": "←",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "400",
+              "fill": "$text"
+            }
+          ],
+          "width": 48,
+          "height": 48,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f30",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "text",
+          "id": "t31",
+          "name": "Create a passcode",
+          "content": "Create a passcode",
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "600",
+          "lineHeight": 1.3,
+          "fill": "$text",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f32",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "text",
+          "id": "t33",
+          "name": "You'll use it to open yo",
+          "content": "You'll use it to open your journal when Face ID or your fingerprint isn't available.",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 1.5,
+          "fill": "$muted",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f34",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 32
+        },
+        {
+          "type": "frame",
+          "id": "f36",
+          "name": "Passcode field",
+          "children": [
+            {
+              "type": "text",
+              "id": "t35",
+              "name": "••••••••",
+              "content": "••••••••",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "500",
+              "fill": "$text"
+            }
+          ],
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$surface",
+          "cornerRadius": 12,
+          "padding": 16,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "f37",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "frame",
+          "id": "f39",
+          "name": "Confirm field",
+          "children": [
+            {
+              "type": "text",
+              "id": "t38",
+              "name": "Repeat the passcode",
+              "content": "Repeat the passcode",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "400",
+              "fill": "$muted"
+            }
+          ],
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$surface",
+          "cornerRadius": 12,
+          "padding": 16,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "f40",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "text",
+          "id": "t41",
+          "name": "At least 6 characters. P",
+          "content": "At least 6 characters. Pick something you will remember.",
+          "fontFamily": "Inter",
+          "fontSize": 13,
+          "fontWeight": "400",
+          "lineHeight": 1.4,
+          "fill": "$muted",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f42",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f44",
+          "name": "Button Continue (disabled)",
+          "children": [
+            {
+              "type": "text",
+              "id": "t43",
+              "name": "Continue",
+              "content": "Continue",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$muted"
+            }
+          ],
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$surface",
+          "cornerRadius": 20,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          }
+        }
+      ],
+      "x": 430,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true
+    },
+    {
+      "type": "frame",
+      "id": "f63",
+      "name": "S3 Biometrics (FEAT-004)",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f62",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f48",
+          "name": "Back",
+          "children": [
+            {
+              "type": "text",
+              "id": "t47",
+              "name": "←",
+              "content": "←",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "400",
+              "fill": "$text"
+            }
+          ],
+          "width": 48,
+          "height": 48,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f49",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f51",
+          "name": "Logo placeholder",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f50",
+              "name": "Logo placeholder inner",
+              "children": [],
+              "width": 36,
+              "height": 36,
+              "cornerRadius": 999,
+              "fill": "$bg"
+            }
+          ],
+          "width": 72,
+          "height": 72,
+          "cornerRadius": 999,
+          "fill": "$accent",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f52",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 32
+        },
+        {
+          "type": "text",
+          "id": "t53",
+          "name": "Open it with a glance or",
+          "content": "Open it with a glance or a touch",
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "600",
+          "lineHeight": 1.3,
+          "fill": "$text",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f54",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "text",
+          "id": "t55",
+          "name": "Use Face ID or your fing",
+          "content": "Use Face ID or your fingerprint for quick access. Your passcode always works as a backup.",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 1.5,
+          "fill": "$muted",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f56",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f58",
+          "name": "Button Turn on",
+          "children": [
+            {
+              "type": "text",
+              "id": "t57",
+              "name": "Turn on",
+              "content": "Turn on",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$on-accent"
+            }
+          ],
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$accent",
+          "cornerRadius": 20,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f59",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 8
+        },
+        {
+          "type": "frame",
+          "id": "f61",
+          "name": "Link Not now",
+          "children": [
+            {
+              "type": "text",
+              "id": "t60",
+              "name": "Not now",
+              "content": "Not now",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "500",
+              "fill": "$accent"
+            }
+          ],
+          "width": "fill_container",
+          "height": 48,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        }
+      ],
+      "x": 860,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true
+    },
+    {
+      "type": "frame",
+      "id": "f80",
+      "name": "S4 No-recovery warning (FEAT-004)",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f79",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f71",
+          "name": "Back",
+          "children": [
+            {
+              "type": "text",
+              "id": "t70",
+              "name": "←",
+              "content": "←",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "400",
+              "fill": "$text"
+            }
+          ],
+          "width": 48,
+          "height": 48,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f72",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "text",
+          "id": "t73",
+          "name": "If you forget your passc",
+          "content": "If you forget your passcode, your journal is gone",
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "600",
+          "lineHeight": 1.3,
+          "fill": "$text",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f74",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f66",
+          "name": "Warning card",
+          "children": [
+            {
+              "type": "text",
+              "id": "t64",
+              "name": "Nobody can reset your pa",
+              "content": "Nobody can reset your passcode, including us. We never have your data.",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "text",
+              "id": "t65",
+              "name": "Export your journal from",
+              "content": "Export your journal from time to time to keep a backup you control.",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "fill": "$surface",
+          "cornerRadius": 12,
+          "padding": 20,
+          "layout": "vertical",
+          "gap": 12,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "f75",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f69",
+          "name": "Acknowledge row",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f67",
+              "name": "Checkbox",
+              "children": [],
+              "width": 24,
+              "height": 24,
+              "cornerRadius": 6,
+              "stroke": {
+                "align": "inside",
+                "thickness": 2,
+                "fill": "$muted"
+              }
+            },
+            {
+              "type": "text",
+              "id": "t68",
+              "name": "I understand that a forg",
+              "content": "I understand that a forgotten passcode can't be recovered",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "400",
+              "lineHeight": 1.4,
+              "fill": "$text",
+              "textGrowth": "fixed-width",
+              "width": 306
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "gap": 12,
+          "alignItems": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f76",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f78",
+          "name": "Button Start journaling (disabled)",
+          "children": [
+            {
+              "type": "text",
+              "id": "t77",
+              "name": "Start journaling",
+              "content": "Start journaling",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$muted"
+            }
+          ],
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$surface",
+          "cornerRadius": 20,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          }
+        }
+      ],
+      "x": 1290,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true
+    },
+    {
+      "type": "frame",
+      "id": "f97",
+      "name": "S5 Lock screen (FEAT-003)",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f96",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f81",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f83",
+          "name": "Logo placeholder",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f82",
+              "name": "Logo placeholder inner",
+              "children": [],
+              "width": 36,
+              "height": 36,
+              "cornerRadius": 999,
+              "fill": "$bg"
+            }
+          ],
+          "width": 72,
+          "height": 72,
+          "cornerRadius": 999,
+          "fill": "$accent",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f84",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "text",
+          "id": "t85",
+          "name": "Enter your passcode",
+          "content": "Enter your passcode",
+          "fontFamily": "Inter",
+          "fontSize": 22,
+          "fontWeight": "600",
+          "lineHeight": 1.3,
+          "fill": "$text",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "textAlign": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f86",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f88",
+          "name": "Passcode field",
+          "children": [
+            {
+              "type": "text",
+              "id": "t87",
+              "name": "••••••••",
+              "content": "••••••••",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "500",
+              "fill": "$text"
+            }
+          ],
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$surface",
+          "cornerRadius": 12,
+          "padding": 16,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "f89",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f91",
+          "name": "Button Unlock",
+          "children": [
+            {
+              "type": "text",
+              "id": "t90",
+              "name": "Unlock",
+              "content": "Unlock",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$on-accent"
+            }
+          ],
+          "width": "fill_container",
+          "height": 52,
+          "fill": "$accent",
+          "cornerRadius": 20,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f92",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 8
+        },
+        {
+          "type": "frame",
+          "id": "f94",
+          "name": "Link Use Face ID",
+          "children": [
+            {
+              "type": "text",
+              "id": "t93",
+              "name": "Use Face ID",
+              "content": "Use Face ID",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "500",
+              "fill": "$accent"
+            }
+          ],
+          "width": "fill_container",
+          "height": 48,
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f95",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        }
+      ],
+      "x": 1720,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "alignItems": "center"
+    }
+  ]
+}

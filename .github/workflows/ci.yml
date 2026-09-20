@@ -1,0 +1,110 @@
+name: CI
+
+# Runs on every push and pull request. It never publishes anything and has no
+# secrets. What it cannot do: run the screen tests, which need an Android
+# device or emulator (see CONTRIBUTING.md), and build for iOS.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: Analyze and unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.4
+          channel: stable
+          cache: true
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Generated database code is up to date
+        run: |
+          dart run build_runner build
+          git diff --exit-code -- lib
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Unit tests
+        run: flutter test test
+
+  release-manifest:
+    name: Release build has no network permission
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.4
+          channel: stable
+          cache: true
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Build release APK
+        run: flutter build apk --release
+
+      # ADR-005: fail if the merged manifest declares anything outside the
+      # allow-list, if cloud backup is on, or if the build is debuggable.
+      - name: Check the merged release manifest
+        run: bash tool/check_release_manifest.sh build/app/outputs/flutter-apk/app-release.apk
+
+  assist:
+    name: Project record checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Registry
+        run: node .assist/tools/check-registry.js
+
+      - name: Preflight (includes publish-safety checks)
+        run: node .assist/tools/preflight.js
+
+  hygiene:
+    name: No secrets or local paths
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Signing material and environment files are not committed
+        run: |
+          bad="$(git ls-files | grep -E '(^|/)(\.env(\..*)?|key\.properties|google-services\.json|GoogleService-Info\.plist)$|\.(jks|keystore|p12|p8|mobileprovision)$' || true)"
+          if [ -n "$bad" ]; then echo "Files that must not be committed:"; echo "$bad"; exit 1; fi
+
+      - name: No private keys or local machine paths in text files
+        run: |
+          hits="$(git grep -I -n -E 'BEGIN (RSA |EC |OPENSSH |)PRIVATE KEY|[A-Za-z]:\\\\Users\\\\|/Users/[A-Za-z0-9._-]+/|/home/[A-Za-z0-9._-]+/' -- . ':!.github' ':!.assist/publishing.md' ':!CONTRIBUTING.md' || true)"
+          if [ -n "$hits" ]; then echo "$hits"; exit 1; fi

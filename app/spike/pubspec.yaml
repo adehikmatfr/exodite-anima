@@ -1,0 +1,14 @@
+name: exodite_spike
+description: Technical spike for ADR-001 and ADR-002. Throwaway code; never shipped.
+publish_to: none
+environment:
+  sdk: ^3.12.2
+dependencies:
+  sqlite3: 3.5.2
+  drift: 2.35.0
+dev_dependencies:
+  test: ^1.25.0
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc

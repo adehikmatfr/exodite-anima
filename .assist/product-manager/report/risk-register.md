@@ -1,0 +1,40 @@
+# Risk Register: exodite-anima
+
+> Optional sections dropped for T1 (`_shared/standards/project-tiers.md`): closed risks, review log.
+
+Product-side risks, shared with the software architect for technical risks. Each entry is registered in `_shared/index.md` as `RISK-NNN`. IDs are never reused.
+
+## Scoring
+Likelihood (L) and Impact (I) each 1-5. Score = L x I. Rating: 1-6 low, 8-12 medium, 15-25 high. High risks need a named owner and a dated mitigation before a `FEAT-` moves to `ready`. A score of 20 or more blocks `ready` unless waived in writing. Review cadence for T1: each quarter, so the next review is 2026-12-20.
+
+## Register
+| ID | Title | Category | Related FEAT | L | I | Score | Response | Mitigation / contingency | Owner | Trigger / early warning | Status | Review date |
+|----|-------|----------|--------------|---|---|-------|----------|--------------------------|-------|-------------------------|--------|-------------|
+| RISK-001 | If a user has no recent export and loses the phone or forgets the passcode, then the whole journal is gone, causing permanent data loss | data | FEAT-001, FEAT-004, FEAT-006, FEAT-008, FEAT-009 | 4 | 5 | 20 | mitigate; residual accepted by the owner in writing in ADR-001 (2026-09-20), which serves as the waiver | Plain warning the user must acknowledge at setup (FEAT-004), in-app export reminder (FEAT-008), simple export (FEAT-006) | Project owner | Store reviews or messages reporting lost data | open | 2026-12-20 |
+| RISK-002 | If an app update changes the export format, then older backups cannot be imported, causing the backup promise to fail | technical | FEAT-006, FEAT-007 | 3 | 5 | 15 | mitigate | Versioned format with sample files for every version, tested in CI (ADR-003). Raise to the decision owner before hand-off | Software architect | A format change is proposed without a matching sample file | open | 2026-12-20 |
+| RISK-003 | If content escapes through a path other than the screen (cloud backup, app-switcher preview, screenshots, notifications, clipboard, logs), then the privacy claim is false | technical | FEAT-003 | 3 | 4 | 12 | mitigate | Backup exclusion, hidden previews, no content in notifications or logs, threat model THR-003 to THR-005 | Cyber-security | A test or review finds content in any of these places | open | 2026-12-20 |
+| RISK-004 | If the chosen encrypted storage does not work on iOS or Android, then the storage decision must be redone, causing delay | technical | FEAT-001, FEAT-002, FEAT-005 | 2 | 4 | 8 | mitigate | Technical spike on real builds before feature work depends on it (ADR-002); iOS cannot be built on the current machine | Software architect | The spike fails on either platform, or iOS cannot be verified | open | 2026-12-20 |
+| RISK-005 | If a cryptography mistake is made, then stored or exported data is weaker than promised, causing loss of trust | technical | FEAT-003, FEAT-006, FEAT-009 | 2 | 5 | 10 | mitigate | Vetted libraries only, no custom cryptography, tests on stored data, security review before release | Cyber-security | A review finds custom or misused cryptography | open | 2026-12-20 |
+| RISK-006 | If the sole developer stops maintaining a free app with no revenue, then users are left without updates or fixes | delivery | all | 3 | 3 | 9 | accept (with mitigation) | Keep scope small, open export format so users can leave, document the design publicly | Project owner | No release for an extended period, or the owner signals reduced capacity | open | 2026-12-20 |
+| RISK-007 | If a store rejects the app or asks for changes (privacy labels, encryption declaration), then release is delayed | compliance | FEAT-004 | 3 | 3 | 9 | mitigate | Fill privacy labels accurately, prepare the encryption export-compliance answers early | Project owner | Review feedback from a store, or a label that does not match the app | open | 2026-12-20 |
+| RISK-008 | If legal obligations for an app offered in Indonesia or the EU apply (private electronic system registration, data-protection law) and are missed, then release or continued distribution is blocked | compliance | all | 3 | 3 | 9 | mitigate | Self-assessment written from the official texts on 2026-09-20 (`product-manager/report/legal-self-assessment-v1.md`); the owner signs it off before the first release in each region, and it is redone if any data reaches the developer (decision `legal-applicability-confirmation`) | Project owner | Any data starts reaching the developer, or a store or regulator asks for registration | open | 2026-12-20 |
+| RISK-009 | If a plaintext export is modified before import, then altered entries are imported without detection, causing wrong content in the journal | technical | FEAT-006, FEAT-007 | 1 | 2 | 2 | accept (owner accepted 2026-09-20) | Plaintext archives cannot be authenticated; encrypted archives are authenticated; the plaintext warning tells the user; a checksum guards only against accidents (THR-009) | Project owner (rating by cyber-security) | A user reports altered imported entries | open | 2026-12-20 |
+| RISK-010 | If malware or a compromised operating system runs on the user's phone, then unlocked journal data and keys in memory can be read, causing exposure the app cannot prevent | technical | all | 1 | 5 | 5 | accept (owner accepted 2026-09-20) | Hardware-backed key storage where available; clear the key from memory on lock; no further defence is possible (THR-013) | Project owner (rating by cyber-security) | Store or platform advisory about the key store, or user reports of device compromise | open | 2026-12-20 |
+
+Response values: avoid (change scope), mitigate (reduce L or I), transfer (vendor, insurance, contract), accept (written, with owner).
+
+## Assumptions to validate
+| # | Assumption | Evidence today | How to test | Due | Linked RISK |
+|---|-----------|----------------|-------------|-----|-------------|
+| A-1 | People want a free, fully private journal enough to accept no cloud sync | none (owner's hypothesis) | Watch store reviews and installs after release; no usage tracking is used | After the first release | RISK-006 |
+| A-2 | Users accept "no recovery" when it is stated clearly at setup | none | Review wording with a few test users before release; watch reviews | Before the first release | RISK-001 |
+| A-3 | The encrypted storage libraries work on both platforms with the required key protection | none until the spike | Technical spike (ADR-002) | Before feature work depends on it | RISK-004 |
+
+## Status notes 2026-09-20
+Written after the app was built; the scores above are unchanged.
+- RISK-001 (data loss): export, import, reminder and drafts are built and tested; no export made by a real user yet.
+- RISK-002 (format compatibility): only `formatVersion` 1 exists; every future version needs a fixture and a reader (ADR-003).
+- RISK-003 (side-channel leaks): Android cloud backup off, content cover and secure window built; iOS parts not built; logs and network not verified on a device (TC-083, TC-086).
+- RISK-004 (storage on the platforms): encrypted storage, search and export proven on the Android emulator; the owner ran the release APK on a phone (reported smooth); iOS unverified, so the risk stays open.
+- RISK-005 (cryptography mistakes): vetted primitives, tamper and wrong-password tests pass; no independent review yet.
+- RISK-006 to RISK-010: unchanged. RISK-008 has a written self-assessment awaiting the owner's sign-off.

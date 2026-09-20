@@ -1,0 +1,2 @@
+# Keep line endings identical on every OS so multi-line find/replace tools and diffs behave.
+* text=auto eol=lf
