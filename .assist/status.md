@@ -5,7 +5,7 @@ Where the project stands. Update it in the postflight of every piece of work (`o
 ## Phase
 All nine phases have work in them; none is finished.
 - Planning and requirements (1), UX discovery (2), architecture (3): done as drafts. All nine feature specs are `in-progress` (built) and every question is answered.
-- Security design (4): drafted and self-reviewed; open blockers are G1 (key-derivation settings: measured on a phone, 64 MiB / 3 passes / 2 lanes chosen and built; a second phone and an independent review are still needed), G10 (the CI check is written but has never run) and G11 (iOS, out of scope for the first release). No independent review yet.
+- Security design (4): drafted and self-reviewed; open blockers are G1 (key-derivation settings: measured on a phone, 64 MiB / 3 passes / 2 lanes chosen and built; a second phone and an independent review are still needed), G10 (the CI manifest check passed on the first run; keep it for every release) and G11 (iOS, out of scope for the first release). No independent review yet.
 - Test strategy (5): TP-001 has 102 cases; results from execution logs: 66 passed by automated test on the host and the Android emulator, 16 partial, 18 not executed, 1 passed by hand, 1 failed (TC-091, release signing). Nothing has been recorded on a physical phone per case.
 - Visual design (6): tokens, components, all screens and states; logo A2 and the app icon; Lucide icons. The owner has not reviewed the `.pen` files in OpenPencil since the rebuild.
 - Build (7): all nine v1 features are built for Android (Flutter). 98 unit tests on the host and screen tests on the emulator for every feature. The owner tried the release APK on a physical phone and reported that it ran smoothly (owner-reported, not per case). iOS is not built (no Mac; Android first).
@@ -34,7 +34,7 @@ RISK-001 scores 20 and is covered by the owner's written acceptance in ADR-001.
 |--------------------|--------|
 | Numeric import limits (`ImportLimits`: file size, unpacked size, entries, entry size) | Final answer for TC-065 |
 | Back up the release key and both passwords in a second place (the key itself exists since 2026-09-20; TC-091) | Any store upload, and every update |
-| Push to the private repository, switch on private vulnerability reporting, let CI run once | G10, the public release |
+| (done) Private vulnerability reporting is on, and the push and first CI run are done | G10 closed by the CI run |
 | Read the risk and legal notes and confirm they may be public; run a final scan before making the repository public | The first public push |
 | Owner reads and signs off `product-manager/report/legal-self-assessment-v1.md` (not legal advice) | First store release in each region |
 | Check that the name Exodite Anima is free on both stores | Store listing |
@@ -64,7 +64,7 @@ RISK-001 (data loss, 20), RISK-002 (format compatibility, 15), RISK-003 (side-ch
 ## Next steps
 1. The owner installs the release APK on a physical phone and runs the cases listed in PRR-001 ("What would turn this into a Go"); results go into the test cases.
 2. Create the release signing key and keep it outside the repository, with a backup.
-3. Push to the private repository, switch on private vulnerability reporting, and let CI run.
+3. (done 2026-09-20) Private vulnerability reporting is on; the push and the first CI run are done.
 4. Independent review of the encryption and export design; accessibility runs; owner sign-offs (legal, privacy statement, Indonesian text).
 5. Store material: data-safety answers, privacy statement page, listing text, name check.
 6. Before making the repository public: the checklist in `publishing.md`, and a final scan.
@@ -101,3 +101,4 @@ RISK-001 (data loss, 20), RISK-002 (format compatibility, 15), RISK-003 (side-ch
 | 2026-09-20 | Sharing images built (`product-design/design/social/`): four post slides, repository banner, logo pack; screens are real debug-build screenshots with made-up entries |
 | 2026-09-20 | Release signing wired in Gradle (`key.properties`, falls back to the debug key without it) and documented (`frontend-mobile/workflow/release-signing.md`); waiting for the owner to create the key |
 | 2026-09-20 | Release key created by the owner; release APKs signed with it and verified (`apksigner`, manifest check); TC-091 now Partial instead of failed |
+| 2026-09-20 | First CI run passed (4 of 4 jobs); pre-release v1.0.0-beta.1 published on GitHub (arm64-v8a and armeabi-v7a APKs signed with the release key, SHA256SUMS, notes in `docs/releases/`) |

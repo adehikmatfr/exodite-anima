@@ -20,6 +20,11 @@ A second physical phone (Android 11) was then connected to `adb`: the release AP
 
 **Signing, 2026-09-20:** the owner created the release key and the build signs with it (TC-091: the debug-key failure is resolved; the case is Partial because debug logging was not reviewed beyond TC-086). The row 10 condition about the release key is met; the key backup is the owner's to confirm. The counts above were written before this and are not recomputed.
 
+**First CI run, 2026-09-20:** the workflow ran on the first push (commit 8a423f9) and all four jobs succeeded: analyze and unit tests, release build with no network permission (the manifest check, G10, TC-084), project record checks, and the secrets and local-path scan. "What would turn this into a Go" item 3 is done; a run on the release-signing commit was still in progress when this was written.
+
+## Release, 2026-09-20
+The pre-release v1.0.0-beta.1 was published on GitHub by the owner's instruction (two APKs signed with the release key, checksums, notes in `docs/releases/`). It is a pre-release for testers; the decision above is unchanged: No-Go for a production release.
+
 ## Review table (T1 column)
 | # | Area | Check | T1 | Status | Verified in | Evidence | Unblocked by |
 |---|------|-------|----|--------|-------------|----------|--------------|
