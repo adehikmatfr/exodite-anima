@@ -68,7 +68,7 @@ Residual risks: the owner accepted the data-loss part of THR-011 (RISK-001) in A
 ## Known gaps
 - Open blockers in the security requirements review: G1 (key-derivation settings need a physical phone), G10 (the CI manifest check is written, never run), G11 (iOS backup, out of scope for the first release). G2, G3 and G9 are decided and built (`report/security-requirements-review-v1.md`).
 - FEAT-010 (tags, mood, and On this day, `ready`): reviewed 2026-09-23, no new `THR` or trust boundary (`report/threat-model-v1.md` update). THR-002 and THR-010 verification must extend to the new `mood`/`tags` storage and to FEAT-010's schema migration once frontend-mobile builds it.
-- CI is written (`.github/workflows/ci.yml`, `app/tool/check_release_manifest.sh`, and `.github/workflows/osv-scanner.yml` added 2026-09-23) but none of it has run yet; it needs the first push (D1 closed by the new workflow, not yet verified running).
+- CI: `.github/workflows/ci.yml` and `.github/workflows/osv-scanner.yml` (D1, added 2026-09-23) both ran and passed on the first push (commit `bc3db60`, run 35817757728 and 35817758051); no dependency vulnerabilities found.
 - No release signing key and no key custody plan (THR-014).
 - No independent review: every security artifact so far was written by the same assistant.
 - Private vulnerability reporting must be switched on in the repository settings after the remote exists (`SECURITY.md` points to it).
