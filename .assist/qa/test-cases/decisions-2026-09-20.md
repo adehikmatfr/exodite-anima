@@ -223,7 +223,7 @@ Execution log: Automated, `app/test/settings_test.dart` and `app/integration_tes
 
 
 
-Execution log: not executed (nothing is built yet).
+Execution log: Automated, `app/test/migration_safety_test.dart`, host, 2026-09-23: Partial. Since the schema is still version 1, there is no real onUpgrade step to test yet; the test instead makes a file claim an older schema than `journalSchemaVersion` with no onUpgrade defined for that step, which makes drift's own migration fail for real (not a simulated hook). `openEncrypted` catches that, restores the pre-migration copy, and the entry's text is confirmed intact by a raw SQL read afterward. Partial because this proves the storage-layer mechanism, not the full "unlock" screen flow, and not yet against a real second schema (that arrives with FEAT-010's build, per ADR-006's follow-up work).
 
 ### TC-101: Verify an older app refuses to change a journal saved by a newer version
 

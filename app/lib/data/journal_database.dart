@@ -61,13 +61,43 @@ class JournalTooNewException implements Exception {
 
 const int journalSchemaVersion = 1;
 
+/// Path of the temporary copy kept while a migration runs (ADR-006). It sits
+/// next to the journal file, never inside it, so a half-written copy can
+/// never be mistaken for the journal itself.
+File preMigrationBackupPath(File dbFile) => File('${dbFile.path}.pre-migration.bak');
+
+/// Copies the journal file byte for byte before a migration runs. The copy is
+/// exactly as protected as the original: it is the same ciphertext, not a
+/// second key or a decrypted form (ADR-006, rule 1).
+Future<File> backupBeforeMigration(File dbFile) => dbFile.copy(preMigrationBackupPath(dbFile).path);
+
+/// Restores the journal from its pre-migration copy after a failed migration,
+/// so a half-migrated file is never left in place (ADR-006, rule 2).
+Future<void> restoreFromBackup(File dbFile, File backup) async {
+  await backup.copy(dbFile.path);
+}
+
+/// Deletes a pre-migration copy once the app has opened successfully again,
+/// on the new schema. Called on every open that is not itself a migration, so
+/// the copy from the last migration is only removed on the *next* successful
+/// launch, never the one that just migrated (ADR-006, rule 1).
+Future<void> cleanupOldMigrationBackup(File dbFile) async {
+  final backup = preMigrationBackupPath(dbFile);
+  if (await backup.exists()) {
+    await backup.delete();
+  }
+}
+
 @DriftDatabase(tables: [Entries, Drafts, AppValues])
 class JournalDatabase extends _$JournalDatabase {
   JournalDatabase(super.e);
 
   /// Opens (or creates) the encrypted journal file with a 256-bit data key.
-  /// Throws [JournalOpenException] for a wrong key or a damaged file, and
-  /// [JournalTooNewException] when a newer app version wrote the file.
+  /// Throws [JournalOpenException] for a wrong key, a damaged file, or a
+  /// migration that failed to complete, and [JournalTooNewException] when a
+  /// newer app version wrote the file. A migration is protected per ADR-006:
+  /// a copy is kept before it runs and restored if it fails, so this call
+  /// either ends on the new schema or leaves the journal exactly as it was.
   static Future<JournalDatabase> openEncrypted(File file, Uint8List key) async {
     if (key.length != 32) {
       throw ArgumentError('The data key must be 32 bytes');
@@ -77,11 +107,12 @@ class JournalDatabase extends _$JournalDatabase {
 
     // Look at the file with a plain connection first, so a wrong key, damage,
     // or a newer schema is found before drift can change anything.
+    int? found;
     if (file.existsSync() && file.lengthSync() > 0) {
       final probe = sqlite3.open(file.path);
       try {
         probe.execute(keyPragma());
-        final found = probe.select('PRAGMA user_version;').first.values.first as int;
+        found = probe.select('PRAGMA user_version;').first.values.first as int;
         probe.select('SELECT count(*) FROM sqlite_master;');
         if (found > journalSchemaVersion) {
           throw JournalTooNewException(found, journalSchemaVersion);
@@ -95,6 +126,12 @@ class JournalDatabase extends _$JournalDatabase {
       }
     }
 
+    final migrating = found != null && found < journalSchemaVersion;
+    File? backup;
+    if (migrating) {
+      backup = await backupBeforeMigration(file);
+    }
+
     final executor = NativeDatabase(
       file,
       setup: (raw) {
@@ -104,6 +141,24 @@ class JournalDatabase extends _$JournalDatabase {
       },
     );
     final db = JournalDatabase(executor);
+
+    if (migrating) {
+      try {
+        // Force the connection open (and any migration) now, so a failure is
+        // caught here, not at an arbitrary later point in the app.
+        await db.customSelect('SELECT 1').getSingle();
+      } catch (e) {
+        await db.close();
+        await restoreFromBackup(file, backup!);
+        await cleanupOldMigrationBackup(file);
+        throw JournalOpenException('The migration could not finish: ${e.runtimeType}');
+      }
+      // Migration succeeded. The copy stays until the next successful launch
+      // (below), in case this run is killed right after opening.
+    } else {
+      await cleanupOldMigrationBackup(file);
+    }
+
     return db;
   }
 
@@ -136,7 +191,11 @@ class JournalDatabase extends _$JournalDatabase {
             'INSERT INTO entries_fts(rowid, body) VALUES (new.id, new.body); END;',
           );
         },
-        // No earlier schema exists. The first migration must follow ADR-006
-        // (encrypted copy first, restore on failure) before it is added.
+        // No earlier schema exists yet, so there is no onUpgrade step: the
+        // copy-before, restore-on-failure mechanics live in openEncrypted
+        // above and already protect whatever the first onUpgrade step does.
+        // ADR-006 rule 4 (large migrations run in one transaction or
+        // resumably) is the first onUpgrade author's responsibility to keep;
+        // this comment stays until that step exists.
       );
 }

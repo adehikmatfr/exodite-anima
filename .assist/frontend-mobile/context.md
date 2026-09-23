@@ -100,7 +100,7 @@ Applicable frameworks: see `../_shared/compliance/compliance-matrix.md` (store r
 - The low-end reference device is an emulator with limited resources (owner's choice), which cannot prove the frame-rate target; the size budget of the universal APK (58.9 MB) has no decided target.
 - Spike: S5 (device-bound key wrapping) not evaluated; S3 and S4 partial (fake biometrics, emulator timings); S9 (iOS privacy manifest) open.
 - Indonesian text is a draft for the owner's review. Import limits and Argon2id settings are provisional.
-- The first data migration (ADR-006) has no code or test yet; the schema is still version 1. FEAT-010 (tags, mood, and On this day) will be the first feature to need it (`journalSchemaVersion` 1 -> 2); effort read given 2026-09-23 (`report/effort-read-v1.md`), size L.
+- ADR-006's copy-before-migrate and restore-on-failure mechanics are built and tested (`app/lib/data/journal_database.dart`, `app/test/migration_safety_test.dart`, 2026-09-23), proven against a real migration failure since no `onUpgrade` step exists yet (the schema is still version 1). FEAT-010 (tags, mood, and On this day) will be the first feature to add a real schema step (`journalSchemaVersion` 1 -> 2) and exercise this against a real second schema; effort read given 2026-09-23 (`report/effort-read-v1.md`), size L (now somewhat lower risk, since the generic safety net already exists).
 - Several packages in `pubspec.yaml` are pinned exactly; 22 packages have newer versions that the Flutter 3.44.4 constraints do not allow (not reviewed); `cupertino_icons` is unused.
 
 ## Verified build baseline (2026-09-20)

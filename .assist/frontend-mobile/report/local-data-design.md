@@ -30,6 +30,7 @@ User action, then one local transaction, then the UI updates. A success message 
   3. A database written by a **newer** schema than the app knows is never opened for writing: the app refuses with a message to update (downgrade and reinstall safety).
   4. Large migrations run resumably in the background with progress.
 - Export archives carry their own `formatVersion` and `schemaVersion` (ADR-003); the importer supports every past `formatVersion`.
+- **Built 2026-09-23**: rules 1 to 3 above are implemented in `app/lib/data/journal_database.dart` (`backupBeforeMigration`, `restoreFromBackup`, `cleanupOldMigrationBackup`, `JournalTooNewException`), tested in `app/test/migration_safety_test.dart` (TC-100, TC-101). Rule 4 has no `onUpgrade` step to apply to yet, since the schema is still version 1; it is the responsibility of the first migration that bumps it (FEAT-010).
 
 ## Lifecycle
 The app must survive process death, rotation, backgrounding, low-memory kill, calls, and low storage at any moment: drafts and transactions cover writing; the lock screen appears on return; low storage shows the save error (S7) with the text kept.

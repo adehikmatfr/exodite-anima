@@ -107,3 +107,4 @@ None. Closed by the owner on 2026-09-20: no artificial maximum entry length; the
 | 2026-09-20 | draft | effort read obtained from frontend-mobile (size L); waiting for the owner to confirm `ready` |
 | 2026-09-20 | in-progress | owner asked for FEAT-001 to be built first and approved setting it ready; effort read and every question are done; storage spike S1, S2, S8 passed on Android |
 | 2026-09-20 | in-progress | storage layer and screens (editor, delete confirmation, draft dialog, save error, S14) built; AC-1 to AC-6 and AC-8 to AC-10 covered by automated tests on host and Android emulator; AC-7 covered on the emulator; AC-11 not built (no migration exists yet) |
+| 2026-09-23 | in-progress | ADR-006's copy-before-migrate and restore-on-failure mechanics built (`app/lib/data/journal_database.dart`); AC-11 now Partial (TC-100), proven with a real migration failure (no `onUpgrade` step exists yet) rather than a real second schema, which arrives with FEAT-010 |
