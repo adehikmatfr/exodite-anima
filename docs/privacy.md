@@ -40,4 +40,4 @@ If a future version ever needs to send anything off your phone (which is not pla
 
 ## Questions
 
-This app has no support server or account, so there is no dashboard to check. Open an issue in the project's public repository, or read the export format specification (planned) if you want to read your data outside the app.
+This app has no support server or account, so there is no dashboard to check. Open an issue in the project's public repository, or read `export-format.md` if you want to read your data outside the app. See `backup-and-new-phone.md` for how to keep a backup or move to a new phone.
