@@ -18,6 +18,50 @@ class Entries extends Table {
   TextColumn get body => text()();
   IntColumn get createdAtMs => integer()();
   IntColumn get updatedAtMs => integer()();
+
+  /// One of [Mood.values]' indexes, or null when the writer set no mood
+  /// (FEAT-010 AC-1, AC-2; `journalSchemaVersion` 2, ADR-002 update 2026-09-23).
+  IntColumn get mood => integer().nullable()();
+}
+
+/// A tag, from the preset list or typed as free text; storage does not tell
+/// the two apart (FEAT-010, ADR-002 update 2026-09-23).
+class Tags extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().unique()();
+}
+
+/// Which tags an entry has. A normalized join table, not a delimited string
+/// column, so a tag's name is stored once and stays queryable (ADR-002
+/// update 2026-09-23; a delimited string was considered and rejected there).
+class EntryTags extends Table {
+  IntColumn get entryId => integer().references(Entries, #id)();
+  IntColumn get tagId => integer().references(Tags, #id)();
+
+  @override
+  Set<Column> get primaryKey => {entryId, tagId};
+}
+
+/// A photo attached to an entry (FEAT-011, ADR-002 update 2026-09-23). The
+/// bytes themselves live in a separate encrypted file, `<uid>.enc` under the
+/// media directory; this row only ever holds a reference, size, type, and
+/// content hash, per this project's existing media decision.
+class Media extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  /// A random identifier that never changes and is never reused; also the
+  /// encrypted file's name and the id carried in exports.
+  TextColumn get uid => text().unique()();
+  IntColumn get entryId => integer().references(Entries, #id)();
+  TextColumn get caption => text().nullable()();
+  TextColumn get mimeType => text()();
+  IntColumn get byteSize => integer()();
+
+  /// SHA-256 of the *decrypted*, already-compressed plaintext bytes, not the
+  /// encrypted file - lets a consistency check tell a photo apart from a
+  /// corrupted or substituted one without needing the key to compare files.
+  TextColumn get sha256 => text()();
+  IntColumn get createdAtMs => integer()();
 }
 
 /// The one unsaved draft. `id` is always 1. `entryId` is null for a new entry.
@@ -59,7 +103,7 @@ class JournalTooNewException implements Exception {
   String toString() => 'JournalTooNewException: schema $found is newer than $known';
 }
 
-const int journalSchemaVersion = 1;
+const int journalSchemaVersion = 3;
 
 /// Path of the temporary copy kept while a migration runs (ADR-006). It sits
 /// next to the journal file, never inside it, so a half-written copy can
@@ -88,7 +132,7 @@ Future<void> cleanupOldMigrationBackup(File dbFile) async {
   }
 }
 
-@DriftDatabase(tables: [Entries, Drafts, AppValues])
+@DriftDatabase(tables: [Entries, Drafts, AppValues, Tags, EntryTags, Media])
 class JournalDatabase extends _$JournalDatabase {
   JournalDatabase(super.e);
 
@@ -191,11 +235,22 @@ class JournalDatabase extends _$JournalDatabase {
             'INSERT INTO entries_fts(rowid, body) VALUES (new.id, new.body); END;',
           );
         },
-        // No earlier schema exists yet, so there is no onUpgrade step: the
-        // copy-before, restore-on-failure mechanics live in openEncrypted
-        // above and already protect whatever the first onUpgrade step does.
-        // ADR-006 rule 4 (large migrations run in one transaction or
-        // resumably) is the first onUpgrade author's responsibility to keep;
-        // this comment stays until that step exists.
+        // FEAT-010 and FEAT-011's schema steps, ADR-002 updates 2026-09-23:
+        // each is additive only (a column or a table, never removing or
+        // reshaping anything), so one small step is enough for either; ADR-006
+        // rule 4's transactional/resumable concern does not apply until a step
+        // is too large to run in one go. The copy-before, restore-on-failure
+        // mechanics in openEncrypted above still protect every step here
+        // exactly as they protect any other.
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            await m.addColumn(entries, entries.mood);
+            await m.createTable(tags);
+            await m.createTable(entryTags);
+          }
+          if (from < 3) {
+            await m.createTable(media);
+          }
+        },
       );
 }

@@ -27,8 +27,10 @@ Future<SessionResult> openJournal({required DataKeySource keySource, Directory? 
     final dir = directory ?? await getApplicationSupportDirectory();
     await dir.create(recursive: true);
     final file = File(p.join(dir.path, 'journal.db'));
-    final db = await JournalDatabase.openEncrypted(file, await source.load());
-    return SessionOpen(db, EntryRepository(db));
+    final key = await source.load();
+    final db = await JournalDatabase.openEncrypted(file, key);
+    final mediaDirectory = Directory(p.join(dir.path, 'media'));
+    return SessionOpen(db, EntryRepository(db, mediaDirectory: mediaDirectory, dataKey: key));
   } on JournalTooNewException {
     return SessionTooNew();
   } catch (_) {

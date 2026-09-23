@@ -44,6 +44,7 @@ class _TimelinePageState extends State<TimelinePage> {
   late final Stream<List<_Row>> _rows = widget.repository.watchTimeline().map(
     _flatten,
   );
+  late final Stream<List<TimelineItem>> _onThisDay = widget.repository.watchOnThisDay(dayKey(_now));
   ReminderKind _reminder = ReminderKind.none;
   StreamSubscription<List<_Row>>? _rowsSub;
 
@@ -278,6 +279,24 @@ class _TimelinePageState extends State<TimelinePage> {
                                 ),
                                 const SizedBox(height: AppSpace.s12),
                               ],
+                              StreamBuilder<List<TimelineItem>>(
+                                stream: _onThisDay,
+                                builder: (context, snap) {
+                                  final items = snap.data;
+                                  if (items == null || items.isEmpty) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: AppSpace.s12,
+                                    ),
+                                    child: _OnThisDayCard(
+                                      items: items,
+                                      onOpen: _openItem,
+                                    ),
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -397,6 +416,58 @@ String _time(int ms) {
   return '${d.hour}:${d.minute.toString().padLeft(2, '0')}';
 }
 
+/// Time, then preview, then mood (its text label, never the icon alone),
+/// then tags - matching the reading order in `product-design/docs/screen-specs.md`
+/// (S6, FEAT-010 AC-1, AC-3).
+String _entryLabel(TimelineItem item) {
+  final parts = ['${_time(item.createdAtMs)}. ${item.preview}'];
+  if (item.mood != null) parts.add(S.moodLabel(item.mood!));
+  if (item.tags.isNotEmpty) parts.add(item.tags.map(S.presetTagLabel).join(', '));
+  return parts.join('. ');
+}
+
+/// A read-only mood and tag summary next to a timeline entry (FEAT-010 AC-1,
+/// AC-3). Unlike the editor's pickers, nothing here is tappable: filtering by
+/// mood or tag is an explicit non-goal of FEAT-010.
+class _EntryMeta extends StatelessWidget {
+  const _EntryMeta({required this.item});
+  final TimelineItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    return Wrap(
+      spacing: AppSpace.s8,
+      runSpacing: AppSpace.s8,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        if (item.mood != null)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: c.actionBg),
+              ),
+              const SizedBox(width: AppSpace.s4),
+              Text(S.moodLabel(item.mood!), style: AppType.caption.copyWith(color: c.textSecondary)),
+            ],
+          ),
+        for (final tag in item.tags)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpace.s12, vertical: AppSpace.s4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(color: c.borderStrong),
+            ),
+            child: Text(S.presetTagLabel(tag), style: AppType.caption.copyWith(color: c.textPrimary)),
+          ),
+      ],
+    );
+  }
+}
+
 class _EntryList extends StatelessWidget {
   const _EntryList({required this.rows, required this.onOpen});
   final List<_Row> rows;
@@ -430,7 +501,7 @@ class _EntryList extends StatelessWidget {
           children: [
             Semantics(
               button: true,
-              label: '${_time(item.createdAtMs)}. ${item.preview}',
+              label: _entryLabel(item),
               excludeSemantics: true,
               child: InkWell(
                 onTap: () => onOpen(item),
@@ -456,6 +527,10 @@ class _EntryList extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: AppType.journal.copyWith(color: c.textPrimary),
                         ),
+                        if (item.mood != null || item.tags.isNotEmpty) ...[
+                          const SizedBox(height: AppSpace.s8),
+                          _EntryMeta(item: item),
+                        ],
                       ],
                     ),
                   ),
@@ -503,6 +578,77 @@ class _ResumeDialog extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(S.resumeDiscard),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Entries from the same calendar day in an earlier year (FEAT-010 AC-5,
+/// AC-6). Absent, not empty, when there is no match (built by the caller).
+/// Ordering (most recent year first) is a UX proposal, not yet confirmed by
+/// the owner (`ux-design/report/user-flows.md` F8).
+class _OnThisDayCard extends StatelessWidget {
+  const _OnThisDayCard({required this.items, required this.onOpen});
+  final List<TimelineItem> items;
+  final void Function(TimelineItem) onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    return Semantics(
+      container: true,
+      child: Container(
+        key: const Key('on-this-day'),
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpace.s16),
+        decoration: BoxDecoration(
+          color: c.surfaceRaised,
+          border: Border.all(color: c.borderStrong),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(
+              header: true,
+              child: Text(S.onThisDayTitle, style: AppType.label),
+            ),
+            for (final item in items) ...[
+              const SizedBox(height: AppSpace.s8),
+              Semantics(
+                button: true,
+                label: S.onThisDayItemLabel(formatDay(item.day)),
+                excludeSemantics: true,
+                child: InkWell(
+                  onTap: () => onOpen(item),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minHeight: AppSpace.touchMin,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          formatDay(item.day),
+                          style: AppType.caption.copyWith(
+                            color: c.textSecondary,
+                          ),
+                        ),
+                        Text(
+                          item.preview,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppType.journal.copyWith(color: c.textPrimary),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),

@@ -182,6 +182,76 @@ flowchart TD
 | Banner | Shown | Never contains entry text | Plain words about backup | Dismiss | FEAT-008 |
 | Banner | Dismissed | Hidden for a while, returns if still needed | Nothing, then the banner again | Export | FEAT-008 |
 
+## F8. Mood, tags, and On this day (FEAT-010)
+Goal: mark how an entry felt or what it was about, and be shown past entries from the same calendar day. Entry points: the editor (mood and tags); the timeline (the "On this day" card, when it appears). Success: the mood/tag change is saved, or a past entry from "On this day" opens.
+
+```mermaid
+flowchart TD
+  A[Editor, new or existing entry] -->|Pick a mood icon| B[Mood set]
+  A -->|Add a tag| C{From the preset list or typed?}
+  C -->|Preset| D[Tag added]
+  C -->|Free text| D
+  A -->|Remove a tag| E[Tag removed]
+  A -->|Clear mood| F[Mood cleared]
+  B --> G[Save]
+  D --> G
+  E --> G
+  F --> G
+  G --> H[Entry saved with its mood and tags, shown next to it in the timeline]
+
+  T[Timeline opens] --> U{Entries exist for this calendar day in any previous year?}
+  U -->|no| V[No card shown]
+  U -->|yes| W["On this day" card: one entry per matching year, each with its original date]
+  W -->|Tap an entry| X[That entry opens]
+  X -->|Back| T
+```
+
+| Step | Condition | System behaviour | User sees | Recovery | Linked |
+|------|-----------|------------------|-----------|----------|--------|
+| Mood | No icon picked | Entry saves without a mood | Nothing extra in the timeline | Add it later by editing | FEAT-010 |
+| Mood | Icon picked | Saved with the entry | The icon, with its text label available (not colour or icon alone), next to the entry | Change or clear, same as editing text | FEAT-010 |
+| Tag | Preset or free text | Either is accepted, both may be mixed on one entry | The tag next to the entry, same style regardless of origin | Remove any time | FEAT-010 |
+| Tag | Removed | No longer shown | Nothing | Re-add if it was a mistake | FEAT-010 |
+| On this day | No matching entry in any previous year | Card is not rendered | No empty-state card, no explanation needed | none needed | FEAT-010 |
+| On this day | Matching entries in more than one previous year | All of them are shown, each dated | A short list, most recent year first (**Proposal**: order not yet confirmed by the owner) | Scroll if long | FEAT-010 |
+| Locked or backgrounded | "On this day" or the timeline holds mood/tag content | Hidden by the same privacy cover as entry text (FEAT-003) | Nothing readable | Unlock | FEAT-010, FEAT-003 |
+
+Accessibility note (`inclusive-and-accessible-design`): the mood icon's text label (already decided in FEAT-010, e.g. "Great", "Good") must be exposed to screen readers even though it is visually an icon; the icon is never the only carrier of meaning, satisfying the WCAG 2.2 AA requirement already named in FEAT-010's NFR row. No new accessibility case is needed beyond confirming this in product-design's screen spec and frontend-mobile's build.
+
+## F9. Add, view, and remove a photo (FEAT-011)
+Goal: attach a photo to an entry, look at it later, or take it off. Entry points: the editor (add), a thumbnail (view), the full-size view (remove). Success: the photo is saved with the entry, or gone if removed.
+
+```mermaid
+flowchart TD
+  A[Editor, new or existing entry] -->|Add photo| B{Camera or library?}
+  B -->|Camera| C[Take a photo]
+  B -->|Library| D[Pick an existing photo]
+  C --> E[Photo added as a thumbnail]
+  D --> E
+  E -->|Add a caption, optional| F[Caption saved with the photo]
+  E --> G[Save entry]
+  F --> G
+  G --> H[Entry saved with its photo]
+
+  I[Timeline or editor] -->|Tap a thumbnail| J[Photo opens full-size, with its caption if any]
+  J -->|Remove| K{Confirm?}
+  K -->|yes| L[Photo gone, back to the entry]
+  K -->|cancel| J
+
+  M[Add, view, or import a photo] -.->|Photo file cannot be read, decrypted, or written| N[The app names which photo failed; entry text and every other photo unaffected]
+```
+
+| Step | Condition | System behaviour | User sees | Recovery | Linked |
+|------|-----------|------------------|-----------|----------|--------|
+| Add photo | Camera or library chosen | Photo is resized/compressed on the way in (owner decision, no artificial count limit) | A new thumbnail in the editor | Remove if it was a mistake | FEAT-011 |
+| Caption | Left blank | Photo still gets a generic accessible name, never blank | Nothing extra shown | Add a caption later, same as editing | FEAT-011 |
+| Remove | User confirms | Photo and its file are deleted for good | Thumbnail gone | none, same as deleting an entry | FEAT-011 |
+| Delete entry | Entry has photos | All its photos are deleted with it (FEAT-001 AC-6 extended) | Entry and photos gone from the timeline | none | FEAT-011, FEAT-001 |
+| Locked or backgrounded | A thumbnail or full-size photo would be shown | Hidden by the same privacy cover as entry text (FEAT-003), including from a screen reader (`BlockSemantics`, fixed 2026-09-23 for FEAT-010's AC-9, applies here too since it is not content-specific) | Nothing readable or reachable | Unlock | FEAT-011, FEAT-003 |
+| Photo fails | Damaged file, out of space, decrypt failure | Names which photo failed; nothing else touched | An error naming the photo | Try again; the entry's text is never at risk | FEAT-011 |
+
+Accessibility note (`inclusive-and-accessible-design`): a photo's accessible name is its caption when it has one, otherwise a generic label (e.g. "Photo") — never blank, so a screen reader user always has something to hear, matching the mood icon's "never the icon alone" rule from F8.
+
 ## Effort per flow
 | Flow | Steps to success (happy path) | Note |
 |------|-------------------------------|------|
@@ -189,3 +259,5 @@ flowchart TD
 | F3 | 3 | Fine |
 | F5 | 4 (encrypted) | Fine |
 | F6 | 7 on a fresh install (setup 4, then pick, password, result) | At the review line: candidate for RS-001 |
+| F8 | 1 (mood or tag change), or 1 tap (On this day) | Fine; the "On this day" ordering is a **Proposal** open question for the owner |
+| F9 | 2 (pick source, then the photo itself); 3 with a caption | Fine; the camera/library choice step needs a real device to test (no camera on the emulator's virtual camera has not been verified for this app) |

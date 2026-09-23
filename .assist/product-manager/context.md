@@ -33,7 +33,7 @@ Escalation path when stakeholders disagree: the project owner decides.
 | Horizon | Theme / outcome | Candidate `FEAT-` | Confidence |
 |---------|-----------------|-------------------|-----------|
 | Now (current cycle) | Version 1: private journal with lock, search, export and import | FEAT-001 to FEAT-009 | medium |
-| Next (1-2 cycles) | Photos (v1.1), plus tags, mood, and On this day (owner decided 2026-09-23 to bundle them) | Photos not yet specified; FEAT-010 `ready` (2026-09-23) | low |
+| Next (1-2 cycles) | Photos (v1.1), plus tags, mood, and On this day (owner decided 2026-09-23 to bundle them) | FEAT-011 (Photos) drafted 2026-09-23; all five open questions closed by the owner the same day (no storage cap, camera and library both, compressed on the way in, metadata kept as-is, optional captions); still needs a software-architect and an effort read before `ready`. FEAT-010 `in-progress`, every acceptance criterion built at the repository/unit/widget level, not yet on a device | low |
 | Later (unscheduled) | Audio (v1.2), favourites, daily writing reminder, rich text | not yet specified | low |
 
 Planning cadence: no fixed cycle. Capacity per cycle: unknown (one person, no effort read yet). No FEAT- ID is reserved for later items; each gets one when its spec is written.

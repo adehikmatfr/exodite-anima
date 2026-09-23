@@ -131,6 +131,38 @@ def entries_list(n_days=3):
     return frame("Entry list", kids, width="fill_container", height="fill_container", layout="vertical", clip=True)
 
 
+def mood_dot_chip(name):
+    """A compact, read-only mood indicator for the timeline: a dot plus the
+    same mandatory text label the editor's mood picker uses, never the dot
+    alone (FEAT-010 AC-1)."""
+    dot = frame("dot", [], width=8, height=8, cornerRadius=999, fill=k.v("color.action.primary.bg"))
+    return frame("Mood " + name, [dot, label(name, "color.text.secondary", "type.caption")], layout="horizontal", gap=4, alignItems="center")
+
+
+def entry_row_with_meta(meta, body, mood=None, tags=()):
+    """`entry_row`, plus a mood indicator and/or tag chips shown read-only
+    (tapping a tag here does not filter; that is an explicit non-goal,
+    FEAT-010 spec). Reading order matches `screen-specs.md`: time, preview,
+    mood, tags."""
+    kids = [text(meta, "type.caption", MUTED, lh=1.4), text(body, "type.journal")]
+    if mood or tags:
+        row = ([mood_dot_chip(mood)] if mood else []) + [tag_chip(t, False) for t in tags]
+        kids.append(frame("Entry meta", row, layout="horizontal", gap=8, alignItems="center"))
+    return frame("Entry", kids, width="fill_container", layout="vertical", gap=8, padding=16,
+                 stroke={"align": "inside", "thickness": {"bottom": 1}, "fill": k.v("color.border.default")})
+
+
+def entries_list_with_meta():
+    """FEAT-010 AC-1, AC-3: one entry with both a mood and tags, one with
+    neither, so the state shows both the with- and without-meta rows."""
+    kids = [day_heading("Today"),
+            entry_row_with_meta(ENTRIES[0][1][0][0], ENTRIES[0][1][0][1], mood="Good", tags=["Family", "photography"]),
+            entry_row_with_meta(ENTRIES[0][1][1][0], ENTRIES[0][1][1][1]),
+            spacer(8), day_heading("Yesterday"),
+            entry_row_with_meta(ENTRIES[1][1][0][0], ENTRIES[1][1][0][1]), spacer(8)]
+    return frame("Entry list", kids, width="fill_container", height="fill_container", layout="vertical", clip=True)
+
+
 def new_entry_bar():
     pill = frame("Button New entry", [label("+  New entry", "color.action.primary.fg")], **({"width": 176} if k._scale[0] <= 1 else {}), cornerRadius=999, fill=k.v("color.action.primary.bg"), layout="horizontal", alignItems="center",
                  justifyContent="center", **k.sized(52), **k.pad())
@@ -138,6 +170,14 @@ def new_entry_bar():
 
 
 REMINDER = lambda: banner("info", "Your journal has not been exported yet", "Export it so a lost phone doesn't mean lost memories.", [("Export now",), ("Later", "muted")])
+
+# FEAT-010 AC-5, AC-6: shown only when a match exists, most recent year first
+# (ordering is a UX proposal, not yet owner-confirmed, ux-design F8).
+ON_THIS_DAY = lambda: card([
+    text("On this day", "type.label", weight=600),
+    vstack("Entry Sat, 20 Sep 2025", [text("Sat, 20 Sep 2025", "type.caption", MUTED, lh=1.4), text("Coffee, a slow start. Decided to write a little every morning again.", "type.journal")], gap=4),
+    vstack("Entry Fri, 20 Sep 2024", [text("Fri, 20 Sep 2024", "type.caption", MUTED, lh=1.4), text("Rain all afternoon. Read for two hours.", "type.journal")], gap=4),
+])
 
 
 def header():
@@ -155,6 +195,10 @@ def s6(state, scale=1.0):
         f = screen("S6 Timeline / Loading", [header(), spacer(12), search_field(), spacer(16), skeleton(3), spacer(), text("Opening your journal...", "type.caption", MUTED, align="center", lh=1.4)])
     elif state == "banner":
         f = screen("S6 Timeline / With reminder", [header(), spacer(12), search_field(), spacer(16), REMINDER(), spacer(12), entries_list(2), new_entry_bar()])
+    elif state == "on_this_day":
+        f = screen("S6 Timeline / With On this day", [header(), spacer(12), search_field(), spacer(16), ON_THIS_DAY(), spacer(12), entries_list(2), new_entry_bar()])
+    elif state == "with_mood_tags":
+        f = screen("S6 Timeline / With mood and tags", [header(), spacer(12), search_field(), spacer(16), entries_list_with_meta(), new_entry_bar()])
     elif state == "large":
         f = screen("S6 Timeline / Large text", [header(), spacer(12), search_field(), spacer(16), entries_list(1), new_entry_bar()])
     else:
@@ -170,9 +214,89 @@ LONG = ["Walked by the river before work. It was quiet, and I kept thinking abou
         "Notes for later: call Ana, renew the library card, water the plants, and write down the name of the song from the radio."]
 
 
+# FEAT-010 AC-1 to AC-4: mood is an icon with a mandatory text label (never the
+# icon alone, per the NFR row); tags mix preset chips and free text. Built in
+# code 2026-09-23 (schema, repository, editor UI); the timeline still does
+# not show them, which is what S6 "With mood and tags" below is for.
+MOODS = ["Great", "Good", "Okay", "Bad", "Awful"]
+PRESET_TAGS = ["Work", "Family", "Relationships", "Health", "Travel", "Gratitude", "Goals", "Reflection"]
+
+
+def mood_option(name, selected):
+    ring = frame("Mood ring " + name, [], width=48, height=48, cornerRadius=999,
+                 fill=k.v("color.action.primary.bg") if selected else k.v("color.surface.raised"),
+                 stroke=k.stroke("color.border.strong"), layout="horizontal", alignItems="center", justifyContent="center")
+    if selected:
+        del ring["stroke"]
+    caption = text(name, "type.caption", "color.action.primary.bg" if selected else MUTED, align="center", width=64, lh=1.3)
+    return frame("Mood option " + name, [ring, caption], width=64, layout="vertical", gap=6, alignItems="center")
+
+
+def mood_picker(selected=None):
+    return frame("Mood picker", [mood_option(m, m == selected) for m in MOODS], width="fill_container", layout="horizontal",
+                 justifyContent="space-between", alignItems="flex-start")
+
+
+def tag_chip(name, selected=False, leading=None):
+    fg = "color.action.primary.fg" if selected else "color.text.primary"
+    kids = ([label(leading, fg, "type.caption")] if leading else []) + [label(name, fg, "type.caption")]
+    kw = {"fill": k.v("color.action.primary.bg")} if selected else {"fill": k.v("color.surface.raised"), "stroke": k.stroke("color.border.strong")}
+    return frame("Tag " + name, kids, layout="horizontal", gap=4, alignItems="center", justifyContent="center", cornerRadius=999, padding=12, **kw)
+
+
+def _chip_width(label_text, leading=None):
+    """This tool has no real text measurement, so widths are a rough estimate
+    (caption size, ~7.6px/char, calibrated against a rendered preview) only to
+    decide where chips wrap to the next row; not a pixel-accurate layout."""
+    chars = len(label_text) + (2 if leading else 0)
+    return max(chars * 7.6, 20) + 24
+
+
+def tag_input(selected_presets=(), free_tags=()):
+    items = [(t, t, t in selected_presets, None) for t in PRESET_TAGS]
+    items += [(t, t, True, None) for t in free_tags]
+    items += [("Add a tag", "Add a tag", False, "+")]
+    rows, row, used = [], [], 0
+    content_width = k.W - 2 * k.M
+    for name, lbl, selected, leading in items:
+        w = _chip_width(lbl, leading)
+        add = w if not row else w + 8
+        if row and used + add > content_width:
+            rows.append(row)
+            row, used = [], 0
+            add = w
+        row.append(tag_chip(name, selected, leading))
+        used += add
+    if row:
+        rows.append(row)
+    return frame("Tag input", [frame(f"Tag row {i + 1}", r, width="fill_container", layout="horizontal", gap=8, alignItems="center") for i, r in enumerate(rows)],
+                 width="fill_container", layout="vertical", gap=8)
+
+
+def photo_thumb(caption=None):
+    """A placeholder square standing in for a real decoded photo (this tool
+    has no image assets); the caption, when present, sits under it, matching
+    the "never blank" accessible-name rule (FEAT-011)."""
+    box = frame("Thumbnail", [label("Photo", "color.text.secondary", "type.caption")], width=88, height=88, cornerRadius=k.TK["scale"]["radius"]["md"],
+                fill=k.v("color.surface.raised"), stroke=k.stroke("color.border.default"), layout="horizontal", alignItems="center", justifyContent="center")
+    if not caption:
+        return box
+    return frame("Thumbnail with caption", [box, text(caption, "type.caption", MUTED, lh=1.3, width=88)], layout="vertical", gap=4, width=88)
+
+
+def add_photo_button():
+    return frame("Button add photo", [label("+ Photo", "color.text.primary")], width=88, height=88, cornerRadius=k.TK["scale"]["radius"]["md"],
+                 stroke=k.stroke("color.border.strong"), layout="horizontal", alignItems="center", justifyContent="center")
+
+
 def editor_body(kind, scale=1.0):
     bar = top_bar("Sat, 20 Sep 2026", "Save")
     status = text("Draft kept safely on this phone", "type.caption", MUTED, align="center", lh=1.4)
+    mood_tags = []
+    if kind == "mood_tags":
+        mood_tags = [spacer(16), mood_picker("Good"), spacer(16), tag_input(["Family"], ["photography"])]
+    if kind == "photos":
+        mood_tags = [spacer(16), frame("Photos", [photo_thumb("The old oak by the river"), photo_thumb(), add_photo_button()], width="fill_container", layout="horizontal", gap=8, alignItems="flex-start")]
     if kind == "new":
         body = [text("Write what's on your mind", "type.journal", MUTED)]
         bottom = spacer(48)
@@ -180,14 +304,14 @@ def editor_body(kind, scale=1.0):
         paras = LONG[:3] if kind != "long" else LONG
         body = [text(p, "type.journal") for p in paras]
         bottom = frame("Bottom row", [label("Delete entry", "color.status.danger.fg")], width="fill_container", layout="horizontal", alignItems="center", **k.sized(48), **k.pad())
-    kids = [bar, status, spacer(16), frame("Entry text", body, width="fill_container", height="fill_container", layout="vertical", gap=16, clip=True), bottom]
+    kids = [bar, status] + mood_tags + [spacer(16), frame("Entry text", body, width="fill_container", height="fill_container", layout="vertical", gap=16, clip=True), bottom]
     return kids
 
 
 def s7(state, scale=1.0):
     set_scale(scale)
-    if state in ("new", "edit", "long"):
-        names = {"new": "New entry", "edit": "Editing", "long": "Long entry (scrolls)"}
+    if state in ("new", "edit", "long", "mood_tags", "photos"):
+        names = {"new": "New entry", "edit": "Editing", "long": "Long entry (scrolls)", "mood_tags": "Mood and tags", "photos": "With photos"}
         f = screen("S7 Editor / " + names[state], editor_body(state))
     elif state == "delete":
         f = with_sheet("S7 Editor / Delete confirmation", editor_body("edit"), [
@@ -223,16 +347,44 @@ def s8(state):
     return screen("S8 Search / " + cap, [head, spacer(16)] + body)
 
 
+def s15(state):
+    if state == "default":
+        f = screen("S15 Photo viewer / Default", [
+            frame("Top row", [frame("Back", [label("←", "color.text.primary", "type.title")], width=48, height=48, layout="horizontal", alignItems="center", justifyContent="center"),
+                               frame("gap", [], width="fill_container"), label("Remove", "color.status.danger.fg")], width="fill_container", layout="horizontal", alignItems="center"),
+            spacer(16),
+            frame("Full photo", [label("Photo", "color.text.secondary", "type.title")], width="fill_container", height=420, cornerRadius=k.TK["scale"]["radius"]["md"],
+                  fill=k.v("color.surface.raised"), stroke=k.stroke("color.border.default"), layout="horizontal", alignItems="center", justifyContent="center"),
+            spacer(16), text("The old oak by the river", "type.body", MUTED, align="center"), spacer(),
+        ])
+    else:
+        f = screen("S15 Photo viewer / Remove confirmation", [
+            frame("Top row", [frame("Back", [label("←", "color.text.primary", "type.title")], width=48, height=48, layout="horizontal", alignItems="center", justifyContent="center")], width="fill_container", layout="horizontal"),
+            spacer(16),
+            frame("Full photo", [label("Photo", "color.text.secondary", "type.title")], width="fill_container", height=300, cornerRadius=k.TK["scale"]["radius"]["md"],
+                  fill=k.v("color.surface.raised"), stroke=k.stroke("color.border.default"), layout="horizontal", alignItems="center", justifyContent="center"),
+            spacer(24), text("Remove this photo?", "type.title", lh=1.3), spacer(8),
+            text("This cannot be undone.", "type.body", MUTED), spacer(24),
+            button("Remove photo", "danger"), spacer(8), button("Cancel", "text"),
+        ])
+    return f
+
+
 def journal():
-    fr = [(s6("entries"), "S6 Timeline / Entries"), (s6("banner"), "S6 Timeline / With reminder"), (s6("empty"), "S6 Timeline / Empty (first use)"), (s6("loading"), "S6 Timeline / Loading"),
-          (s6("large", 2.0), "S6 Timeline / Large text 200%")]
-    fr += [(s7("new"), "S7 Editor / New entry"), (s7("edit"), "S7 Editor / Editing"), (s7("long"), "S7 Editor / Long entry"), (s7("delete"), "S7 Editor / Delete confirmation"),
-           (s7("resume"), "S7 Editor / Resume unsaved draft"), (s7("error"), "S7 Editor / Save error"), (s7("large", 2.0), "S7 Editor / Large text 200%")]
+    fr = [(s6("entries"), "S6 Timeline / Entries"), (s6("banner"), "S6 Timeline / With reminder"), (s6("on_this_day"), "S6 Timeline / With On this day"),
+          (s6("with_mood_tags"), "S6 Timeline / With mood and tags"),
+          (s6("empty"), "S6 Timeline / Empty (first use)"), (s6("loading"), "S6 Timeline / Loading"), (s6("large", 2.0), "S6 Timeline / Large text 200%")]
+    fr += [(s7("new"), "S7 Editor / New entry"), (s7("edit"), "S7 Editor / Editing"), (s7("long"), "S7 Editor / Long entry"), (s7("mood_tags"), "S7 Editor / Mood and tags"),
+           (s7("photos"), "S7 Editor / With photos"),
+           (s7("delete"), "S7 Editor / Delete confirmation"), (s7("resume"), "S7 Editor / Resume unsaved draft"), (s7("error"), "S7 Editor / Save error"), (s7("large", 2.0), "S7 Editor / Large text 200%")]
     fr += [(s8("empty"), "S8 Search / Empty query"), (s8("results"), "S8 Search / Results"), (s8("none"), "S8 Search / No results")]
-    cover = ["Journal - FEAT-001, FEAT-002, FEAT-005, FEAT-008", "Status: draft, owner product-design. Design system: tokens 0.2.0. Related: FEAT-001, FEAT-002, FEAT-005, FEAT-008, ADR-002, THR-005.",
-             "Screens: S6 Timeline, S7 Editor, S8 Search. Every state is drawn; S6 and S7 also at 200 percent text. Entry text uses the journal font (Lora); previews fall back to another font in OpenPencil.",
+    fr += [(s15("default"), "S15 Photo viewer / Default"), (s15("remove"), "S15 Photo viewer / Remove confirmation")]
+    cover = ["Journal - FEAT-001, FEAT-002, FEAT-005, FEAT-008, FEAT-010, FEAT-011", "Status: draft, owner product-design. Design system: tokens 0.2.0. Related: FEAT-001, FEAT-002, FEAT-005, FEAT-008, FEAT-010, FEAT-011, ADR-002, THR-005.",
+             "Screens: S6 Timeline, S7 Editor, S8 Search, S15 Photo viewer. Every state is drawn; S6 and S7 also at 200 percent text. Entry text uses the journal font (Lora); previews fall back to another font in OpenPencil.",
              "Notes: all entry text is made up. The \"Save\" action and the draft indicator are tested in RS-001 for confusion (ux-design review finding 7). Search highlights are shown as a matched-word note because inline highlight is not drawable here.",
-             "Changelog: 0.2 (2026-09-20) rebuilt from tokens with all states; 0.1 first draft."]
+             "FEAT-010: S6 'With On this day' shows the card only when a match exists (AC-6: no card, no empty state, when the state is Entries/With reminder/Empty/Loading/Large text instead). Card ordering (most recent year first) is a UX proposal, not yet owner-confirmed (ux-design F8). S7 'Mood and tags' shows the mood picker (5 options, icon substituted here by a filled/outlined circle since this tool draws no font-icon glyphs; the text label is what actually matters per the accessibility NFR) and the tag input (preset chips plus a free-text example, 'photography'). The mood/tag schema and the editor UI are now built (2026-09-23), matching this state. S6 'With mood and tags' (drawn 2026-09-23, design-first again, not yet built) shows one entry with a mood dot-plus-label and two tags, and one entry with neither, so both the with- and without-meta rows are visible together.",
+             "FEAT-011 (drawn 2026-09-23, design only, not built): S7 'With photos' shows a thumbnail row (a placeholder square, since this tool draws no real image content) plus an 'Add photo' button; one thumbnail carries a caption, one does not, so both states are visible together, matching S6/S7's usual pattern of showing a field's presence and absence side by side. S15 'Photo viewer' (new screen) shows a photo full-size with its caption and a Remove action, and the remove-confirmation state. Owner decisions behind this: photos from camera and library, resized/compressed on the way in, no photo count cap, captions optional.",
+             "Changelog: 0.6 (2026-09-23) added S7 'With photos' and new screen S15 'Photo viewer' for FEAT-011 (design only, not built). 0.5 (2026-09-23) added S6 'With mood and tags' for FEAT-010 AC-1, AC-3 timeline display (design only, not built). 0.4 (2026-09-23) added S7 'Mood and tags' for FEAT-010 AC-1 to AC-4. 0.3 (2026-09-23) added S6 'With On this day' for FEAT-010 AC-5, AC-6. 0.2 (2026-09-20) rebuilt from tokens with all states; 0.1 first draft."]
     return fr, cover
 
 

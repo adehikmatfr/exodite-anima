@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../data/entry_repository.dart';
 import '../l10n/strings.dart';
 import '../theme/tokens.dart';
 import '../theme/app_icons.dart';
+import 'mood_and_tags.dart';
+import 'photo_strip.dart';
 
 /// S7 Editor: write a new entry or change an existing one (FEAT-001).
 class EditorPage extends StatefulWidget {
@@ -26,8 +29,13 @@ class EditorPage extends StatefulWidget {
 class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
   late final TextEditingController _text;
   late String _day;
+  late Mood? _mood;
+  late List<String> _tags;
+  int? _entryId;
+  List<StoredPhoto> _photos = const [];
   Timer? _draftTimer;
   bool _saveFailed = false;
+  bool _photoAddFailed = false;
   bool _done = false;
 
   @override
@@ -35,8 +43,17 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
     super.initState();
     _text = TextEditingController(text: widget.draft?.body ?? widget.entry?.body ?? '');
     _day = widget.draft?.day ?? widget.entry?.day ?? dayKey(DateTime.now());
+    _mood = widget.entry?.mood;
+    _tags = List.of(widget.entry?.tags ?? const []);
+    _entryId = widget.entry?.id;
     _text.addListener(_onChanged);
     WidgetsBinding.instance.addObserver(this);
+    if (_entryId != null) _loadPhotos();
+  }
+
+  Future<void> _loadPhotos() async {
+    final photos = await widget.repository.photosFor(_entryId!);
+    if (mounted) setState(() => _photos = photos);
   }
 
   /// The app is leaving the screen (lock, app switch, call): keep the text now,
@@ -90,11 +107,11 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
     if (!_canSave) return;
     _draftTimer?.cancel();
     try {
-      final entry = widget.entry;
-      if (entry == null) {
-        await widget.repository.create(day: _day, body: _text.text);
+      if (_entryId == null) {
+        final entry = await widget.repository.create(day: _day, body: _text.text, mood: _mood, tags: _tags);
+        _entryId = entry!.id;
       } else {
-        await widget.repository.update(id: entry.id, day: _day, body: _text.text);
+        await widget.repository.update(id: _entryId!, day: _day, body: _text.text, mood: _mood, tags: _tags);
       }
     } catch (_) {
       if (mounted) setState(() => _saveFailed = true);
@@ -102,6 +119,34 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
     }
     _done = true;
     if (mounted) Navigator.of(context).pop();
+  }
+
+  /// A photo needs a saved entry to attach to (FEAT-011 AC-1): for a new,
+  /// still-unsaved entry, this saves it first, the same text/mood/tags
+  /// [_save] would, but without leaving the screen. Returns null (and adds
+  /// no photo) when there is no text yet to save, same rule as [_save].
+  Future<int?> _ensureEntryId() async {
+    if (_entryId != null) return _entryId;
+    if (!_canSave) return null;
+    final entry = await widget.repository.create(day: _day, body: _text.text, mood: _mood, tags: _tags);
+    if (entry == null) return null;
+    setState(() => _entryId = entry.id);
+    return _entryId;
+  }
+
+  Future<void> _addPhoto(ImageSource source) async {
+    setState(() => _photoAddFailed = false);
+    final entryId = await _ensureEntryId();
+    if (entryId == null) return;
+    final picked = await pickCompressedPhoto(source);
+    if (picked == null) return;
+    final (bytes, mimeType) = picked;
+    try {
+      final photo = await widget.repository.addPhoto(entryId: entryId, bytes: bytes, mimeType: mimeType);
+      if (mounted) setState(() => _photos = [..._photos, photo]);
+    } catch (_) {
+      if (mounted) setState(() => _photoAddFailed = true);
+    }
   }
 
   Future<void> _leave() async {
@@ -194,6 +239,23 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
                     textAlign: TextAlign.center,
                   ),
                 ),
+                const SizedBox(height: AppSpace.s16),
+                MoodPicker(selected: _mood, onChanged: (m) => setState(() => _mood = m)),
+                const SizedBox(height: AppSpace.s16),
+                TagInput(tags: _tags, onChanged: (t) => setState(() => _tags = t)),
+                const SizedBox(height: AppSpace.s16),
+                PhotoStrip(
+                  photos: _photos,
+                  repository: widget.repository,
+                  onAdd: _addPhoto,
+                  onChanged: () {
+                    if (_entryId != null) _loadPhotos();
+                  },
+                ),
+                if (_photoAddFailed) ...[
+                  const SizedBox(height: AppSpace.s8),
+                  _PhotoAddError(),
+                ],
                 const SizedBox(height: AppSpace.s12),
                 if (_saveFailed) _SaveError(onRetry: _save),
                 Expanded(
@@ -234,6 +296,37 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// FEAT-011: a photo failed to be added (e.g. the phone ran out of space).
+/// Reuses [_SaveError]'s inline-banner pattern; nothing about the entry's
+/// text or other photos is affected (AC-8's "leave everything else
+/// untouched" rule, applied here to the add path too).
+class _PhotoAddError extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    return Semantics(
+      liveRegion: true,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpace.s12),
+        decoration: BoxDecoration(
+          color: c.surfaceRaised,
+          border: Border.all(color: c.warningFg),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(S.photoAddFailedTitle, style: AppType.label),
+            const SizedBox(height: AppSpace.s4),
+            Text(S.photoAddFailedBody, style: AppType.caption.copyWith(color: c.textSecondary)),
+          ],
         ),
       ),
     );

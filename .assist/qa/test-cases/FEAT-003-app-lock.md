@@ -74,6 +74,8 @@ Execution log: Automated, `app/integration_test/feat003_004_ui_test.dart`: passe
 
 Execution log: Partial, 2026-09-20: the app covers its content as soon as it becomes inactive (screen test passed on the emulator). The Android recent-apps preview and the iOS app-switcher snapshot were not looked at; a release build sets the secure-window flag. Not passed. Then: Physical Android phone, 2026-09-20, owner-reported (checklist `../workflow/phone-test-checklist.md`; no per-case notes were kept): Pass. Android recent-apps preview hides the content. The iOS snapshot is out of scope for version 1 (Android first).
 
+Correction, 2026-09-23 (found while verifying FEAT-010 AC-9): the "Pass" above only checked what is painted, not what a screen reader can reach. A real gap existed the whole time: the privacy cover did not use `BlockSemantics`, so TalkBack/VoiceOver could still read the covered screen's content through the accessibility tree even while nothing was visible. Verified with a minimal reproduction against the real assembled semantics tree (not the widget tree, which gave a false negative at first), then fixed in `app/lib/main.dart`. No automated test covers this in the suite (a full-app widget test hung in this environment and was removed rather than left flaky); the next physical-phone or emulator run of this case should explicitly turn a screen reader on, not just look at the screen.
+
 ### TC-024: Verify the passcode field is offered
 
 | Field | Value |

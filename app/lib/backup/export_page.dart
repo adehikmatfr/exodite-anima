@@ -75,7 +75,20 @@ class _ExportPageState extends State<ExportPage> {
     try {
       final entries = await widget.repository.readAllForExport();
       if (mounted) setState(() => _count = entries.length);
-      final Uint8List file = await createBackup(entries, password: password, params: widget.params, now: (widget.now ?? DateTime.now)());
+      // Decrypted here, on the main isolate, since only the repository holds
+      // the device data key; a photo that fails to decrypt (AC-8, damaged or
+      // unreadable) is left out of the export rather than failing all of it.
+      final photoBytes = <String, Uint8List>{};
+      for (final entry in entries) {
+        for (final ref in entry.media) {
+          try {
+            photoBytes[ref.uid] = await widget.repository.readPhotoBytes(ref.uid);
+          } catch (_) {
+            // left out of photoBytes; createBackup drops its media reference too
+          }
+        }
+      }
+      final Uint8List file = await createBackup(entries, password: password, params: widget.params, now: (widget.now ?? DateTime.now)(), photoBytes: photoBytes);
       final outcome = await widget.files.share(bytes: file, fileName: _fileName(password != null));
       if (outcome == ShareOutcome.cancelled) {
         // The user closed the share dialog: no file was kept, so this is not an export (AC-7).

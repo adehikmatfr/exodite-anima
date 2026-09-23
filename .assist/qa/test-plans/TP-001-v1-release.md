@@ -7,13 +7,13 @@ Optional sections dropped for T1 (`_shared/standards/project-tiers.md`): schedul
 | ID | TP-001 |
 | Status | draft |
 | Owner (QA) | qa |
-| Linked FEAT | FEAT-001, FEAT-002, FEAT-003, FEAT-004, FEAT-005, FEAT-006, FEAT-007, FEAT-008, FEAT-009 |
-| Related | ADR-001, ADR-002, ADR-003, ADR-004, ADR-005, THR-001 to THR-015, RISK-001 to RISK-010 |
-| Target release / build | Version 1, first store release; no build exists yet |
-| Last updated | 2026-09-20 |
+| Linked FEAT | FEAT-001, FEAT-002, FEAT-003, FEAT-004, FEAT-005, FEAT-006, FEAT-007, FEAT-008, FEAT-009, FEAT-010, FEAT-011 |
+| Related | ADR-001, ADR-002, ADR-003, ADR-004, ADR-005, ADR-006, THR-001 to THR-015, RISK-001 to RISK-013 |
+| Target release / build | Version 1, first store release; no build exists yet. FEAT-010 and FEAT-011 ship in v1.1, not v1 (`product-manager/context.md`) |
+| Last updated | 2026-09-23 |
 
 ## 1. Scope
-- **In scope:** the acceptance criteria of FEAT-001 to FEAT-009, the failure, boundary, and negative cases chosen by risk, the privacy and security properties in the threat model, accessibility, and compatibility.
+- **In scope:** the acceptance criteria of FEAT-001 to FEAT-009, the failure, boundary, and negative cases chosen by risk, the privacy and security properties in the threat model, accessibility, and compatibility. TC-103 to TC-111 (FEAT-010) and TC-112 to TC-120 (FEAT-011) were added 2026-09-23; both ship in v1.1, not v1, so those cases do not gate the v1 exit criteria below.
 - **Out of scope, with reason:**
   - iOS execution: iOS cannot be built or run on the current machine (no Mac). Every case is designed for both platforms, but only Android can be executed locally. This is accepted only if the owner confirms it, and is a residual risk (QR-13).
   - Real biometric hardware: the emulator has virtual biometrics only; cases that need real sensors are marked manual and need a physical device.
@@ -76,7 +76,7 @@ Test data rule: no real journal content or real passcodes, ever. Synthetic entri
 - [ ] Test data and devices are ready
 
 ## 6. Exit criteria
-- [ ] 100% of P0 cases executed and passed (50 P0 cases planned)
+- [ ] 100% of P0 cases executed and passed (50 P0 cases planned for v1; 4 more, TC-110, TC-111 (FEAT-010), TC-117, and TC-118 (FEAT-011), were added for v1.1 and do not gate this exit criterion)
 - [ ] At least 95% of all planned cases executed and passed
 - [ ] No open S1 or S2 defects; S3 defects accepted in writing
 - [ ] NFR targets met once confirmed (`nfr-analysis-v1.md`)
@@ -84,7 +84,7 @@ Test data rule: no real journal content or real passcodes, ever. Synthetic entri
 - [ ] No quarantined P0 test
 
 ## 7. Traceability
-76 acceptance criteria map to test cases. Blocked cases wait for a decision named in the case.
+94 acceptance criteria map to test cases (76 for FEAT-001 to FEAT-009, 9 for FEAT-010, 9 for FEAT-011). Blocked cases wait for a decision named in the case.
 
 | FEAT acceptance criterion | TC IDs | Status |
 |---------------------------|--------|--------|
@@ -164,6 +164,24 @@ Test data rule: no real journal content or real passcodes, ever. Synthetic entri
 | FEAT-009 AC-7: Every claim traces to a requirement and a test | TC-081 | not run |
 | FEAT-009 AC-8: All app text is in Indonesian and stays so after a restart | TC-098 | not run |
 | FEAT-009 AC-9: The app is in English | TC-099 | not run |
+| FEAT-010 AC-1: The mood is saved with the entry and shown next to it in the timeline | TC-103 | partial |
+| FEAT-010 AC-2: The mood can be changed or cleared, and the change is kept | TC-104 | partial |
+| FEAT-010 AC-3: The tags are saved with the entry and shown next to it in the timeline | TC-105 | partial |
+| FEAT-010 AC-4: The tag no longer shows on that entry | TC-106 | partial |
+| FEAT-010 AC-5: The "On this day" card shows an entry from every matching previous year | TC-107 | partial |
+| FEAT-010 AC-6: No "On this day" card is shown | TC-108 | partial |
+| FEAT-010 AC-7: The export archive includes that entry's mood and tags | TC-109 | partial |
+| FEAT-010 AC-8: Every entry's mood and tags match the exported values exactly | TC-110 | partial |
+| FEAT-010 AC-9: No entry text, mood, or tag content is visible while locked or backgrounded | TC-111 | partial |
+| FEAT-011 AC-1: The photo is saved with the entry and shown as a thumbnail | TC-112 | partial |
+| FEAT-011 AC-2: The photo opens full-size | TC-113 | partial |
+| FEAT-011 AC-3: The photo no longer shows on that entry, and its file is gone | TC-114 | partial |
+| FEAT-011 AC-4: The entry's photos are deleted for good, the same as its text | TC-115 | partial |
+| FEAT-011 AC-5: The export archive includes that photo | TC-116 | partial |
+| FEAT-011 AC-6: Every entry's photos match the exported ones exactly | TC-117 | partial |
+| FEAT-011 AC-7: No photo thumbnail or full-size photo from any entry is visible | TC-118 | not executed |
+| FEAT-011 AC-8: The app names which photo failed; the entry's text and every other photo are unaffected | TC-119 | partial |
+| FEAT-011 AC-9: The caption is saved with the photo and shown with it; a photo with no caption still has an accessible name | TC-120 | partial |
 
 ### Coverage with no acceptance criterion yet (raised to product-manager)
 QA does not invent expected results or acceptance criteria. These cases verify behaviour or properties that no criterion states. The product-manager should either add a criterion (proposed wording follows) or confirm that the case is verified as a non-functional requirement.
@@ -319,16 +337,34 @@ All cases, in the format the registry check reads. Priority P0 blocks the releas
 | TC-100 | Verify a failed data migration restores the journal to its state before the update | FEAT-001, ADR-006, RISK-001, THR-010 | resilience | P0 | planned |
 | TC-101 | Verify an older app refuses to change a journal saved by a newer version | FEAT-001, ADR-006, THR-010 | integration | P0 | planned |
 | TC-102 | Verify a passcode is set before a backup is imported on a fresh install | FEAT-007, ADR-001 | e2e | P0 | planned |
+| TC-103 | Verify the mood is saved with the entry and shown next to it in the timeline | FEAT-010, ADR-002, RISK-001 | e2e | P1 | partial (unit and widget) |
+| TC-104 | Verify a mood can be changed to a different one, or cleared | FEAT-010, RISK-001 | e2e | P2 | partial (unit and widget) |
+| TC-105 | Verify tags from the preset list, free text, or both are saved and shown | FEAT-010, ADR-002, RISK-001 | e2e | P1 | partial (unit and widget) |
+| TC-106 | Verify removing a tag stops it showing on the entry | FEAT-010, RISK-001 | e2e | P2 | partial (unit and widget) |
+| TC-107 | Verify the "On this day" card shows an entry from every matching previous year | FEAT-010, RISK-001 | e2e | P1 | partial (unit only) |
+| TC-108 | Verify no "On this day" card is shown when there is no match | FEAT-010 | e2e | P2 | partial (unit only) |
+| TC-109 | Verify an export includes an entry's mood and tags | FEAT-010, ADR-003, RISK-002 | integration | P1 | partial (format level) |
+| TC-110 | Verify mood and tags round-trip exactly through export and import | FEAT-010, ADR-003, RISK-002 | integration | P0 | partial (two real journals) |
+| TC-111 | Verify no mood or tag content is visible while locked or backgrounded | FEAT-010, FEAT-003, RISK-003 | e2e | P0 | partial (fixed a real THR-004 gap; no automated test) |
+| TC-112 | Verify a photo added from the camera or the library is saved and shown as a thumbnail | FEAT-011, ADR-002, RISK-011, RISK-012 | e2e | P1 | partial (unit and widget) |
+| TC-113 | Verify tapping a photo's thumbnail opens it full-size | FEAT-011 | e2e | P2 | partial (widget) |
+| TC-114 | Verify removing a photo stops it showing on the entry, and its file is gone | FEAT-011, RISK-011 | e2e | P1 | partial (unit and widget) |
+| TC-115 | Verify deleting an entry deletes its photos for good | FEAT-011, RISK-011 | e2e | P1 | partial (unit only) |
+| TC-116 | Verify an export includes an entry's photos | FEAT-011, ADR-003, RISK-002 | integration | P1 | partial (format level) |
+| TC-117 | Verify every entry's photos match the exported ones exactly after import | FEAT-011, ADR-003, RISK-002 | integration | P0 | partial (two real journals) |
+| TC-118 | Verify no photo thumbnail or full-size photo is visible while locked or backgrounded | FEAT-011, FEAT-003, RISK-003 | e2e | P0 | not executed (relies on TC-111's fix; no dedicated test) |
+| TC-119 | Verify a photo that cannot be read, decrypted, or written names itself without affecting anything else | FEAT-011, RISK-011 | e2e | P1 | partial (unit, format; on-screen trigger path unverified) |
+| TC-120 | Verify a photo's caption is saved and shown, and a captionless photo still has an accessible name | FEAT-011 | e2e | P2 | partial (unit and widget; semantics-tree assertion not yet added) |
 
 ## 11. Results summary
-Updated 2026-09-20 from the execution logs (details and the readiness decision in `../report/PRR-001-v1-android.md`). 102 cases planned: 50 P0, 13 manual, 2 blocked by open decisions.
+Updated 2026-09-23 from the execution logs (details and the readiness decision in `../report/PRR-001-v1-android.md`). 120 cases planned: 54 P0, 13 manual, 2 blocked by open decisions. TC-103 to TC-111 (FEAT-010) and TC-112 to TC-120 (FEAT-011) are new and all Partial or Not executed: both features' schema, repository, and format layers are built and proven, and FEAT-011 additionally has its own real screens under widget tests (`PhotoStrip`, `PhotoViewerPage`), unlike FEAT-010's `TimelinePage`/`EditorPage` additions, which have none of their own. Checking TC-111 (AC-9, screen privacy) surfaced a real, pre-existing gap in FEAT-003's privacy cover, unrelated to FEAT-010 itself: it hid content visually but not from a screen reader. That gap is now fixed (`app/lib/main.dart`, `BlockSemantics`); TC-023 in `FEAT-003-app-lock.md` is corrected accordingly, and this is the one FEAT-010 finding that reaches back into an already-`Pass`ed v1 case. TC-118 (FEAT-011's equivalent screen-privacy case) relies on that same fix, since no photo-specific code path bypasses `BlockSemantics`, but has no dedicated test of its own and is marked Not executed rather than Partial for that reason. FEAT-010 and FEAT-011 ship in v1.1 and their own cases still do not affect the v1 PRR-001 recommendation below, but the THR-004 correction does concern v1 and is noted there too.
 
 | Result in the execution log | Cases | Of which P0 |
 |-----------------------------|-------|-------------|
 | Passed by automated test (host and Android emulator) | 66 | 34 |
 | Passed by hand | 1 | 1 |
-| Partial | 16 | 9 |
+| Partial | 33 (TC-103 to TC-111: FEAT-010; TC-112 to TC-117, TC-119, TC-120: FEAT-011 - unit/widget/format level only) | 12 |
 | Failed | 1 (TC-091: the release build is signed with the debug key) | 1 |
-| Not executed | 18 | 5 |
+| Not executed | 19 (includes TC-118: FEAT-011's screen-privacy case, which relies on TC-111's fix but has no dedicated test) | 7 |
 
 No case is recorded on a physical phone; no case has been marked `passed` by qa in its status field. Open defects: TC-091 (release signing). Recommendation: **No-Go for production** (PRR-001); ready for an internal test on a physical phone.

@@ -271,9 +271,17 @@ class _ShellState extends State<_Shell> with WidgetsBindingObserver {
           if (_obscured)
             Positioned.fill(
               key: const Key('privacy-cover'),
-              child: ColoredBox(
-                color: AppColors.of(context).surfaceBase,
-                child: const Center(child: LogoMark()),
+              // Painting over the content is not enough on its own: without
+              // BlockSemantics, a screen reader can still reach the covered
+              // screen's text (entry text, mood, tags) through the
+              // accessibility tree even though nothing is visible (found
+              // while verifying FEAT-010 AC-9; the same gap already applied
+              // to every screen this cover has ever protected, FEAT-003).
+              child: BlockSemantics(
+                child: ColoredBox(
+                  color: AppColors.of(context).surfaceBase,
+                  child: const Center(child: LogoMark()),
+                ),
               ),
             ),
         ],

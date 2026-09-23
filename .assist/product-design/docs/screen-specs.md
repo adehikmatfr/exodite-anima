@@ -170,22 +170,22 @@ Common to every screen: safe areas respected; primary action reachable by one th
 | Field | Value |
 |-------|-------|
 | Screen | S6 Timeline |
-| Feature | FEAT-002, FEAT-008 |
+| Feature | FEAT-002, FEAT-008, FEAT-010 |
 | Status | draft |
-| Design file | `design/features/journal/journal-light.pen` and `-dark.pen` |
-| Flow context | F3, F7 in `ux-design/report/user-flows.md` |
+| Design file | `design/features/journal/journal-light.pen` and `-dark.pen`. "With On this day" drawn 2026-09-23 (changelog 0.3); "With mood and tags" drawn the same day (changelog 0.5), design-first again, ahead of the timeline code. Both self-checked by rendering both themes to PNG. Mood shown as a dot plus its mandatory text label (this tool draws no font-icon glyphs, same limit as S7); tags shown as read-only outlined chips, not toggleable here |
+| Flow context | F3, F7, F8 in `ux-design/report/user-flows.md` |
 
 **Goal.** Browse entries and start a new one. Primary action: New entry.
 
-**States drawn.** Entries; with backup reminder; empty (first use); loading; large text 200%.
+**States drawn.** Entries; with backup reminder; empty (first use); loading; large text 200%; with an "On this day" card (FEAT-010, drawn, reviewed, built); with mood and tags on an entry (FEAT-010, drawn and reviewed 2026-09-23; the matching timeline code, `TimelinePage`'s `_EntryMeta`, is built too, proven at the repository level, not yet by a widget or emulator test).
 
-**Reading and focus order.** Title (heading), Settings, search field, reminder banner (when shown), day headings and entries, New entry.
+**Reading and focus order.** Title (heading), Settings, search field, reminder banner (when shown), "On this day" card (when shown, FEAT-010), day headings and entries (each with its mood icon and tags when present), New entry.
 
-**Accessible names and announcements.** Each entry row reads its time, then its preview text. Search field: "Search your entries". Reminder actions: "Export now" and "Later".
+**Accessible names and announcements.** Each entry row reads its time, then its preview text, then its mood label if set (e.g. "Good", never the icon alone) and its tags if any. Search field: "Search your entries". Reminder actions: "Export now" and "Later". "On this day" card: announced as a group, one item per past year, each reading its year and date, e.g. "On this day, 2024".
 
-**Edge cases.** Empty and loading are different states. The reminder never contains entry text. At 200% the header stacks and the New entry button grows with its text.
+**Edge cases.** Empty and loading are different states. The reminder never contains entry text. At 200% the header stacks and the New entry button grows with its text. The "On this day" card is absent, not empty, when there is no match (FEAT-010 AC-6). Mood and tags never replace the entry preview text.
 
-**Open questions.** none: reminder after more than 30 days, hidden for 7 days; journal size 20,000 entries.
+**Open questions.** none: reminder after more than 30 days, hidden for 7 days; journal size 20,000 entries. FEAT-010: the "On this day" card's ordering when more than one past year matches is a **Proposal** (most recent year first) in `ux-design/report/user-flows.md` F8, not yet confirmed by the owner.
 
 | AC | Criterion | Source | Test |
 |----|-----------|--------|------|
@@ -203,28 +203,33 @@ Common to every screen: safe areas respected; primary action reachable by one th
 | AC-12 | Every control has a visible label or visible text, and an accessible name | design | TC-087 |
 | AC-13 | Text stays readable at 200 percent system font size in both themes | design | TC-088 |
 | AC-14 | Text contrast and touch targets meet the tokens in both themes | design | TC-089 |
+| AC-15 | Entries exist for the same calendar day in more than one previous year; The timeline opens; The "On this day" card shows an entry from every one of those years, each with its original date | FEAT-010 AC-5 | TC-107 |
+| AC-16 | No entry exists for the same calendar day in any previous year; The timeline opens; No "On this day" card is shown | FEAT-010 AC-6 | TC-108 |
+| AC-17 | The app is locked; A locked or backgrounded screen is shown; No entry text, mood, or tag content from "On this day" or the timeline is visible | FEAT-010 AC-9 | TC-111 |
+| AC-18 | An entry has a mood; The timeline opens; The mood is shown next to it, with its text label, never the icon alone | FEAT-010 AC-1 | TC-103 |
+| AC-19 | An entry has tags; The timeline opens; The tags are shown next to it | FEAT-010 AC-3 | TC-105 |
 
 ## S7 Editor
 
 | Field | Value |
 |-------|-------|
 | Screen | S7 Editor |
-| Feature | FEAT-001 |
+| Feature | FEAT-001, FEAT-010, FEAT-011 |
 | Status | draft |
-| Design file | `design/features/journal/journal-light.pen` and `-dark.pen` |
-| Flow context | F3 in `ux-design/report/user-flows.md` |
+| Design file | `design/features/journal/journal-light.pen` and `-dark.pen`. "Mood and tags" drawn 2026-09-23 (changelog 0.4), self-checked by rendering both themes to PNG. Mood icons are substituted with a filled/outlined circle in this tool (it draws no font-icon glyphs); the built code uses the real Lucide icon per mood (`app/lib/theme/app_icons.dart`, codepoints verified against `lucide-static@1.47.0`'s own `font/info.json`). "With photos" drawn 2026-09-23 (changelog 0.6), self-checked, owner-approved, and built: `PhotoStrip` in `app/lib/journal/photo_strip.dart` |
+| Flow context | F3, F8, F9 in `ux-design/report/user-flows.md` |
 
 **Goal.** Write or change an entry safely. Primary action: Save.
 
-**States drawn.** New; editing; long entry; delete confirmation; resume unsaved draft; save error; large text 200%.
+**States drawn.** New; editing; long entry; delete confirmation; resume unsaved draft; save error; large text 200%; mood picker and tag input together as one state, "Mood and tags" (FEAT-010, drawn, reviewed, and built: `MoodPicker`, `TagInput` in `app/lib/journal/mood_and_tags.dart`); a thumbnail row plus an "Add photo" button, "With photos" (FEAT-011, drawn 2026-09-23, owner-approved, and built: `PhotoStrip` in `app/lib/journal/photo_strip.dart`; thumbnails were placeholder squares in the drawn preview since this tool draws no real image content - the built screen shows the real decrypted photo).
 
-**Reading and focus order.** Back, date, Save, draft status, entry text, Delete entry (existing entries only).
+**Reading and focus order.** Back, date, Save, draft status, mood picker (FEAT-010), tag input (FEAT-010), photo thumbnails then "Add photo" (FEAT-011), entry text, Delete entry (existing entries only).
 
-**Accessible names and announcements.** Entry text area: "Entry text". Date: "Entry date, Saturday 20 September 2026, change". Delete sheet and draft dialog are announced as dialogs.
+**Accessible names and announcements.** Entry text area: "Entry text". Date: "Entry date, Saturday 20 September 2026, change". Delete sheet and draft dialog are announced as dialogs. Mood picker (FEAT-010): each icon exposes its text label as its accessible name (e.g. "Good"), never the icon alone; the chosen mood is announced when picked. Tag input (FEAT-010): preset chips read their name and whether selected; free-text entry reads "Add a tag". A photo thumbnail (FEAT-011): its caption when it has one, otherwise a generic label (e.g. "Photo"), never blank; "Add photo" reads as a button.
 
-**Edge cases.** The draft is kept as the user types, so leaving the screen never loses text. The save error keeps the text and offers Try again. The "Save" action next to "Draft kept safely" is tested for confusion in RS-001.
+**Edge cases.** The draft is kept as the user types, so leaving the screen never loses text. The save error keeps the text and offers Try again. The "Save" action next to "Draft kept safely" is tested for confusion in RS-001. Mood and tags are optional; clearing a mood or removing every tag is as easy as setting them (FEAT-010 AC-2, AC-4). Photos have no count limit (owner decision, FEAT-011); this screen's row wraps or scrolls as more are added — exact behaviour not yet drawn for a large number of photos.
 
-**Open questions.** none: no artificial maximum length; the open-failure state is S14.
+**Open questions.** none: no artificial maximum length; the open-failure state is S14. FEAT-010's mood icon set and preset tag list were product-manager proposals, confirmed here 2026-09-23 (see FEAT-010 Decisions) before the build started.
 
 | AC | Criterion | Source | Test |
 |----|-----------|--------|------|
@@ -239,6 +244,39 @@ Common to every screen: safe areas respected; primary action reachable by one th
 | AC-9 | Every control has a visible label or visible text, and an accessible name | design | TC-087 |
 | AC-10 | Text stays readable at 200 percent system font size in both themes | design | TC-088 |
 | AC-11 | Text contrast and touch targets meet the tokens in both themes | design | TC-089 |
+| AC-12 | The entry editor; The writer picks a mood icon from the fixed set; The mood is saved with the entry and shown next to it in the timeline | FEAT-010 AC-1 | TC-103 |
+| AC-13 | A saved entry with a mood; The writer opens it to edit; They can change the mood or clear it, and the change is kept after saving | FEAT-010 AC-2 | TC-104 |
+| AC-14 | The entry editor; The writer adds one or more tags, from the preset list, free text, or both; The tags are saved with the entry and shown next to it in the timeline | FEAT-010 AC-3 | TC-105 |
+| AC-15 | A saved entry with a tag; The writer removes the tag and saves; The tag no longer shows on that entry | FEAT-010 AC-4 | TC-106 |
+| AC-16 | The entry editor; The writer adds a photo from the camera or the photo library; The photo is saved with the entry and shown as a thumbnail | FEAT-011 AC-1 | TC-112 |
+| AC-17 | An entry with a photo; The writer adds a caption and saves; The caption is saved with the photo and shown with it | FEAT-011 AC-9 | TC-120 |
+
+## S15 Photo viewer
+
+| Field | Value |
+|-------|-------|
+| Screen | S15 Photo viewer |
+| Feature | FEAT-011 |
+| Status | draft |
+| Design file | `design/features/journal/journal-light.pen` and `-dark.pen`. New screen, drawn 2026-09-23 (changelog 0.6), self-checked by rendering both themes to PNG, owner-approved, and built: `PhotoViewerPage` in `app/lib/journal/photo_viewer_page.dart` |
+| Flow context | F9 in `ux-design/report/user-flows.md` |
+
+**Goal.** Look at a photo full-size, and remove it if the writer wants to. Primary action: none (viewing); Remove is the only action.
+
+**States drawn.** Default (photo full-size, with its caption if any, and a Remove action); Remove confirmation.
+
+**Reading and focus order.** Back, Remove, the photo itself, its caption (if any).
+
+**Accessible names and announcements.** The photo's accessible name is its caption when it has one, otherwise a generic label (e.g. "Photo"), never blank, the same rule as its thumbnail in S7. The remove-confirmation sheet is announced as a dialog, the same pattern as S7's delete-entry confirmation.
+
+**Edge cases.** A photo that fails to open (damaged, undecryptable) is not drawn as a state here yet; FEAT-011 AC-8 names the behaviour (name which photo failed, leave everything else untouched) but no screen state exists for it.
+
+**Open questions.** none: the owner reviewed and approved this screen alongside S7's "With photos" state on 2026-09-23. The AC-8 failure state noted above under Edge cases is still not drawn.
+
+| AC | Criterion | Source | Test |
+|----|-----------|--------|------|
+| AC-1 | An entry with a photo; The writer taps its thumbnail; The photo opens full-size | FEAT-011 AC-2 | TC-113 |
+| AC-2 | An entry with a photo; The writer removes the photo and saves; The photo no longer shows on that entry, and its file is gone | FEAT-011 AC-3 | TC-114 |
 
 ## S8 Search
 

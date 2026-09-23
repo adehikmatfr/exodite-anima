@@ -79,4 +79,5 @@ Journey maps: `report/JRN-001-changing-phones.md`. Flows: `report/user-flows.md`
 - Screens S1 to S7 were drawn before flows and research; findings are in `report/design-review-ui-s1-s7.md`.
 - Vocabulary is unsettled ("backup" versus "export" and "import"); see `report/information-architecture.md`.
 - The order of passcode setup and restore is decided (passcode first, 2026-09-20); it is tested in RS-001 (task T5).
+- FEAT-010 (mood, tags, "On this day"): flow F8 added 2026-09-23 (`report/user-flows.md`), not yet validated with users; the "On this day" card's ordering when several years match is a **Proposal**, still open for the owner.
 - No consent form written; recruitment channel and incentive undecided.

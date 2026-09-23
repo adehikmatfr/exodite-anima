@@ -60,7 +60,7 @@ class _ImportPageState extends State<ImportPage> {
     try {
       final backup = await readBackup(_file!, password: password, limits: widget.limits);
       if (mounted) setState(() => _count = backup.entries.length);
-      final outcome = await widget.repository.importEntries(backup.entries);
+      final outcome = await widget.repository.importEntries(backup.entries, mediaBytes: backup.mediaBytes);
       if (mounted) {
         setState(() {
           _outcome = outcome;

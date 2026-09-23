@@ -69,14 +69,14 @@
   "children": [
     {
       "type": "frame",
-      "id": "f335",
+      "id": "f532",
       "name": "Cover",
       "children": [
         {
           "type": "text",
-          "id": "t330",
+          "id": "t525",
           "name": "Journal - FEAT-001, FEAT-002",
-          "content": "Journal - FEAT-001, FEAT-002, FEAT-005, FEAT-008",
+          "content": "Journal - FEAT-001, FEAT-002, FEAT-005, FEAT-008, FEAT-010, FEAT-011",
           "fontFamily": "Inter",
           "fontSize": 22,
           "fontWeight": "600",
@@ -87,9 +87,9 @@
         },
         {
           "type": "text",
-          "id": "t331",
+          "id": "t526",
           "name": "Status: draft, owner product",
-          "content": "Status: draft, owner product-design. Design system: tokens 0.2.0. Related: FEAT-001, FEAT-002, FEAT-005, FEAT-008, ADR-002, THR-005.",
+          "content": "Status: draft, owner product-design. Design system: tokens 0.2.0. Related: FEAT-001, FEAT-002, FEAT-005, FEAT-008, FEAT-010, FEAT-011, ADR-002, THR-005.",
           "fontFamily": "Inter",
           "fontSize": 16,
           "fontWeight": "400",
@@ -100,9 +100,9 @@
         },
         {
           "type": "text",
-          "id": "t332",
+          "id": "t527",
           "name": "Screens: S6 Timeline, S7 Edi",
-          "content": "Screens: S6 Timeline, S7 Editor, S8 Search. Every state is drawn; S6 and S7 also at 200 percent text. Entry text uses the journal font (Lora); previews fall back to another font in OpenPencil.",
+          "content": "Screens: S6 Timeline, S7 Editor, S8 Search, S15 Photo viewer. Every state is drawn; S6 and S7 also at 200 percent text. Entry text uses the journal font (Lora); previews fall back to another font in OpenPencil.",
           "fontFamily": "Inter",
           "fontSize": 16,
           "fontWeight": "400",
@@ -113,7 +113,7 @@
         },
         {
           "type": "text",
-          "id": "t333",
+          "id": "t528",
           "name": "Notes: all entry text is mad",
           "content": "Notes: all entry text is made up. The \"Save\" action and the draft indicator are tested in RS-001 for confusion (ux-design review finding 7). Search highlights are shown as a matched-word note because inline highlight is not drawable here.",
           "fontFamily": "Inter",
@@ -126,9 +126,35 @@
         },
         {
           "type": "text",
-          "id": "t334",
-          "name": "Changelog: 0.2 (2026-09-20) ",
-          "content": "Changelog: 0.2 (2026-09-20) rebuilt from tokens with all states; 0.1 first draft.",
+          "id": "t529",
+          "name": "FEAT-010: S6 'With On this d",
+          "content": "FEAT-010: S6 'With On this day' shows the card only when a match exists (AC-6: no card, no empty state, when the state is Entries/With reminder/Empty/Loading/Large text instead). Card ordering (most recent year first) is a UX proposal, not yet owner-confirmed (ux-design F8). S7 'Mood and tags' shows the mood picker (5 options, icon substituted here by a filled/outlined circle since this tool draws no font-icon glyphs; the text label is what actually matters per the accessibility NFR) and the tag input (preset chips plus a free-text example, 'photography'). The mood/tag schema and the editor UI are now built (2026-09-23), matching this state. S6 'With mood and tags' (drawn 2026-09-23, design-first again, not yet built) shows one entry with a mood dot-plus-label and two tags, and one entry with neither, so both the with- and without-meta rows are visible together.",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 1.5,
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 900
+        },
+        {
+          "type": "text",
+          "id": "t530",
+          "name": "FEAT-011 (drawn 2026-09-23, ",
+          "content": "FEAT-011 (drawn 2026-09-23, design only, not built): S7 'With photos' shows a thumbnail row (a placeholder square, since this tool draws no real image content) plus an 'Add photo' button; one thumbnail carries a caption, one does not, so both states are visible together, matching S6/S7's usual pattern of showing a field's presence and absence side by side. S15 'Photo viewer' (new screen) shows a photo full-size with its caption and a Remove action, and the remove-confirmation state. Owner decisions behind this: photos from camera and library, resized/compressed on the way in, no photo count cap, captions optional.",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 1.5,
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 900
+        },
+        {
+          "type": "text",
+          "id": "t531",
+          "name": "Changelog: 0.6 (2026-09-23) ",
+          "content": "Changelog: 0.6 (2026-09-23) added S7 'With photos' and new screen S15 'Photo viewer' for FEAT-011 (design only, not built). 0.5 (2026-09-23) added S6 'With mood and tags' for FEAT-010 AC-1, AC-3 timeline display (design only, not built). 0.4 (2026-09-23) added S7 'Mood and tags' for FEAT-010 AC-1 to AC-4. 0.3 (2026-09-23) added S6 'With On this day' for FEAT-010 AC-5, AC-6. 0.2 (2026-09-20) rebuilt from tokens with all states; 0.1 first draft.",
           "fontFamily": "Inter",
           "fontSize": 16,
           "fontWeight": "400",
@@ -153,7 +179,7 @@
     },
     {
       "type": "text",
-      "id": "c315",
+      "id": "c504",
       "name": "Caption S6 Timeline / Entries",
       "x": 0,
       "y": 404,
@@ -579,7 +605,7 @@
     },
     {
       "type": "text",
-      "id": "c316",
+      "id": "c505",
       "name": "Caption S6 Timeline / With reminder",
       "x": 450,
       "y": 404,
@@ -1023,11 +1049,11 @@
     },
     {
       "type": "text",
-      "id": "c317",
-      "name": "Caption S6 Timeline / Empty (first use)",
+      "id": "c506",
+      "name": "Caption S6 Timeline / With On this day",
       "x": 900,
       "y": 404,
-      "content": "S6 Timeline / Empty (first use)",
+      "content": "S6 Timeline / With On this day",
       "fontFamily": "Inter",
       "fontSize": 16,
       "fontWeight": "500",
@@ -1035,12 +1061,12 @@
     },
     {
       "type": "frame",
-      "id": "f87",
-      "name": "S6 Timeline / Empty (first use)",
+      "id": "f105",
+      "name": "S6 Timeline / With On this day",
       "children": [
         {
           "type": "frame",
-          "id": "f86",
+          "id": "f104",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1098,239 +1124,16 @@
           "name": "spacer",
           "children": [],
           "width": "fill_container",
-          "height": "fill_container"
-        },
-        {
-          "type": "frame",
-          "id": "f84",
-          "name": "Empty state",
-          "children": [
-            {
-              "type": "frame",
-              "id": "f78",
-              "name": "Logo mark",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "f77",
-                  "name": "Logo hole",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "f76",
-                      "name": "Logo core",
-                      "children": [],
-                      "width": 18,
-                      "height": 18,
-                      "cornerRadius": 999,
-                      "fill": "$color-brand-mark"
-                    }
-                  ],
-                  "width": 54,
-                  "height": 54,
-                  "cornerRadius": 999,
-                  "fill": "$color-surface-base",
-                  "layout": "horizontal",
-                  "alignItems": "center",
-                  "justifyContent": "center"
-                }
-              ],
-              "width": 72,
-              "height": 72,
-              "cornerRadius": 999,
-              "fill": "$color-brand-mark",
-              "layout": "horizontal",
-              "alignItems": "center",
-              "justifyContent": "center"
-            },
-            {
-              "type": "frame",
-              "id": "f79",
-              "name": "spacer",
-              "children": [],
-              "width": "fill_container",
-              "height": 24
-            },
-            {
-              "type": "text",
-              "id": "t80",
-              "name": "Nothing here yet",
-              "content": "Nothing here yet",
-              "fontFamily": "Inter",
-              "fontSize": 22,
-              "fontWeight": "600",
-              "lineHeight": 1.3,
-              "fill": "$color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "textAlign": "center"
-            },
-            {
-              "type": "frame",
-              "id": "f81",
-              "name": "spacer",
-              "children": [],
-              "width": "fill_container",
-              "height": 8
-            },
-            {
-              "type": "text",
-              "id": "t82",
-              "name": "Write your first entry. It s",
-              "content": "Write your first entry. It stays on this phone.",
-              "fontFamily": "Inter",
-              "fontSize": 16,
-              "fontWeight": "400",
-              "lineHeight": 1.5,
-              "fill": "$color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "textAlign": "center"
-            },
-            {
-              "type": "frame",
-              "id": "f83",
-              "name": "spacer",
-              "children": [],
-              "width": "fill_container",
-              "height": 24
-            },
-            {
-              "type": "frame",
-              "id": "f75",
-              "name": "Button Write your first entry (default)",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "t74",
-                  "name": "Write your first entry",
-                  "content": "Write your first entry",
-                  "fontFamily": "Inter",
-                  "fontSize": 15,
-                  "fontWeight": "600",
-                  "fill": "$color-action-primary-fg"
-                }
-              ],
-              "fill": "$color-action-primary-bg",
-              "width": "fill_container",
-              "layout": "horizontal",
-              "alignItems": "center",
-              "justifyContent": "center",
-              "cornerRadius": 20,
-              "height": 52
-            }
-          ],
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 0,
-          "alignItems": "center"
-        },
-        {
-          "type": "frame",
-          "id": "f85",
-          "name": "spacer",
-          "children": [],
-          "width": "fill_container",
-          "height": "fill_container"
-        }
-      ],
-      "width": 390,
-      "height": 844,
-      "fill": "$color-surface-base",
-      "layout": "vertical",
-      "padding": 24,
-      "clip": true,
-      "alignItems": "center",
-      "x": 900,
-      "y": 440
-    },
-    {
-      "type": "text",
-      "id": "c318",
-      "name": "Caption S6 Timeline / Loading",
-      "x": 1350,
-      "y": 404,
-      "content": "S6 Timeline / Loading",
-      "fontFamily": "Inter",
-      "fontSize": 16,
-      "fontWeight": "500",
-      "fill": "$color-text-primary"
-    },
-    {
-      "type": "frame",
-      "id": "f113",
-      "name": "S6 Timeline / Loading",
-      "children": [
-        {
-          "type": "frame",
-          "id": "f112",
-          "name": "spacer",
-          "children": [],
-          "width": "fill_container",
-          "height": 24
-        },
-        {
-          "type": "frame",
-          "id": "f91",
-          "name": "Header",
-          "children": [
-            {
-              "type": "text",
-              "id": "t88",
-              "name": "Journal",
-              "content": "Journal",
-              "fontFamily": "Inter",
-              "fontSize": 22,
-              "fontWeight": "600",
-              "lineHeight": 1.3,
-              "fill": "$color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": "fill_container"
-            },
-            {
-              "type": "frame",
-              "id": "f90",
-              "name": "Link Settings",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "t89",
-                  "name": "Settings",
-                  "content": "Settings",
-                  "fontFamily": "Inter",
-                  "fontSize": 15,
-                  "fontWeight": "600",
-                  "fill": "$color-action-primary-bg"
-                }
-              ],
-              "width": 88,
-              "layout": "horizontal",
-              "alignItems": "center",
-              "justifyContent": "flex-end",
-              "height": 48
-            }
-          ],
-          "width": "fill_container",
-          "layout": "horizontal",
-          "alignItems": "center",
-          "height": 48
-        },
-        {
-          "type": "frame",
-          "id": "f92",
-          "name": "spacer",
-          "children": [],
-          "width": "fill_container",
           "height": 12
         },
         {
           "type": "frame",
-          "id": "f95",
+          "id": "f76",
           "name": "Search field",
           "children": [
             {
               "type": "text",
-              "id": "t93",
+              "id": "t74",
               "name": "Search",
               "content": "Search",
               "fontFamily": "Inter",
@@ -1340,7 +1143,7 @@
             },
             {
               "type": "text",
-              "id": "t94",
+              "id": "t75",
               "name": "your entries",
               "content": "your entries",
               "fontFamily": "Inter",
@@ -1368,7 +1171,7 @@
         },
         {
           "type": "frame",
-          "id": "f96",
+          "id": "f77",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1376,99 +1179,1171 @@
         },
         {
           "type": "frame",
-          "id": "f109",
-          "name": "Loading list",
+          "id": "f85",
+          "name": "Card",
           "children": [
             {
-              "type": "frame",
-              "id": "f100",
-              "name": "Loading entry",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "f97",
-                  "name": "bar",
-                  "children": [],
-                  "width": 80,
-                  "height": 12,
-                  "cornerRadius": 6,
-                  "fill": "$color-surface-raised"
-                },
-                {
-                  "type": "frame",
-                  "id": "f98",
-                  "name": "bar",
-                  "children": [],
-                  "width": "fill_container",
-                  "height": 16,
-                  "cornerRadius": 6,
-                  "fill": "$color-surface-raised"
-                },
-                {
-                  "type": "frame",
-                  "id": "f99",
-                  "name": "bar",
-                  "children": [],
-                  "width": 240,
-                  "height": 16,
-                  "cornerRadius": 6,
-                  "fill": "$color-surface-raised"
-                }
-              ],
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 8,
-              "padding": 16
+              "type": "text",
+              "id": "t78",
+              "name": "On this day",
+              "content": "On this day",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "lineHeight": 1.333,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
             },
             {
               "type": "frame",
-              "id": "f104",
-              "name": "Loading entry",
+              "id": "f81",
+              "name": "Entry Sat, 20 Sep 2025",
               "children": [
                 {
-                  "type": "frame",
-                  "id": "f101",
-                  "name": "bar",
-                  "children": [],
-                  "width": 80,
-                  "height": 12,
-                  "cornerRadius": 6,
-                  "fill": "$color-surface-raised"
+                  "type": "text",
+                  "id": "t79",
+                  "name": "Sat, 20 Sep 2025",
+                  "content": "Sat, 20 Sep 2025",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
                 },
                 {
-                  "type": "frame",
-                  "id": "f102",
-                  "name": "bar",
-                  "children": [],
-                  "width": "fill_container",
-                  "height": 16,
-                  "cornerRadius": 6,
-                  "fill": "$color-surface-raised"
-                },
-                {
-                  "type": "frame",
-                  "id": "f103",
-                  "name": "bar",
-                  "children": [],
-                  "width": 240,
-                  "height": 16,
-                  "cornerRadius": 6,
-                  "fill": "$color-surface-raised"
+                  "type": "text",
+                  "id": "t80",
+                  "name": "Coffee, a slow start. Decide",
+                  "content": "Coffee, a slow start. Decided to write a little every morning again.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
                 }
               ],
               "width": "fill_container",
               "layout": "vertical",
-              "gap": 8,
-              "padding": 16
+              "gap": 4
+            },
+            {
+              "type": "frame",
+              "id": "f84",
+              "name": "Entry Fri, 20 Sep 2024",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t82",
+                  "name": "Fri, 20 Sep 2024",
+                  "content": "Fri, 20 Sep 2024",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "text",
+                  "id": "t83",
+                  "name": "Rain all afternoon. Read for",
+                  "content": "Rain all afternoon. Read for two hours.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4
+            }
+          ],
+          "width": "fill_container",
+          "fill": "$color-surface-raised",
+          "cornerRadius": 12,
+          "padding": 20,
+          "layout": "vertical",
+          "gap": 12,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$color-border-default"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "f86",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "frame",
+          "id": "f100",
+          "name": "Entry list",
+          "children": [
+            {
+              "type": "text",
+              "id": "t87",
+              "name": "Day Today",
+              "content": "Today",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "500",
+              "lineHeight": 1.385,
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "f90",
+              "name": "Entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t88",
+                  "name": "9:12",
+                  "content": "9:12",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "text",
+                  "id": "t89",
+                  "name": "Walked by the river before w",
+                  "content": "Walked by the river before work. It was quiet, and I kept thinking about standing still.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "$color-border-default"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "f93",
+              "name": "Entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t91",
+                  "name": "7:40",
+                  "content": "7:40",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "text",
+                  "id": "t92",
+                  "name": "Coffee, a slow start. Decide",
+                  "content": "Coffee, a slow start. Decided to write a little every morning again.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "$color-border-default"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "f94",
+              "name": "spacer",
+              "children": [],
+              "width": "fill_container",
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "t95",
+              "name": "Day Yesterday",
+              "content": "Yesterday",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "500",
+              "lineHeight": 1.385,
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "f98",
+              "name": "Entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t96",
+                  "name": "21:05",
+                  "content": "21:05",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "text",
+                  "id": "t97",
+                  "name": "Long call with my sister. We",
+                  "content": "Long call with my sister. We laughed about the old house.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "$color-border-default"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "f99",
+              "name": "spacer",
+              "children": [],
+              "width": "fill_container",
+              "height": 8
+            }
+          ],
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "clip": true
+        },
+        {
+          "type": "frame",
+          "id": "f103",
+          "name": "Bottom bar",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f102",
+              "name": "Button New entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t101",
+                  "name": "+  New entry",
+                  "content": "+  New entry",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-fg"
+                }
+              ],
+              "width": 176,
+              "cornerRadius": 999,
+              "fill": "$color-action-primary-bg",
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center",
+              "height": 52
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "height": 76
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "fill": "$color-surface-base",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "x": 900,
+      "y": 440
+    },
+    {
+      "type": "text",
+      "id": "c507",
+      "name": "Caption S6 Timeline / With mood and tags",
+      "x": 1350,
+      "y": 404,
+      "content": "S6 Timeline / With mood and tags",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "fill": "$color-text-primary"
+    },
+    {
+      "type": "frame",
+      "id": "f141",
+      "name": "S6 Timeline / With mood and tags",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f140",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f109",
+          "name": "Header",
+          "children": [
+            {
+              "type": "text",
+              "id": "t106",
+              "name": "Journal",
+              "content": "Journal",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "lineHeight": 1.3,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
             },
             {
               "type": "frame",
               "id": "f108",
+              "name": "Link Settings",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t107",
+                  "name": "Settings",
+                  "content": "Settings",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-bg"
+                }
+              ],
+              "width": 88,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "flex-end",
+              "height": 48
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "height": 48
+        },
+        {
+          "type": "frame",
+          "id": "f110",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "frame",
+          "id": "f113",
+          "name": "Search field",
+          "children": [
+            {
+              "type": "text",
+              "id": "t111",
+              "name": "Search",
+              "content": "Search",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "400",
+              "fill": "$color-text-secondary"
+            },
+            {
+              "type": "text",
+              "id": "t112",
+              "name": "your entries",
+              "content": "your entries",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "fill": "$color-surface-raised",
+          "cornerRadius": 12,
+          "padding": 16,
+          "layout": "horizontal",
+          "gap": 8,
+          "alignItems": "center",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$color-border-strong"
+          },
+          "height": 56
+        },
+        {
+          "type": "frame",
+          "id": "f114",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f136",
+          "name": "Entry list",
+          "children": [
+            {
+              "type": "text",
+              "id": "t115",
+              "name": "Day Today",
+              "content": "Today",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "500",
+              "lineHeight": 1.385,
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "f126",
+              "name": "Entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t116",
+                  "name": "9:12",
+                  "content": "9:12",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "text",
+                  "id": "t117",
+                  "name": "Walked by the river before w",
+                  "content": "Walked by the river before work. It was quiet, and I kept thinking about standing still.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "frame",
+                  "id": "f125",
+                  "name": "Entry meta",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f120",
+                      "name": "Mood Good",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f118",
+                          "name": "dot",
+                          "children": [],
+                          "width": 8,
+                          "height": 8,
+                          "cornerRadius": 999,
+                          "fill": "$color-action-primary-bg"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t119",
+                          "name": "Good",
+                          "content": "Good",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "400",
+                          "fill": "$color-text-secondary"
+                        }
+                      ],
+                      "layout": "horizontal",
+                      "gap": 4,
+                      "alignItems": "center"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f122",
+                      "name": "Tag Family",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t121",
+                          "name": "Family",
+                          "content": "Family",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "400",
+                          "fill": "$color-text-primary"
+                        }
+                      ],
+                      "layout": "horizontal",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "cornerRadius": 999,
+                      "padding": 12,
+                      "fill": "$color-surface-raised",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$color-border-strong"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f124",
+                      "name": "Tag photography",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t123",
+                          "name": "photography",
+                          "content": "photography",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "400",
+                          "fill": "$color-text-primary"
+                        }
+                      ],
+                      "layout": "horizontal",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "cornerRadius": 999,
+                      "padding": 12,
+                      "fill": "$color-surface-raised",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$color-border-strong"
+                      }
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 8,
+                  "alignItems": "center"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "$color-border-default"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "f129",
+              "name": "Entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t127",
+                  "name": "7:40",
+                  "content": "7:40",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "text",
+                  "id": "t128",
+                  "name": "Coffee, a slow start. Decide",
+                  "content": "Coffee, a slow start. Decided to write a little every morning again.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "$color-border-default"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "f130",
+              "name": "spacer",
+              "children": [],
+              "width": "fill_container",
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "t131",
+              "name": "Day Yesterday",
+              "content": "Yesterday",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "500",
+              "lineHeight": 1.385,
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "f134",
+              "name": "Entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t132",
+                  "name": "21:05",
+                  "content": "21:05",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.4,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                },
+                {
+                  "type": "text",
+                  "id": "t133",
+                  "name": "Long call with my sister. We",
+                  "content": "Long call with my sister. We laughed about the old house.",
+                  "fontFamily": "Lora",
+                  "fontSize": 17,
+                  "fontWeight": "400",
+                  "lineHeight": 1.647,
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "$color-border-default"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "f135",
+              "name": "spacer",
+              "children": [],
+              "width": "fill_container",
+              "height": 8
+            }
+          ],
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "clip": true
+        },
+        {
+          "type": "frame",
+          "id": "f139",
+          "name": "Bottom bar",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f138",
+              "name": "Button New entry",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t137",
+                  "name": "+  New entry",
+                  "content": "+  New entry",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-fg"
+                }
+              ],
+              "width": 176,
+              "cornerRadius": 999,
+              "fill": "$color-action-primary-bg",
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center",
+              "height": 52
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "height": 76
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "fill": "$color-surface-base",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "x": 1350,
+      "y": 440
+    },
+    {
+      "type": "text",
+      "id": "c508",
+      "name": "Caption S6 Timeline / Empty (first use)",
+      "x": 1800,
+      "y": 404,
+      "content": "S6 Timeline / Empty (first use)",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "fill": "$color-text-primary"
+    },
+    {
+      "type": "frame",
+      "id": "f160",
+      "name": "S6 Timeline / Empty (first use)",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f159",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f145",
+          "name": "Header",
+          "children": [
+            {
+              "type": "text",
+              "id": "t142",
+              "name": "Journal",
+              "content": "Journal",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "lineHeight": 1.3,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "f144",
+              "name": "Link Settings",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t143",
+                  "name": "Settings",
+                  "content": "Settings",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-bg"
+                }
+              ],
+              "width": 88,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "flex-end",
+              "height": 48
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "height": 48
+        },
+        {
+          "type": "frame",
+          "id": "f146",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f157",
+          "name": "Empty state",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f151",
+              "name": "Logo mark",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f150",
+                  "name": "Logo hole",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f149",
+                      "name": "Logo core",
+                      "children": [],
+                      "width": 18,
+                      "height": 18,
+                      "cornerRadius": 999,
+                      "fill": "$color-brand-mark"
+                    }
+                  ],
+                  "width": 54,
+                  "height": 54,
+                  "cornerRadius": 999,
+                  "fill": "$color-surface-base",
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "justifyContent": "center"
+                }
+              ],
+              "width": 72,
+              "height": 72,
+              "cornerRadius": 999,
+              "fill": "$color-brand-mark",
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f152",
+              "name": "spacer",
+              "children": [],
+              "width": "fill_container",
+              "height": 24
+            },
+            {
+              "type": "text",
+              "id": "t153",
+              "name": "Nothing here yet",
+              "content": "Nothing here yet",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "lineHeight": 1.3,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "textAlign": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f154",
+              "name": "spacer",
+              "children": [],
+              "width": "fill_container",
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "t155",
+              "name": "Write your first entry. It s",
+              "content": "Write your first entry. It stays on this phone.",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "textAlign": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f156",
+              "name": "spacer",
+              "children": [],
+              "width": "fill_container",
+              "height": 24
+            },
+            {
+              "type": "frame",
+              "id": "f148",
+              "name": "Button Write your first entry (default)",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t147",
+                  "name": "Write your first entry",
+                  "content": "Write your first entry",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-fg"
+                }
+              ],
+              "fill": "$color-action-primary-bg",
+              "width": "fill_container",
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center",
+              "cornerRadius": 20,
+              "height": 52
+            }
+          ],
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 0,
+          "alignItems": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f158",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "fill": "$color-surface-base",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "alignItems": "center",
+      "x": 1800,
+      "y": 440
+    },
+    {
+      "type": "text",
+      "id": "c509",
+      "name": "Caption S6 Timeline / Loading",
+      "x": 0,
+      "y": 1388,
+      "content": "S6 Timeline / Loading",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "fill": "$color-text-primary"
+    },
+    {
+      "type": "frame",
+      "id": "f186",
+      "name": "S6 Timeline / Loading",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f185",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f164",
+          "name": "Header",
+          "children": [
+            {
+              "type": "text",
+              "id": "t161",
+              "name": "Journal",
+              "content": "Journal",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "lineHeight": 1.3,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "f163",
+              "name": "Link Settings",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t162",
+                  "name": "Settings",
+                  "content": "Settings",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-bg"
+                }
+              ],
+              "width": 88,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "flex-end",
+              "height": 48
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "height": 48
+        },
+        {
+          "type": "frame",
+          "id": "f165",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 12
+        },
+        {
+          "type": "frame",
+          "id": "f168",
+          "name": "Search field",
+          "children": [
+            {
+              "type": "text",
+              "id": "t166",
+              "name": "Search",
+              "content": "Search",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "400",
+              "fill": "$color-text-secondary"
+            },
+            {
+              "type": "text",
+              "id": "t167",
+              "name": "your entries",
+              "content": "your entries",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "fill": "$color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "fill": "$color-surface-raised",
+          "cornerRadius": 12,
+          "padding": 16,
+          "layout": "horizontal",
+          "gap": 8,
+          "alignItems": "center",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$color-border-strong"
+          },
+          "height": 56
+        },
+        {
+          "type": "frame",
+          "id": "f169",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f182",
+          "name": "Loading list",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f173",
               "name": "Loading entry",
               "children": [
                 {
                   "type": "frame",
-                  "id": "f105",
+                  "id": "f170",
                   "name": "bar",
                   "children": [],
                   "width": 80,
@@ -1478,7 +2353,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "f106",
+                  "id": "f171",
                   "name": "bar",
                   "children": [],
                   "width": "fill_container",
@@ -1488,7 +2363,89 @@
                 },
                 {
                   "type": "frame",
-                  "id": "f107",
+                  "id": "f172",
+                  "name": "bar",
+                  "children": [],
+                  "width": 240,
+                  "height": 16,
+                  "cornerRadius": 6,
+                  "fill": "$color-surface-raised"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 16
+            },
+            {
+              "type": "frame",
+              "id": "f177",
+              "name": "Loading entry",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f174",
+                  "name": "bar",
+                  "children": [],
+                  "width": 80,
+                  "height": 12,
+                  "cornerRadius": 6,
+                  "fill": "$color-surface-raised"
+                },
+                {
+                  "type": "frame",
+                  "id": "f175",
+                  "name": "bar",
+                  "children": [],
+                  "width": "fill_container",
+                  "height": 16,
+                  "cornerRadius": 6,
+                  "fill": "$color-surface-raised"
+                },
+                {
+                  "type": "frame",
+                  "id": "f176",
+                  "name": "bar",
+                  "children": [],
+                  "width": 240,
+                  "height": 16,
+                  "cornerRadius": 6,
+                  "fill": "$color-surface-raised"
+                }
+              ],
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 16
+            },
+            {
+              "type": "frame",
+              "id": "f181",
+              "name": "Loading entry",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f178",
+                  "name": "bar",
+                  "children": [],
+                  "width": 80,
+                  "height": 12,
+                  "cornerRadius": 6,
+                  "fill": "$color-surface-raised"
+                },
+                {
+                  "type": "frame",
+                  "id": "f179",
+                  "name": "bar",
+                  "children": [],
+                  "width": "fill_container",
+                  "height": 16,
+                  "cornerRadius": 6,
+                  "fill": "$color-surface-raised"
+                },
+                {
+                  "type": "frame",
+                  "id": "f180",
                   "name": "bar",
                   "children": [],
                   "width": 240,
@@ -1509,7 +2466,7 @@
         },
         {
           "type": "frame",
-          "id": "f110",
+          "id": "f183",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1517,7 +2474,7 @@
         },
         {
           "type": "text",
-          "id": "t111",
+          "id": "t184",
           "name": "Opening your journal...",
           "content": "Opening your journal...",
           "fontFamily": "Inter",
@@ -1536,15 +2493,15 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 1350,
-      "y": 440
+      "x": 0,
+      "y": 1424
     },
     {
       "type": "text",
-      "id": "c319",
+      "id": "c510",
       "name": "Caption S6 Timeline / Large text 200%",
-      "x": 1800,
-      "y": 404,
+      "x": 450,
+      "y": 1388,
       "content": "S6 Timeline / Large text 200%",
       "fontFamily": "Inter",
       "fontSize": 16,
@@ -1553,12 +2510,12 @@
     },
     {
       "type": "frame",
-      "id": "f135",
+      "id": "f208",
       "name": "S6 Timeline / Large text",
       "children": [
         {
           "type": "frame",
-          "id": "f134",
+          "id": "f207",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1566,12 +2523,12 @@
         },
         {
           "type": "frame",
-          "id": "f116",
+          "id": "f189",
           "name": "Header",
           "children": [
             {
               "type": "text",
-              "id": "t114",
+              "id": "t187",
               "name": "Journal",
               "content": "Journal",
               "fontFamily": "Inter",
@@ -1584,7 +2541,7 @@
             },
             {
               "type": "text",
-              "id": "t115",
+              "id": "t188",
               "name": "Settings",
               "content": "Settings",
               "fontFamily": "Inter",
@@ -1602,7 +2559,7 @@
         },
         {
           "type": "frame",
-          "id": "f117",
+          "id": "f190",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1610,12 +2567,12 @@
         },
         {
           "type": "frame",
-          "id": "f120",
+          "id": "f193",
           "name": "Search field",
           "children": [
             {
               "type": "text",
-              "id": "t118",
+              "id": "t191",
               "name": "Search",
               "content": "Search",
               "fontFamily": "Inter",
@@ -1625,7 +2582,7 @@
             },
             {
               "type": "text",
-              "id": "t119",
+              "id": "t192",
               "name": "your entries",
               "content": "your entries",
               "fontFamily": "Inter",
@@ -1652,7 +2609,7 @@
         },
         {
           "type": "frame",
-          "id": "f121",
+          "id": "f194",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1660,12 +2617,12 @@
         },
         {
           "type": "frame",
-          "id": "f130",
+          "id": "f203",
           "name": "Entry list",
           "children": [
             {
               "type": "text",
-              "id": "t122",
+              "id": "t195",
               "name": "Day Today",
               "content": "Today",
               "fontFamily": "Inter",
@@ -1678,12 +2635,12 @@
             },
             {
               "type": "frame",
-              "id": "f125",
+              "id": "f198",
               "name": "Entry",
               "children": [
                 {
                   "type": "text",
-                  "id": "t123",
+                  "id": "t196",
                   "name": "9:12",
                   "content": "9:12",
                   "fontFamily": "Inter",
@@ -1696,7 +2653,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t124",
+                  "id": "t197",
                   "name": "Walked by the river before w",
                   "content": "Walked by the river before work. It was quiet, and I kept thinking about standing still.",
                   "fontFamily": "Lora",
@@ -1722,12 +2679,12 @@
             },
             {
               "type": "frame",
-              "id": "f128",
+              "id": "f201",
               "name": "Entry",
               "children": [
                 {
                   "type": "text",
-                  "id": "t126",
+                  "id": "t199",
                   "name": "7:40",
                   "content": "7:40",
                   "fontFamily": "Inter",
@@ -1740,7 +2697,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t127",
+                  "id": "t200",
                   "name": "Coffee, a slow start. Decide",
                   "content": "Coffee, a slow start. Decided to write a little every morning again.",
                   "fontFamily": "Lora",
@@ -1766,7 +2723,7 @@
             },
             {
               "type": "frame",
-              "id": "f129",
+              "id": "f202",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -1780,17 +2737,17 @@
         },
         {
           "type": "frame",
-          "id": "f133",
+          "id": "f206",
           "name": "Bottom bar",
           "children": [
             {
               "type": "frame",
-              "id": "f132",
+              "id": "f205",
               "name": "Button New entry",
               "children": [
                 {
                   "type": "text",
-                  "id": "t131",
+                  "id": "t204",
                   "name": "+  New entry",
                   "content": "+  New entry",
                   "fontFamily": "Inter",
@@ -1820,14 +2777,14 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 1800,
-      "y": 440
+      "x": 450,
+      "y": 1424
     },
     {
       "type": "text",
-      "id": "c320",
+      "id": "c511",
       "name": "Caption S7 Editor / New entry",
-      "x": 0,
+      "x": 900,
       "y": 1388,
       "content": "S7 Editor / New entry",
       "fontFamily": "Inter",
@@ -1837,12 +2794,12 @@
     },
     {
       "type": "frame",
-      "id": "f148",
+      "id": "f221",
       "name": "S7 Editor / New entry",
       "children": [
         {
           "type": "frame",
-          "id": "f147",
+          "id": "f220",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1850,17 +2807,17 @@
         },
         {
           "type": "frame",
-          "id": "f141",
+          "id": "f214",
           "name": "Top bar",
           "children": [
             {
               "type": "frame",
-              "id": "f137",
+              "id": "f210",
               "name": "Back",
               "children": [
                 {
                   "type": "text",
-                  "id": "t136",
+                  "id": "t209",
                   "name": "←",
                   "content": "←",
                   "fontFamily": "Inter",
@@ -1877,7 +2834,7 @@
             },
             {
               "type": "text",
-              "id": "t138",
+              "id": "t211",
               "name": "Title",
               "content": "Sat, 20 Sep 2026",
               "fontFamily": "Inter",
@@ -1891,12 +2848,12 @@
             },
             {
               "type": "frame",
-              "id": "f140",
+              "id": "f213",
               "name": "Link Save",
               "children": [
                 {
                   "type": "text",
-                  "id": "t139",
+                  "id": "t212",
                   "name": "Save",
                   "content": "Save",
                   "fontFamily": "Inter",
@@ -1919,7 +2876,7 @@
         },
         {
           "type": "text",
-          "id": "t142",
+          "id": "t215",
           "name": "Draft kept safely on this ph",
           "content": "Draft kept safely on this phone",
           "fontFamily": "Inter",
@@ -1933,7 +2890,7 @@
         },
         {
           "type": "frame",
-          "id": "f145",
+          "id": "f218",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1941,12 +2898,12 @@
         },
         {
           "type": "frame",
-          "id": "f146",
+          "id": "f219",
           "name": "Entry text",
           "children": [
             {
               "type": "text",
-              "id": "t143",
+              "id": "t216",
               "name": "Write what's on your mind",
               "content": "Write what's on your mind",
               "fontFamily": "Lora",
@@ -1966,7 +2923,7 @@
         },
         {
           "type": "frame",
-          "id": "f144",
+          "id": "f217",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -1979,14 +2936,14 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 0,
+      "x": 900,
       "y": 1424
     },
     {
       "type": "text",
-      "id": "c321",
+      "id": "c512",
       "name": "Caption S7 Editor / Editing",
-      "x": 450,
+      "x": 1350,
       "y": 1388,
       "content": "S7 Editor / Editing",
       "fontFamily": "Inter",
@@ -1996,12 +2953,12 @@
     },
     {
       "type": "frame",
-      "id": "f164",
+      "id": "f237",
       "name": "S7 Editor / Editing",
       "children": [
         {
           "type": "frame",
-          "id": "f163",
+          "id": "f236",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -2009,17 +2966,17 @@
         },
         {
           "type": "frame",
-          "id": "f154",
+          "id": "f227",
           "name": "Top bar",
           "children": [
             {
               "type": "frame",
-              "id": "f150",
+              "id": "f223",
               "name": "Back",
               "children": [
                 {
                   "type": "text",
-                  "id": "t149",
+                  "id": "t222",
                   "name": "←",
                   "content": "←",
                   "fontFamily": "Inter",
@@ -2036,7 +2993,7 @@
             },
             {
               "type": "text",
-              "id": "t151",
+              "id": "t224",
               "name": "Title",
               "content": "Sat, 20 Sep 2026",
               "fontFamily": "Inter",
@@ -2050,12 +3007,12 @@
             },
             {
               "type": "frame",
-              "id": "f153",
+              "id": "f226",
               "name": "Link Save",
               "children": [
                 {
                   "type": "text",
-                  "id": "t152",
+                  "id": "t225",
                   "name": "Save",
                   "content": "Save",
                   "fontFamily": "Inter",
@@ -2078,7 +3035,7 @@
         },
         {
           "type": "text",
-          "id": "t155",
+          "id": "t228",
           "name": "Draft kept safely on this ph",
           "content": "Draft kept safely on this phone",
           "fontFamily": "Inter",
@@ -2092,7 +3049,7 @@
         },
         {
           "type": "frame",
-          "id": "f161",
+          "id": "f234",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -2100,12 +3057,12 @@
         },
         {
           "type": "frame",
-          "id": "f162",
+          "id": "f235",
           "name": "Entry text",
           "children": [
             {
               "type": "text",
-              "id": "t156",
+              "id": "t229",
               "name": "Walked by the river before w",
               "content": "Walked by the river before work. It was quiet, and I kept thinking about how long it has been since I just stood still.",
               "fontFamily": "Lora",
@@ -2118,7 +3075,7 @@
             },
             {
               "type": "text",
-              "id": "t157",
+              "id": "t230",
               "name": "There was a heron on the far",
               "content": "There was a heron on the far bank. It did not move for a long time, and neither did I.",
               "fontFamily": "Lora",
@@ -2131,7 +3088,7 @@
             },
             {
               "type": "text",
-              "id": "t158",
+              "id": "t231",
               "name": "I want more mornings like th",
               "content": "I want more mornings like this one. Maybe I can leave the phone in my bag and only bring a notebook, but then I would lose the search.",
               "fontFamily": "Lora",
@@ -2151,12 +3108,12 @@
         },
         {
           "type": "frame",
-          "id": "f160",
+          "id": "f233",
           "name": "Bottom row",
           "children": [
             {
               "type": "text",
-              "id": "t159",
+              "id": "t232",
               "name": "Delete entry",
               "content": "Delete entry",
               "fontFamily": "Inter",
@@ -2177,14 +3134,14 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 450,
+      "x": 1350,
       "y": 1424
     },
     {
       "type": "text",
-      "id": "c322",
+      "id": "c513",
       "name": "Caption S7 Editor / Long entry",
-      "x": 900,
+      "x": 1800,
       "y": 1388,
       "content": "S7 Editor / Long entry",
       "fontFamily": "Inter",
@@ -2194,12 +3151,12 @@
     },
     {
       "type": "frame",
-      "id": "f182",
+      "id": "f255",
       "name": "S7 Editor / Long entry (scrolls)",
       "children": [
         {
           "type": "frame",
-          "id": "f181",
+          "id": "f254",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -2207,17 +3164,17 @@
         },
         {
           "type": "frame",
-          "id": "f170",
+          "id": "f243",
           "name": "Top bar",
           "children": [
             {
               "type": "frame",
-              "id": "f166",
+              "id": "f239",
               "name": "Back",
               "children": [
                 {
                   "type": "text",
-                  "id": "t165",
+                  "id": "t238",
                   "name": "←",
                   "content": "←",
                   "fontFamily": "Inter",
@@ -2234,7 +3191,7 @@
             },
             {
               "type": "text",
-              "id": "t167",
+              "id": "t240",
               "name": "Title",
               "content": "Sat, 20 Sep 2026",
               "fontFamily": "Inter",
@@ -2248,12 +3205,12 @@
             },
             {
               "type": "frame",
-              "id": "f169",
+              "id": "f242",
               "name": "Link Save",
               "children": [
                 {
                   "type": "text",
-                  "id": "t168",
+                  "id": "t241",
                   "name": "Save",
                   "content": "Save",
                   "fontFamily": "Inter",
@@ -2276,7 +3233,7 @@
         },
         {
           "type": "text",
-          "id": "t171",
+          "id": "t244",
           "name": "Draft kept safely on this ph",
           "content": "Draft kept safely on this phone",
           "fontFamily": "Inter",
@@ -2290,7 +3247,7 @@
         },
         {
           "type": "frame",
-          "id": "f179",
+          "id": "f252",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -2298,12 +3255,12 @@
         },
         {
           "type": "frame",
-          "id": "f180",
+          "id": "f253",
           "name": "Entry text",
           "children": [
             {
               "type": "text",
-              "id": "t172",
+              "id": "t245",
               "name": "Walked by the river before w",
               "content": "Walked by the river before work. It was quiet, and I kept thinking about how long it has been since I just stood still.",
               "fontFamily": "Lora",
@@ -2316,7 +3273,7 @@
             },
             {
               "type": "text",
-              "id": "t173",
+              "id": "t246",
               "name": "There was a heron on the far",
               "content": "There was a heron on the far bank. It did not move for a long time, and neither did I.",
               "fontFamily": "Lora",
@@ -2329,7 +3286,7 @@
             },
             {
               "type": "text",
-              "id": "t174",
+              "id": "t247",
               "name": "I want more mornings like th",
               "content": "I want more mornings like this one. Maybe I can leave the phone in my bag and only bring a notebook, but then I would lose the search.",
               "fontFamily": "Lora",
@@ -2342,7 +3299,7 @@
             },
             {
               "type": "text",
-              "id": "t175",
+              "id": "t248",
               "name": "On the way back I passed the",
               "content": "On the way back I passed the bakery and the smell of bread nearly made me late. I would not change it.",
               "fontFamily": "Lora",
@@ -2355,7 +3312,7 @@
             },
             {
               "type": "text",
-              "id": "t176",
+              "id": "t249",
               "name": "Notes for later: call Ana, r",
               "content": "Notes for later: call Ana, renew the library card, water the plants, and write down the name of the song from the radio.",
               "fontFamily": "Lora",
@@ -2375,12 +3332,12 @@
         },
         {
           "type": "frame",
-          "id": "f178",
+          "id": "f251",
           "name": "Bottom row",
           "children": [
             {
               "type": "text",
-              "id": "t177",
+              "id": "t250",
               "name": "Delete entry",
               "content": "Delete entry",
               "fontFamily": "Inter",
@@ -2401,15 +3358,1109 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 900,
+      "x": 1800,
       "y": 1424
     },
     {
       "type": "text",
-      "id": "c323",
+      "id": "c514",
+      "name": "Caption S7 Editor / Mood and tags",
+      "x": 0,
+      "y": 2372,
+      "content": "S7 Editor / Mood and tags",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "fill": "$color-text-primary"
+    },
+    {
+      "type": "frame",
+      "id": "f314",
+      "name": "S7 Editor / Mood and tags",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f313",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f261",
+          "name": "Top bar",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f257",
+              "name": "Back",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t256",
+                  "name": "←",
+                  "content": "←",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "fill": "$color-text-primary"
+                }
+              ],
+              "width": 48,
+              "height": 48,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center"
+            },
+            {
+              "type": "text",
+              "id": "t258",
+              "name": "Title",
+              "content": "Sat, 20 Sep 2026",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 1.5,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "textAlign": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f260",
+              "name": "Link Save",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t259",
+                  "name": "Save",
+                  "content": "Save",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-bg"
+                }
+              ],
+              "width": 72,
+              "height": 48,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "flex-end"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "height": 48
+        },
+        {
+          "type": "text",
+          "id": "t262",
+          "name": "Draft kept safely on this ph",
+          "content": "Draft kept safely on this phone",
+          "fontFamily": "Inter",
+          "fontSize": 13,
+          "fontWeight": "400",
+          "lineHeight": 1.4,
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "textAlign": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f263",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f279",
+          "name": "Mood picker",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f266",
+              "name": "Mood option Great",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f264",
+                  "name": "Mood ring Great",
+                  "children": [],
+                  "width": 48,
+                  "height": 48,
+                  "cornerRadius": 999,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  },
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "t265",
+                  "name": "Great",
+                  "content": "Great",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.3,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 64,
+                  "textAlign": "center"
+                }
+              ],
+              "width": 64,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f269",
+              "name": "Mood option Good",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f267",
+                  "name": "Mood ring Good",
+                  "children": [],
+                  "width": 48,
+                  "height": 48,
+                  "cornerRadius": 999,
+                  "fill": "$color-action-primary-bg",
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "t268",
+                  "name": "Good",
+                  "content": "Good",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.3,
+                  "fill": "$color-action-primary-bg",
+                  "textGrowth": "fixed-width",
+                  "width": 64,
+                  "textAlign": "center"
+                }
+              ],
+              "width": 64,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f272",
+              "name": "Mood option Okay",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f270",
+                  "name": "Mood ring Okay",
+                  "children": [],
+                  "width": 48,
+                  "height": 48,
+                  "cornerRadius": 999,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  },
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "t271",
+                  "name": "Okay",
+                  "content": "Okay",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.3,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 64,
+                  "textAlign": "center"
+                }
+              ],
+              "width": 64,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f275",
+              "name": "Mood option Bad",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f273",
+                  "name": "Mood ring Bad",
+                  "children": [],
+                  "width": 48,
+                  "height": 48,
+                  "cornerRadius": 999,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  },
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "t274",
+                  "name": "Bad",
+                  "content": "Bad",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.3,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 64,
+                  "textAlign": "center"
+                }
+              ],
+              "width": 64,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f278",
+              "name": "Mood option Awful",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f276",
+                  "name": "Mood ring Awful",
+                  "children": [],
+                  "width": 48,
+                  "height": 48,
+                  "cornerRadius": 999,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  },
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "t277",
+                  "name": "Awful",
+                  "content": "Awful",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.3,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 64,
+                  "textAlign": "center"
+                }
+              ],
+              "width": 64,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "justifyContent": "space-between",
+          "alignItems": "flex-start"
+        },
+        {
+          "type": "frame",
+          "id": "f280",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f305",
+          "name": "Tag input",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f302",
+              "name": "Tag row 1",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f282",
+                  "name": "Tag Work",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t281",
+                      "name": "Work",
+                      "content": "Work",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "f284",
+                  "name": "Tag Family",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t283",
+                      "name": "Family",
+                      "content": "Family",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-action-primary-fg"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-action-primary-bg"
+                },
+                {
+                  "type": "frame",
+                  "id": "f286",
+                  "name": "Tag Relationships",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t285",
+                      "name": "Relationships",
+                      "content": "Relationships",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "f288",
+                  "name": "Tag Health",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t287",
+                      "name": "Health",
+                      "content": "Health",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                }
+              ],
+              "width": "fill_container",
+              "layout": "horizontal",
+              "gap": 8,
+              "alignItems": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f303",
+              "name": "Tag row 2",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f290",
+                  "name": "Tag Travel",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t289",
+                      "name": "Travel",
+                      "content": "Travel",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "f292",
+                  "name": "Tag Gratitude",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t291",
+                      "name": "Gratitude",
+                      "content": "Gratitude",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "f294",
+                  "name": "Tag Goals",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t293",
+                      "name": "Goals",
+                      "content": "Goals",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                }
+              ],
+              "width": "fill_container",
+              "layout": "horizontal",
+              "gap": 8,
+              "alignItems": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f304",
+              "name": "Tag row 3",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f296",
+                  "name": "Tag Reflection",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t295",
+                      "name": "Reflection",
+                      "content": "Reflection",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "f298",
+                  "name": "Tag photography",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t297",
+                      "name": "photography",
+                      "content": "photography",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-action-primary-fg"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-action-primary-bg"
+                },
+                {
+                  "type": "frame",
+                  "id": "f301",
+                  "name": "Tag Add a tag",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t299",
+                      "name": "+",
+                      "content": "+",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "t300",
+                      "name": "Add a tag",
+                      "content": "Add a tag",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-primary"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "cornerRadius": 999,
+                  "padding": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-strong"
+                  }
+                }
+              ],
+              "width": "fill_container",
+              "layout": "horizontal",
+              "gap": 8,
+              "alignItems": "center"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8
+        },
+        {
+          "type": "frame",
+          "id": "f311",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f312",
+          "name": "Entry text",
+          "children": [
+            {
+              "type": "text",
+              "id": "t306",
+              "name": "Walked by the river before w",
+              "content": "Walked by the river before work. It was quiet, and I kept thinking about how long it has been since I just stood still.",
+              "fontFamily": "Lora",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "lineHeight": 1.647,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "text",
+              "id": "t307",
+              "name": "There was a heron on the far",
+              "content": "There was a heron on the far bank. It did not move for a long time, and neither did I.",
+              "fontFamily": "Lora",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "lineHeight": 1.647,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "text",
+              "id": "t308",
+              "name": "I want more mornings like th",
+              "content": "I want more mornings like this one. Maybe I can leave the phone in my bag and only bring a notebook, but then I would lose the search.",
+              "fontFamily": "Lora",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "lineHeight": 1.647,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "clip": true
+        },
+        {
+          "type": "frame",
+          "id": "f310",
+          "name": "Bottom row",
+          "children": [
+            {
+              "type": "text",
+              "id": "t309",
+              "name": "Delete entry",
+              "content": "Delete entry",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$color-status-danger-fg"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "height": 48
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "fill": "$color-surface-base",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "x": 0,
+      "y": 2408
+    },
+    {
+      "type": "text",
+      "id": "c515",
+      "name": "Caption S7 Editor / With photos",
+      "x": 450,
+      "y": 2372,
+      "content": "S7 Editor / With photos",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "fill": "$color-text-primary"
+    },
+    {
+      "type": "frame",
+      "id": "f340",
+      "name": "S7 Editor / With photos",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f339",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f320",
+          "name": "Top bar",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f316",
+              "name": "Back",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t315",
+                  "name": "←",
+                  "content": "←",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "fill": "$color-text-primary"
+                }
+              ],
+              "width": 48,
+              "height": 48,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center"
+            },
+            {
+              "type": "text",
+              "id": "t317",
+              "name": "Title",
+              "content": "Sat, 20 Sep 2026",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 1.5,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "textAlign": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f319",
+              "name": "Link Save",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t318",
+                  "name": "Save",
+                  "content": "Save",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-action-primary-bg"
+                }
+              ],
+              "width": 72,
+              "height": 48,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "flex-end"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "height": 48
+        },
+        {
+          "type": "text",
+          "id": "t321",
+          "name": "Draft kept safely on this ph",
+          "content": "Draft kept safely on this phone",
+          "fontFamily": "Inter",
+          "fontSize": 13,
+          "fontWeight": "400",
+          "lineHeight": 1.4,
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "textAlign": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f322",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f331",
+          "name": "Photos",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f326",
+              "name": "Thumbnail with caption",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f324",
+                  "name": "Thumbnail",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t323",
+                      "name": "Photo",
+                      "content": "Photo",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400",
+                      "fill": "$color-text-secondary"
+                    }
+                  ],
+                  "width": 88,
+                  "height": 88,
+                  "cornerRadius": 12,
+                  "fill": "$color-surface-raised",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$color-border-default"
+                  },
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "t325",
+                  "name": "The old oak by the river",
+                  "content": "The old oak by the river",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "lineHeight": 1.3,
+                  "fill": "$color-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 88
+                }
+              ],
+              "layout": "vertical",
+              "gap": 4,
+              "width": 88
+            },
+            {
+              "type": "frame",
+              "id": "f328",
+              "name": "Thumbnail",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t327",
+                  "name": "Photo",
+                  "content": "Photo",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400",
+                  "fill": "$color-text-secondary"
+                }
+              ],
+              "width": 88,
+              "height": 88,
+              "cornerRadius": 12,
+              "fill": "$color-surface-raised",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$color-border-default"
+              },
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f330",
+              "name": "Button add photo",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t329",
+                  "name": "+ Photo",
+                  "content": "+ Photo",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "fill": "$color-text-primary"
+                }
+              ],
+              "width": 88,
+              "height": 88,
+              "cornerRadius": 12,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$color-border-strong"
+              },
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "gap": 8,
+          "alignItems": "flex-start"
+        },
+        {
+          "type": "frame",
+          "id": "f337",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f338",
+          "name": "Entry text",
+          "children": [
+            {
+              "type": "text",
+              "id": "t332",
+              "name": "Walked by the river before w",
+              "content": "Walked by the river before work. It was quiet, and I kept thinking about how long it has been since I just stood still.",
+              "fontFamily": "Lora",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "lineHeight": 1.647,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "text",
+              "id": "t333",
+              "name": "There was a heron on the far",
+              "content": "There was a heron on the far bank. It did not move for a long time, and neither did I.",
+              "fontFamily": "Lora",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "lineHeight": 1.647,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            },
+            {
+              "type": "text",
+              "id": "t334",
+              "name": "I want more mornings like th",
+              "content": "I want more mornings like this one. Maybe I can leave the phone in my bag and only bring a notebook, but then I would lose the search.",
+              "fontFamily": "Lora",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "lineHeight": 1.647,
+              "fill": "$color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container"
+            }
+          ],
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "clip": true
+        },
+        {
+          "type": "frame",
+          "id": "f336",
+          "name": "Bottom row",
+          "children": [
+            {
+              "type": "text",
+              "id": "t335",
+              "name": "Delete entry",
+              "content": "Delete entry",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$color-status-danger-fg"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "height": 48
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "fill": "$color-surface-base",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "x": 450,
+      "y": 2408
+    },
+    {
+      "type": "text",
+      "id": "c516",
       "name": "Caption S7 Editor / Delete confirmation",
-      "x": 1350,
-      "y": 1388,
+      "x": 900,
+      "y": 2372,
       "content": "S7 Editor / Delete confirmation",
       "fontFamily": "Inter",
       "fontSize": 16,
@@ -2418,17 +4469,17 @@
     },
     {
       "type": "frame",
-      "id": "f208",
+      "id": "f366",
       "name": "S7 Editor / Delete confirmation",
       "children": [
         {
           "type": "frame",
-          "id": "f205",
+          "id": "f363",
           "name": "Screen behind",
           "children": [
             {
               "type": "frame",
-              "id": "f204",
+              "id": "f362",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -2436,17 +4487,17 @@
             },
             {
               "type": "frame",
-              "id": "f188",
+              "id": "f346",
               "name": "Top bar",
               "children": [
                 {
                   "type": "frame",
-                  "id": "f184",
+                  "id": "f342",
                   "name": "Back",
                   "children": [
                     {
                       "type": "text",
-                      "id": "t183",
+                      "id": "t341",
                       "name": "←",
                       "content": "←",
                       "fontFamily": "Inter",
@@ -2463,7 +4514,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t185",
+                  "id": "t343",
                   "name": "Title",
                   "content": "Sat, 20 Sep 2026",
                   "fontFamily": "Inter",
@@ -2477,12 +4528,12 @@
                 },
                 {
                   "type": "frame",
-                  "id": "f187",
+                  "id": "f345",
                   "name": "Link Save",
                   "children": [
                     {
                       "type": "text",
-                      "id": "t186",
+                      "id": "t344",
                       "name": "Save",
                       "content": "Save",
                       "fontFamily": "Inter",
@@ -2505,7 +4556,7 @@
             },
             {
               "type": "text",
-              "id": "t189",
+              "id": "t347",
               "name": "Draft kept safely on this ph",
               "content": "Draft kept safely on this phone",
               "fontFamily": "Inter",
@@ -2519,7 +4570,7 @@
             },
             {
               "type": "frame",
-              "id": "f195",
+              "id": "f353",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -2527,12 +4578,12 @@
             },
             {
               "type": "frame",
-              "id": "f196",
+              "id": "f354",
               "name": "Entry text",
               "children": [
                 {
                   "type": "text",
-                  "id": "t190",
+                  "id": "t348",
                   "name": "Walked by the river before w",
                   "content": "Walked by the river before work. It was quiet, and I kept thinking about how long it has been since I just stood still.",
                   "fontFamily": "Lora",
@@ -2545,7 +4596,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t191",
+                  "id": "t349",
                   "name": "There was a heron on the far",
                   "content": "There was a heron on the far bank. It did not move for a long time, and neither did I.",
                   "fontFamily": "Lora",
@@ -2558,7 +4609,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t192",
+                  "id": "t350",
                   "name": "I want more mornings like th",
                   "content": "I want more mornings like this one. Maybe I can leave the phone in my bag and only bring a notebook, but then I would lose the search.",
                   "fontFamily": "Lora",
@@ -2578,12 +4629,12 @@
             },
             {
               "type": "frame",
-              "id": "f194",
+              "id": "f352",
               "name": "Bottom row",
               "children": [
                 {
                   "type": "text",
-                  "id": "t193",
+                  "id": "t351",
                   "name": "Delete entry",
                   "content": "Delete entry",
                   "fontFamily": "Inter",
@@ -2609,7 +4660,7 @@
         },
         {
           "type": "frame",
-          "id": "f206",
+          "id": "f364",
           "name": "Scrim",
           "children": [],
           "x": 0,
@@ -2621,12 +4672,12 @@
         },
         {
           "type": "frame",
-          "id": "f207",
+          "id": "f365",
           "name": "Sheet",
           "children": [
             {
               "type": "text",
-              "id": "t197",
+              "id": "t355",
               "name": "Delete this entry?",
               "content": "Delete this entry?",
               "fontFamily": "Inter",
@@ -2639,7 +4690,7 @@
             },
             {
               "type": "text",
-              "id": "t198",
+              "id": "t356",
               "name": "This cannot be undone. The e",
               "content": "This cannot be undone. The entry is removed from search and from future exports.",
               "fontFamily": "Inter",
@@ -2652,7 +4703,7 @@
             },
             {
               "type": "frame",
-              "id": "f199",
+              "id": "f357",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -2660,12 +4711,12 @@
             },
             {
               "type": "frame",
-              "id": "f201",
+              "id": "f359",
               "name": "Button Delete entry (default)",
               "children": [
                 {
                   "type": "text",
-                  "id": "t200",
+                  "id": "t358",
                   "name": "Delete entry",
                   "content": "Delete entry",
                   "fontFamily": "Inter",
@@ -2684,12 +4735,12 @@
             },
             {
               "type": "frame",
-              "id": "f203",
+              "id": "f361",
               "name": "Link Cancel",
               "children": [
                 {
                   "type": "text",
-                  "id": "t202",
+                  "id": "t360",
                   "name": "Cancel",
                   "content": "Cancel",
                   "fontFamily": "Inter",
@@ -2724,15 +4775,15 @@
       "height": 844,
       "layout": "none",
       "clip": true,
-      "x": 1350,
-      "y": 1424
+      "x": 900,
+      "y": 2408
     },
     {
       "type": "text",
-      "id": "c324",
+      "id": "c517",
       "name": "Caption S7 Editor / Resume unsaved draft",
-      "x": 1800,
-      "y": 1388,
+      "x": 1350,
+      "y": 2372,
       "content": "S7 Editor / Resume unsaved draft",
       "fontFamily": "Inter",
       "fontSize": 16,
@@ -2741,17 +4792,17 @@
     },
     {
       "type": "frame",
-      "id": "f231",
+      "id": "f389",
       "name": "S7 Editor / Resume unsaved draft",
       "children": [
         {
           "type": "frame",
-          "id": "f228",
+          "id": "f386",
           "name": "Screen behind",
           "children": [
             {
               "type": "frame",
-              "id": "f227",
+              "id": "f385",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -2759,17 +4810,17 @@
             },
             {
               "type": "frame",
-              "id": "f214",
+              "id": "f372",
               "name": "Top bar",
               "children": [
                 {
                   "type": "frame",
-                  "id": "f210",
+                  "id": "f368",
                   "name": "Back",
                   "children": [
                     {
                       "type": "text",
-                      "id": "t209",
+                      "id": "t367",
                       "name": "←",
                       "content": "←",
                       "fontFamily": "Inter",
@@ -2786,7 +4837,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t211",
+                  "id": "t369",
                   "name": "Title",
                   "content": "Sat, 20 Sep 2026",
                   "fontFamily": "Inter",
@@ -2800,12 +4851,12 @@
                 },
                 {
                   "type": "frame",
-                  "id": "f213",
+                  "id": "f371",
                   "name": "Link Save",
                   "children": [
                     {
                       "type": "text",
-                      "id": "t212",
+                      "id": "t370",
                       "name": "Save",
                       "content": "Save",
                       "fontFamily": "Inter",
@@ -2828,7 +4879,7 @@
             },
             {
               "type": "text",
-              "id": "t215",
+              "id": "t373",
               "name": "Draft kept safely on this ph",
               "content": "Draft kept safely on this phone",
               "fontFamily": "Inter",
@@ -2842,7 +4893,7 @@
             },
             {
               "type": "frame",
-              "id": "f218",
+              "id": "f376",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -2850,12 +4901,12 @@
             },
             {
               "type": "frame",
-              "id": "f219",
+              "id": "f377",
               "name": "Entry text",
               "children": [
                 {
                   "type": "text",
-                  "id": "t216",
+                  "id": "t374",
                   "name": "Write what's on your mind",
                   "content": "Write what's on your mind",
                   "fontFamily": "Lora",
@@ -2875,7 +4926,7 @@
             },
             {
               "type": "frame",
-              "id": "f217",
+              "id": "f375",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -2893,7 +4944,7 @@
         },
         {
           "type": "frame",
-          "id": "f229",
+          "id": "f387",
           "name": "Scrim",
           "children": [],
           "x": 0,
@@ -2905,12 +4956,12 @@
         },
         {
           "type": "frame",
-          "id": "f230",
+          "id": "f388",
           "name": "Dialog",
           "children": [
             {
               "type": "text",
-              "id": "t220",
+              "id": "t378",
               "name": "Continue your unsaved entry?",
               "content": "Continue your unsaved entry?",
               "fontFamily": "Inter",
@@ -2923,7 +4974,7 @@
             },
             {
               "type": "text",
-              "id": "t221",
+              "id": "t379",
               "name": "The app closed before you sa",
               "content": "The app closed before you saved. Your text is still here.",
               "fontFamily": "Inter",
@@ -2936,7 +4987,7 @@
             },
             {
               "type": "frame",
-              "id": "f222",
+              "id": "f380",
               "name": "spacer",
               "children": [],
               "width": "fill_container",
@@ -2944,12 +4995,12 @@
             },
             {
               "type": "frame",
-              "id": "f224",
+              "id": "f382",
               "name": "Button Continue writing (default)",
               "children": [
                 {
                   "type": "text",
-                  "id": "t223",
+                  "id": "t381",
                   "name": "Continue writing",
                   "content": "Continue writing",
                   "fontFamily": "Inter",
@@ -2968,12 +5019,12 @@
             },
             {
               "type": "frame",
-              "id": "f226",
+              "id": "f384",
               "name": "Button Discard draft (default)",
               "children": [
                 {
                   "type": "text",
-                  "id": "t225",
+                  "id": "t383",
                   "name": "Discard draft",
                   "content": "Discard draft",
                   "fontFamily": "Inter",
@@ -3010,14 +5061,14 @@
       "height": 844,
       "layout": "none",
       "clip": true,
-      "x": 1800,
-      "y": 1424
+      "x": 1350,
+      "y": 2408
     },
     {
       "type": "text",
-      "id": "c325",
+      "id": "c518",
       "name": "Caption S7 Editor / Save error",
-      "x": 0,
+      "x": 1800,
       "y": 2372,
       "content": "S7 Editor / Save error",
       "fontFamily": "Inter",
@@ -3027,12 +5078,12 @@
     },
     {
       "type": "frame",
-      "id": "f253",
+      "id": "f411",
       "name": "S7 Editor / Save error",
       "children": [
         {
           "type": "frame",
-          "id": "f252",
+          "id": "f410",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3040,17 +5091,17 @@
         },
         {
           "type": "frame",
-          "id": "f237",
+          "id": "f395",
           "name": "Top bar",
           "children": [
             {
               "type": "frame",
-              "id": "f233",
+              "id": "f391",
               "name": "Back",
               "children": [
                 {
                   "type": "text",
-                  "id": "t232",
+                  "id": "t390",
                   "name": "←",
                   "content": "←",
                   "fontFamily": "Inter",
@@ -3067,7 +5118,7 @@
             },
             {
               "type": "text",
-              "id": "t234",
+              "id": "t392",
               "name": "Title",
               "content": "Sat, 20 Sep 2026",
               "fontFamily": "Inter",
@@ -3081,12 +5132,12 @@
             },
             {
               "type": "frame",
-              "id": "f236",
+              "id": "f394",
               "name": "Link Save",
               "children": [
                 {
                   "type": "text",
-                  "id": "t235",
+                  "id": "t393",
                   "name": "Save",
                   "content": "Save",
                   "fontFamily": "Inter",
@@ -3109,7 +5160,7 @@
         },
         {
           "type": "text",
-          "id": "t238",
+          "id": "t396",
           "name": "Draft kept safely on this ph",
           "content": "Draft kept safely on this phone",
           "fontFamily": "Inter",
@@ -3123,12 +5174,12 @@
         },
         {
           "type": "frame",
-          "id": "f251",
+          "id": "f409",
           "name": "Banner warning",
           "children": [
             {
               "type": "text",
-              "id": "t246",
+              "id": "t404",
               "name": "Important",
               "content": "Important",
               "fontFamily": "Inter",
@@ -3138,7 +5189,7 @@
             },
             {
               "type": "text",
-              "id": "t247",
+              "id": "t405",
               "name": "Couldn't save your entry",
               "content": "Couldn't save your entry",
               "fontFamily": "Inter",
@@ -3151,7 +5202,7 @@
             },
             {
               "type": "text",
-              "id": "t248",
+              "id": "t406",
               "name": "Your phone is almost out of ",
               "content": "Your phone is almost out of space. Your text is kept. Free some space, then try again.",
               "fontFamily": "Inter",
@@ -3164,12 +5215,12 @@
             },
             {
               "type": "frame",
-              "id": "f250",
+              "id": "f408",
               "name": "Actions",
               "children": [
                 {
                   "type": "text",
-                  "id": "t249",
+                  "id": "t407",
                   "name": "Try again",
                   "content": "Try again",
                   "fontFamily": "Inter",
@@ -3198,7 +5249,7 @@
         },
         {
           "type": "frame",
-          "id": "f244",
+          "id": "f402",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3206,12 +5257,12 @@
         },
         {
           "type": "frame",
-          "id": "f245",
+          "id": "f403",
           "name": "Entry text",
           "children": [
             {
               "type": "text",
-              "id": "t239",
+              "id": "t397",
               "name": "Walked by the river before w",
               "content": "Walked by the river before work. It was quiet, and I kept thinking about how long it has been since I just stood still.",
               "fontFamily": "Lora",
@@ -3224,7 +5275,7 @@
             },
             {
               "type": "text",
-              "id": "t240",
+              "id": "t398",
               "name": "There was a heron on the far",
               "content": "There was a heron on the far bank. It did not move for a long time, and neither did I.",
               "fontFamily": "Lora",
@@ -3237,7 +5288,7 @@
             },
             {
               "type": "text",
-              "id": "t241",
+              "id": "t399",
               "name": "I want more mornings like th",
               "content": "I want more mornings like this one. Maybe I can leave the phone in my bag and only bring a notebook, but then I would lose the search.",
               "fontFamily": "Lora",
@@ -3257,12 +5308,12 @@
         },
         {
           "type": "frame",
-          "id": "f243",
+          "id": "f401",
           "name": "Bottom row",
           "children": [
             {
               "type": "text",
-              "id": "t242",
+              "id": "t400",
               "name": "Delete entry",
               "content": "Delete entry",
               "fontFamily": "Inter",
@@ -3283,15 +5334,15 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 0,
+      "x": 1800,
       "y": 2408
     },
     {
       "type": "text",
-      "id": "c326",
+      "id": "c519",
       "name": "Caption S7 Editor / Large text 200%",
-      "x": 450,
-      "y": 2372,
+      "x": 0,
+      "y": 3356,
       "content": "S7 Editor / Large text 200%",
       "fontFamily": "Inter",
       "fontSize": 16,
@@ -3300,12 +5351,12 @@
     },
     {
       "type": "frame",
-      "id": "f270",
+      "id": "f428",
       "name": "S7 Editor / Large text",
       "children": [
         {
           "type": "frame",
-          "id": "f269",
+          "id": "f427",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3313,22 +5364,22 @@
         },
         {
           "type": "frame",
-          "id": "f260",
+          "id": "f418",
           "name": "Top bar",
           "children": [
             {
               "type": "frame",
-              "id": "f258",
+              "id": "f416",
               "name": "Top row",
               "children": [
                 {
                   "type": "frame",
-                  "id": "f255",
+                  "id": "f413",
                   "name": "Back",
                   "children": [
                     {
                       "type": "text",
-                      "id": "t254",
+                      "id": "t412",
                       "name": "←",
                       "content": "←",
                       "fontFamily": "Inter",
@@ -3344,7 +5395,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "f256",
+                  "id": "f414",
                   "name": "gap",
                   "children": [],
                   "width": "fill_container",
@@ -3352,7 +5403,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t257",
+                  "id": "t415",
                   "name": "Save",
                   "content": "Save",
                   "fontFamily": "Inter",
@@ -3367,7 +5418,7 @@
             },
             {
               "type": "text",
-              "id": "t259",
+              "id": "t417",
               "name": "Title",
               "content": "Sat, 20 Sep 2026",
               "fontFamily": "Inter",
@@ -3385,7 +5436,7 @@
         },
         {
           "type": "text",
-          "id": "t261",
+          "id": "t419",
           "name": "Draft kept safely on this ph",
           "content": "Draft kept safely on this phone",
           "fontFamily": "Inter",
@@ -3399,7 +5450,7 @@
         },
         {
           "type": "frame",
-          "id": "f267",
+          "id": "f425",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3407,12 +5458,12 @@
         },
         {
           "type": "frame",
-          "id": "f268",
+          "id": "f426",
           "name": "Entry text",
           "children": [
             {
               "type": "text",
-              "id": "t262",
+              "id": "t420",
               "name": "Walked by the river before w",
               "content": "Walked by the river before work. It was quiet, and I kept thinking about how long it has been since I just stood still.",
               "fontFamily": "Lora",
@@ -3425,7 +5476,7 @@
             },
             {
               "type": "text",
-              "id": "t263",
+              "id": "t421",
               "name": "There was a heron on the far",
               "content": "There was a heron on the far bank. It did not move for a long time, and neither did I.",
               "fontFamily": "Lora",
@@ -3438,7 +5489,7 @@
             },
             {
               "type": "text",
-              "id": "t264",
+              "id": "t422",
               "name": "I want more mornings like th",
               "content": "I want more mornings like this one. Maybe I can leave the phone in my bag and only bring a notebook, but then I would lose the search.",
               "fontFamily": "Lora",
@@ -3458,12 +5509,12 @@
         },
         {
           "type": "frame",
-          "id": "f266",
+          "id": "f424",
           "name": "Bottom row",
           "children": [
             {
               "type": "text",
-              "id": "t265",
+              "id": "t423",
               "name": "Delete entry",
               "content": "Delete entry",
               "fontFamily": "Inter",
@@ -3484,15 +5535,15 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 450,
-      "y": 2408
+      "x": 0,
+      "y": 3392
     },
     {
       "type": "text",
-      "id": "c327",
+      "id": "c520",
       "name": "Caption S8 Search / Empty query",
-      "x": 900,
-      "y": 2372,
+      "x": 450,
+      "y": 3356,
       "content": "S8 Search / Empty query",
       "fontFamily": "Inter",
       "fontSize": 16,
@@ -3501,12 +5552,12 @@
     },
     {
       "type": "frame",
-      "id": "f282",
+      "id": "f440",
       "name": "S8 Search / Empty query",
       "children": [
         {
           "type": "frame",
-          "id": "f281",
+          "id": "f439",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3514,17 +5565,17 @@
         },
         {
           "type": "frame",
-          "id": "f276",
+          "id": "f434",
           "name": "Search bar",
           "children": [
             {
               "type": "frame",
-              "id": "f272",
+              "id": "f430",
               "name": "Back",
               "children": [
                 {
                   "type": "text",
-                  "id": "t271",
+                  "id": "t429",
                   "name": "←",
                   "content": "←",
                   "fontFamily": "Inter",
@@ -3541,12 +5592,12 @@
             },
             {
               "type": "frame",
-              "id": "f275",
+              "id": "f433",
               "name": "Search field",
               "children": [
                 {
                   "type": "text",
-                  "id": "t273",
+                  "id": "t431",
                   "name": "Search",
                   "content": "Search",
                   "fontFamily": "Inter",
@@ -3556,7 +5607,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t274",
+                  "id": "t432",
                   "name": "your entries",
                   "content": "your entries",
                   "fontFamily": "Inter",
@@ -3590,7 +5641,7 @@
         },
         {
           "type": "frame",
-          "id": "f280",
+          "id": "f438",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3598,7 +5649,7 @@
         },
         {
           "type": "frame",
-          "id": "f277",
+          "id": "f435",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3606,7 +5657,7 @@
         },
         {
           "type": "text",
-          "id": "t278",
+          "id": "t436",
           "name": "Type a word you remember.",
           "content": "Type a word you remember.",
           "fontFamily": "Inter",
@@ -3620,7 +5671,7 @@
         },
         {
           "type": "frame",
-          "id": "f279",
+          "id": "f437",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3633,15 +5684,15 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 900,
-      "y": 2408
+      "x": 450,
+      "y": 3392
     },
     {
       "type": "text",
-      "id": "c328",
+      "id": "c521",
       "name": "Caption S8 Search / Results",
-      "x": 1350,
-      "y": 2372,
+      "x": 900,
+      "y": 3356,
       "content": "S8 Search / Results",
       "fontFamily": "Inter",
       "fontSize": 16,
@@ -3650,12 +5701,12 @@
     },
     {
       "type": "frame",
-      "id": "f300",
+      "id": "f458",
       "name": "S8 Search / Results",
       "children": [
         {
           "type": "frame",
-          "id": "f299",
+          "id": "f457",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3663,17 +5714,17 @@
         },
         {
           "type": "frame",
-          "id": "f288",
+          "id": "f446",
           "name": "Search bar",
           "children": [
             {
               "type": "frame",
-              "id": "f284",
+              "id": "f442",
               "name": "Back",
               "children": [
                 {
                   "type": "text",
-                  "id": "t283",
+                  "id": "t441",
                   "name": "←",
                   "content": "←",
                   "fontFamily": "Inter",
@@ -3690,12 +5741,12 @@
             },
             {
               "type": "frame",
-              "id": "f287",
+              "id": "f445",
               "name": "Search field",
               "children": [
                 {
                   "type": "text",
-                  "id": "t285",
+                  "id": "t443",
                   "name": "Search",
                   "content": "Search",
                   "fontFamily": "Inter",
@@ -3705,7 +5756,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t286",
+                  "id": "t444",
                   "name": "river",
                   "content": "river",
                   "fontFamily": "Inter",
@@ -3739,7 +5790,7 @@
         },
         {
           "type": "frame",
-          "id": "f298",
+          "id": "f456",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3747,7 +5798,7 @@
         },
         {
           "type": "text",
-          "id": "t289",
+          "id": "t447",
           "name": "2 entries",
           "content": "2 entries",
           "fontFamily": "Inter",
@@ -3760,7 +5811,7 @@
         },
         {
           "type": "frame",
-          "id": "f290",
+          "id": "f448",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3768,12 +5819,12 @@
         },
         {
           "type": "frame",
-          "id": "f293",
+          "id": "f451",
           "name": "Entry",
           "children": [
             {
               "type": "text",
-              "id": "t291",
+              "id": "t449",
               "name": "Today, 9:12  -  matched: riv",
               "content": "Today, 9:12  -  matched: river",
               "fontFamily": "Inter",
@@ -3786,7 +5837,7 @@
             },
             {
               "type": "text",
-              "id": "t292",
+              "id": "t450",
               "name": "Walked by the river before w",
               "content": "Walked by the river before work. It was quiet, and I kept thinking about standing still.",
               "fontFamily": "Lora",
@@ -3812,12 +5863,12 @@
         },
         {
           "type": "frame",
-          "id": "f296",
+          "id": "f454",
           "name": "Entry",
           "children": [
             {
               "type": "text",
-              "id": "t294",
+              "id": "t452",
               "name": "Sun, 7 Sep  -  matched: rive",
               "content": "Sun, 7 Sep  -  matched: river",
               "fontFamily": "Inter",
@@ -3830,7 +5881,7 @@
             },
             {
               "type": "text",
-              "id": "t295",
+              "id": "t453",
               "name": "The river was high after the",
               "content": "The river was high after the storm and the path was closed, so I took the long way round.",
               "fontFamily": "Lora",
@@ -3856,7 +5907,7 @@
         },
         {
           "type": "frame",
-          "id": "f297",
+          "id": "f455",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3869,15 +5920,15 @@
       "layout": "vertical",
       "padding": 24,
       "clip": true,
-      "x": 1350,
-      "y": 2408
+      "x": 900,
+      "y": 3392
     },
     {
       "type": "text",
-      "id": "c329",
+      "id": "c522",
       "name": "Caption S8 Search / No results",
-      "x": 1800,
-      "y": 2372,
+      "x": 1350,
+      "y": 3356,
       "content": "S8 Search / No results",
       "fontFamily": "Inter",
       "fontSize": 16,
@@ -3886,12 +5937,12 @@
     },
     {
       "type": "frame",
-      "id": "f314",
+      "id": "f472",
       "name": "S8 Search / No results",
       "children": [
         {
           "type": "frame",
-          "id": "f313",
+          "id": "f471",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3899,17 +5950,17 @@
         },
         {
           "type": "frame",
-          "id": "f306",
+          "id": "f464",
           "name": "Search bar",
           "children": [
             {
               "type": "frame",
-              "id": "f302",
+              "id": "f460",
               "name": "Back",
               "children": [
                 {
                   "type": "text",
-                  "id": "t301",
+                  "id": "t459",
                   "name": "←",
                   "content": "←",
                   "fontFamily": "Inter",
@@ -3926,12 +5977,12 @@
             },
             {
               "type": "frame",
-              "id": "f305",
+              "id": "f463",
               "name": "Search field",
               "children": [
                 {
                   "type": "text",
-                  "id": "t303",
+                  "id": "t461",
                   "name": "Search",
                   "content": "Search",
                   "fontFamily": "Inter",
@@ -3941,7 +5992,7 @@
                 },
                 {
                   "type": "text",
-                  "id": "t304",
+                  "id": "t462",
                   "name": "kite",
                   "content": "kite",
                   "fontFamily": "Inter",
@@ -3975,7 +6026,7 @@
         },
         {
           "type": "frame",
-          "id": "f312",
+          "id": "f470",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3983,7 +6034,7 @@
         },
         {
           "type": "frame",
-          "id": "f307",
+          "id": "f465",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -3991,7 +6042,7 @@
         },
         {
           "type": "text",
-          "id": "t308",
+          "id": "t466",
           "name": "No entries contain \"kite\".",
           "content": "No entries contain \"kite\".",
           "fontFamily": "Inter",
@@ -4005,7 +6056,7 @@
         },
         {
           "type": "frame",
-          "id": "f309",
+          "id": "f467",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -4013,7 +6064,7 @@
         },
         {
           "type": "text",
-          "id": "t310",
+          "id": "t468",
           "name": "Try another word, or part of",
           "content": "Try another word, or part of a word.",
           "fontFamily": "Inter",
@@ -4027,7 +6078,158 @@
         },
         {
           "type": "frame",
-          "id": "f311",
+          "id": "f469",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": "fill_container"
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "fill": "$color-surface-base",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "x": 1350,
+      "y": 3392
+    },
+    {
+      "type": "text",
+      "id": "c523",
+      "name": "Caption S15 Photo viewer / Default",
+      "x": 1800,
+      "y": 3356,
+      "content": "S15 Photo viewer / Default",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "fill": "$color-text-primary"
+    },
+    {
+      "type": "frame",
+      "id": "f485",
+      "name": "S15 Photo viewer / Default",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f484",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f477",
+          "name": "Top row",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f474",
+              "name": "Back",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t473",
+                  "name": "←",
+                  "content": "←",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "fill": "$color-text-primary"
+                }
+              ],
+              "width": 48,
+              "height": 48,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center"
+            },
+            {
+              "type": "frame",
+              "id": "f475",
+              "name": "gap",
+              "children": [],
+              "width": "fill_container"
+            },
+            {
+              "type": "text",
+              "id": "t476",
+              "name": "Remove",
+              "content": "Remove",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$color-status-danger-fg"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f478",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f480",
+          "name": "Full photo",
+          "children": [
+            {
+              "type": "text",
+              "id": "t479",
+              "name": "Photo",
+              "content": "Photo",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "fill": "$color-text-secondary"
+            }
+          ],
+          "width": "fill_container",
+          "height": 420,
+          "cornerRadius": 12,
+          "fill": "$color-surface-raised",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$color-border-default"
+          },
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f481",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "text",
+          "id": "t482",
+          "name": "The old oak by the river",
+          "content": "The old oak by the river",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 1.5,
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "textAlign": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f483",
           "name": "spacer",
           "children": [],
           "width": "fill_container",
@@ -4041,7 +6243,218 @@
       "padding": 24,
       "clip": true,
       "x": 1800,
-      "y": 2408
+      "y": 3392
+    },
+    {
+      "type": "text",
+      "id": "c524",
+      "name": "Caption S15 Photo viewer / Remove confirmation",
+      "x": 0,
+      "y": 4340,
+      "content": "S15 Photo viewer / Remove confirmation",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "fill": "$color-text-primary"
+    },
+    {
+      "type": "frame",
+      "id": "f503",
+      "name": "S15 Photo viewer / Remove confirmation",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f502",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f488",
+          "name": "Top row",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f487",
+              "name": "Back",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t486",
+                  "name": "←",
+                  "content": "←",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "fill": "$color-text-primary"
+                }
+              ],
+              "width": 48,
+              "height": 48,
+              "layout": "horizontal",
+              "alignItems": "center",
+              "justifyContent": "center"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal"
+        },
+        {
+          "type": "frame",
+          "id": "f489",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 16
+        },
+        {
+          "type": "frame",
+          "id": "f491",
+          "name": "Full photo",
+          "children": [
+            {
+              "type": "text",
+              "id": "t490",
+              "name": "Photo",
+              "content": "Photo",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "fill": "$color-text-secondary"
+            }
+          ],
+          "width": "fill_container",
+          "height": 300,
+          "cornerRadius": 12,
+          "fill": "$color-surface-raised",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$color-border-default"
+          },
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        {
+          "type": "frame",
+          "id": "f492",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "text",
+          "id": "t493",
+          "name": "Remove this photo?",
+          "content": "Remove this photo?",
+          "fontFamily": "Inter",
+          "fontSize": 22,
+          "fontWeight": "600",
+          "lineHeight": 1.3,
+          "fill": "$color-text-primary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f494",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 8
+        },
+        {
+          "type": "text",
+          "id": "t495",
+          "name": "This cannot be undone.",
+          "content": "This cannot be undone.",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 1.5,
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "f496",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 24
+        },
+        {
+          "type": "frame",
+          "id": "f498",
+          "name": "Button Remove photo (default)",
+          "children": [
+            {
+              "type": "text",
+              "id": "t497",
+              "name": "Remove photo",
+              "content": "Remove photo",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "fill": "$color-status-danger-on-solid"
+            }
+          ],
+          "fill": "$color-status-danger-solid",
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "cornerRadius": 20,
+          "height": 52
+        },
+        {
+          "type": "frame",
+          "id": "f499",
+          "name": "spacer",
+          "children": [],
+          "width": "fill_container",
+          "height": 8
+        },
+        {
+          "type": "frame",
+          "id": "f501",
+          "name": "Link Cancel",
+          "children": [
+            {
+              "type": "text",
+              "id": "t500",
+              "name": "Cancel",
+              "content": "Cancel",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600",
+              "lineHeight": 1.3,
+              "fill": "$color-action-primary-bg",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "textAlign": "center"
+            }
+          ],
+          "width": "fill_container",
+          "layout": "horizontal",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "height": 48
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "fill": "$color-surface-base",
+      "layout": "vertical",
+      "padding": 24,
+      "clip": true,
+      "x": 0,
+      "y": 4376
     }
   ]
 }

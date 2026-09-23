@@ -15,10 +15,11 @@ import 'zip_lite.dart';
 /// manifest.json        format, formatVersion, schemaVersion, appVersion, createdAt, entryCount, entriesSha256
 /// entries.json         the entries: the ONLY file the importer reads for content
 /// entries/YYYY/YYYY-MM-DD-<id>.md   one readable file per entry (plaintext exports only)
+/// media/<id>.<ext>     one file per photo (FEAT-011), its plaintext bytes; named by entries.json's own `media[].path`
 /// ```
 const backupFormatName = 'exodite-anima-journal';
 const currentFormatVersion = 1;
-const appVersionText = '1.0.0';
+const appVersionText = '1.1.0';
 
 /// What an import accepts. PROVISIONAL: the owner has not decided the numeric
 /// import limits (TC-065); these are set from the spike and can be changed here.
@@ -59,20 +60,58 @@ class BackupException implements Exception {
 }
 
 class ReadBackup {
-  ReadBackup(this.entries, this.formatVersion, this.createdAt);
+  ReadBackup(this.entries, this.formatVersion, this.createdAt, {this.mediaBytes = const {}});
   final List<StoredEntry> entries;
   final int formatVersion;
   final DateTime? createdAt;
+
+  /// Each imported photo's plaintext bytes, by [StoredMediaRef.uid]
+  /// (FEAT-011). The importer hands this straight to
+  /// `EntryRepository.importEntries`, which re-encrypts them under the
+  /// device's own key - a photo is never carried across in its export form.
+  final Map<String, Uint8List> mediaBytes;
 }
 
-/// Builds the file to hand to the share sheet. [password] null means a plaintext export.
-Future<Uint8List> createBackup(List<StoredEntry> entries, {String? password, DateTime? now, EnvelopeParams? params}) async {
-  final zip = await Isolate.run(() => _buildZip(entries, plaintext: password == null, now: now ?? DateTime.now()));
+/// `media/<id>.<ext>`'s extension, from the photo's own `mimeType` (FEAT-011,
+/// ADR-003 update 2026-09-23) - readable outside the app, unlike a bare id.
+/// Every mime type [MediaFiles]/`image_picker` can produce has one; anything
+/// else falls back to `bin` rather than refusing the whole export.
+String _extensionFor(String mimeType) => switch (mimeType) {
+      'image/jpeg' => 'jpg',
+      'image/png' => 'png',
+      'image/heic' => 'heic',
+      'image/webp' => 'webp',
+      _ => 'bin',
+    };
+
+const _mimeForExtension = {
+  'jpg': 'image/jpeg',
+  'png': 'image/png',
+  'heic': 'image/heic',
+  'webp': 'image/webp',
+  'bin': 'application/octet-stream',
+};
+
+final _mediaPathPattern = RegExp(r'^media/([0-9a-f]{32})\.(jpg|png|heic|webp|bin)$');
+
+/// Builds the file to hand to the share sheet. [password] null means a
+/// plaintext export. [photoBytes] holds each photo's plaintext bytes, by
+/// [StoredMediaRef.uid] (FEAT-011); a photo whose entry references it but
+/// that is missing here (its file could not be decrypted, AC-8) is left out
+/// of the archive entirely, rather than failing the whole export.
+Future<Uint8List> createBackup(
+  List<StoredEntry> entries, {
+  String? password,
+  DateTime? now,
+  EnvelopeParams? params,
+  Map<String, Uint8List> photoBytes = const {},
+}) async {
+  final zip = await Isolate.run(() => _buildZip(entries, plaintext: password == null, now: now ?? DateTime.now(), photoBytes: photoBytes));
   if (password == null) return zip;
   return encryptBackup(zip, password, params: params);
 }
 
-Uint8List _buildZip(List<StoredEntry> entries, {required bool plaintext, required DateTime now}) {
+Uint8List _buildZip(List<StoredEntry> entries, {required bool plaintext, required DateTime now, required Map<String, Uint8List> photoBytes}) {
   final entriesJson = Uint8List.fromList(utf8.encode(jsonEncode({
     'formatVersion': currentFormatVersion,
     'schemaVersion': journalSchemaVersion,
@@ -84,6 +123,22 @@ Uint8List _buildZip(List<StoredEntry> entries, {required bool plaintext, require
           'createdAt': DateTime.fromMillisecondsSinceEpoch(e.createdAtMs, isUtc: true).toIso8601String(),
           'updatedAt': DateTime.fromMillisecondsSinceEpoch(e.updatedAtMs, isUtc: true).toIso8601String(),
           'text': e.text,
+          // Additive fields (ADR-003 update 2026-09-23, FEAT-010 AC-7): an
+          // older app ignores them (rule 2); absent, not null, when unset,
+          // so an export made before FEAT-010 looks the same as one with no
+          // mood or tags on any entry.
+          if (e.mood != null) 'mood': e.mood!.name,
+          if (e.tags.isNotEmpty) 'tags': e.tags,
+          if (e.media.any((m) => photoBytes.containsKey(m.uid)))
+            'media': [
+              for (final m in e.media)
+                if (photoBytes.containsKey(m.uid))
+                  {
+                    'id': m.uid,
+                    'path': 'media/${m.uid}.${_extensionFor(m.mimeType)}',
+                    if (m.caption != null) 'caption': m.caption,
+                  },
+            ],
         },
     ],
   })));
@@ -105,10 +160,38 @@ Uint8List _buildZip(List<StoredEntry> entries, {required bool plaintext, require
       files.add(ZipEntry('entries/$year/${e.day}-${e.uid}.md', Uint8List.fromList(utf8.encode(_markdown(e)))));
     }
   }
+  for (final e in entries) {
+    for (final m in e.media) {
+      final bytes = photoBytes[m.uid];
+      if (bytes == null) continue;
+      files.add(ZipEntry('media/${m.uid}.${_extensionFor(m.mimeType)}', bytes));
+    }
+  }
   return writeZip(files);
 }
 
-String _markdown(StoredEntry e) => '# ${e.day}\n\n${e.text}\n';
+String _markdown(StoredEntry e) {
+  final meta = StringBuffer();
+  if (e.mood != null) meta.write('Mood: ${e.mood!.name}\n');
+  if (e.tags.isNotEmpty) meta.write('Tags: ${e.tags.join(', ')}\n');
+  return '# ${e.day}\n\n$meta\n${e.text}\n';
+}
+
+/// A `mood` field this app does not recognise (an older name, or one from a
+/// future version) is dropped rather than refusing the whole import: rule 2,
+/// unknown values inside a known format are ignored.
+Mood? _moodFromJson(Object? value) {
+  if (value is! String) return null;
+  for (final m in Mood.values) {
+    if (m.name == value) return m;
+  }
+  return null;
+}
+
+List<String> _tagsFromJson(Object? value) {
+  if (value is! List) return const [];
+  return [for (final t in value) if (t is String && t.trim().isNotEmpty) t];
+}
 
 String sha256Hex(List<int> bytes) {
   final hash = const DartSha256().hashSync(bytes);
@@ -135,13 +218,16 @@ Future<ReadBackup> readBackup(Uint8List file, {String? password, ImportLimits li
 }
 
 ReadBackup _parse(Uint8List zip, ImportLimits limits) {
-  final Map<String, Uint8List> files;
-  try {
-    files = readZipFiles(zip, {'manifest.json', 'entries.json'}, limits: limits.zip);
-  } on ZipException catch (e) {
-    final large = e.message.contains('limit') || e.message.contains('too large') || e.message.contains('too many');
-    throw BackupException(large ? BackupProblem.tooLarge : BackupProblem.damaged, e.message);
+  Map<String, Uint8List> readNamed(Set<String> names) {
+    try {
+      return readZipFiles(zip, names, limits: limits.zip);
+    } on ZipException catch (e) {
+      final large = e.message.contains('limit') || e.message.contains('too large') || e.message.contains('too many');
+      throw BackupException(large ? BackupProblem.tooLarge : BackupProblem.damaged, e.message);
+    }
   }
+
+  final files = readNamed({'manifest.json', 'entries.json'});
   final manifestBytes = files['manifest.json'];
   final entriesBytes = files['entries.json'];
   if (manifestBytes == null || entriesBytes == null) throw BackupException(BackupProblem.damaged, 'missing file');
@@ -174,6 +260,7 @@ ReadBackup _parse(Uint8List zip, ImportLimits limits) {
 
   final seen = <String>{};
   final entries = <StoredEntry>[];
+  final wantedMediaPaths = <String>{};
   final idPattern = RegExp(r'^[0-9a-f]{32}$');
   final dayPattern = RegExp(r'^\d{4}-\d{2}-\d{2}$');
   for (final raw in list) {
@@ -197,7 +284,49 @@ ReadBackup _parse(Uint8List zip, ImportLimits limits) {
       text: text,
       createdAtMs: created.millisecondsSinceEpoch,
       updatedAtMs: updated.millisecondsSinceEpoch,
+      mood: _moodFromJson(raw['mood']),
+      tags: _tagsFromJson(raw['tags']),
+      media: _mediaFromJson(raw['media'], wantedMediaPaths),
     ));
   }
-  return ReadBackup(entries, version, DateTime.tryParse('${manifest['createdAt']}'));
+
+  // A second, exact-name pass: only now, having validated every path inside
+  // entries.json, do we know which `media/` files to open at all (rule 3:
+  // never anything else, never guessed from the archive's own listing).
+  final mediaFiles = wantedMediaPaths.isEmpty ? const <String, Uint8List>{} : readNamed(wantedMediaPaths);
+  final mediaBytes = <String, Uint8List>{};
+  for (final entry in entries) {
+    for (final ref in entry.media) {
+      final path = 'media/${ref.uid}.${_extensionFor(ref.mimeType)}';
+      final bytes = mediaFiles[path];
+      if (bytes != null) mediaBytes[ref.uid] = bytes;
+    }
+  }
+  return ReadBackup(entries, version, DateTime.tryParse('${manifest['createdAt']}'), mediaBytes: mediaBytes);
+}
+
+/// Parses an entry's `media` field (FEAT-011, ADR-003 update 2026-09-23):
+/// each photo's `id`, `path`, and optional `caption`. A malformed photo
+/// entry is dropped, not a whole-import failure - rule 2's "ignore what is
+/// not understood" extended to a single bad photo reference. Every accepted
+/// path is added to [wantedPaths], the exact-name set the second ZIP pass
+/// reads (rule 3: nothing else is ever opened).
+List<StoredMediaRef> _mediaFromJson(Object? value, Set<String> wantedPaths) {
+  if (value is! List) return const [];
+  final idPattern = RegExp(r'^[0-9a-f]{32}$');
+  final refs = <StoredMediaRef>[];
+  for (final raw in value) {
+    if (raw is! Map<String, dynamic>) continue;
+    final id = raw['id'];
+    final path = raw['path'];
+    final caption = raw['caption'];
+    if (id is! String || !idPattern.hasMatch(id)) continue;
+    if (path is! String) continue;
+    final match = _mediaPathPattern.firstMatch(path);
+    if (match == null || match.group(1) != id) continue;
+    if (caption != null && caption is! String) continue;
+    wantedPaths.add(path);
+    refs.add(StoredMediaRef(uid: id, mimeType: _mimeForExtension[match.group(2)]!, caption: caption as String?));
+  }
+  return refs;
 }

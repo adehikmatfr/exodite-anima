@@ -141,6 +141,111 @@ void main() {
     await db.close();
   });
 
+  test('FEAT-010 AC-5 "On this day" shows an entry from every matching earlier year, most recent first', () async {
+    final (db, repo) = await open();
+    await repo.create(day: '2024-09-20', body: 'two years ago');
+    await repo.create(day: '2025-09-20', body: 'last year');
+    await repo.create(day: '2025-09-21', body: 'not a match, different day');
+    await repo.create(day: '2026-09-19', body: 'not a match, different month-day');
+    final items = await repo.watchOnThisDay('2026-09-20').first;
+    expect(items.map((i) => i.preview).toList(), ['last year', 'two years ago']);
+    expect(items.map((i) => i.day).toList(), ['2025-09-20', '2024-09-20']);
+    await db.close();
+  });
+
+  test('FEAT-010 AC-6 no "On this day" match gives an empty list, not an error', () async {
+    final (db, repo) = await open();
+    await repo.create(day: '2026-09-20', body: 'only today, same year');
+    final items = await repo.watchOnThisDay('2026-09-20').first;
+    expect(items, isEmpty);
+    await db.close();
+  });
+
+  test('FEAT-010 "On this day" excludes today\'s own entries but not other entries from today\'s date in an earlier year', () async {
+    final (db, repo) = await open();
+    await repo.create(day: '2026-09-20', body: 'today, excluded');
+    await repo.create(day: '2020-09-20', body: 'included');
+    final items = await repo.watchOnThisDay('2026-09-20').first;
+    expect(items.map((i) => i.preview).toList(), ['included']);
+    await db.close();
+  });
+
+  test('FEAT-010 AC-1, AC-3 the timeline carries an entry\'s mood and tags, in order added', () async {
+    final (db, repo) = await open();
+    await repo.create(day: '2026-09-20', body: 'a', mood: Mood.good, tags: ['Family', 'photography']);
+    await repo.create(day: '2026-09-19', body: 'b'); // no mood, no tags
+    final items = await repo.watchTimeline().first;
+    expect(items[0].mood, Mood.good);
+    expect(items[0].tags, ['Family', 'photography']);
+    expect(items[1].mood, isNull);
+    expect(items[1].tags, isEmpty);
+    await db.close();
+  });
+
+  test('FEAT-010 a comma inside a free-text tag does not split it in the timeline', () async {
+    final (db, repo) = await open();
+    await repo.create(day: '2026-09-20', body: 'a', tags: ['coffee, tea, and books']);
+    final item = (await repo.watchTimeline().first).single;
+    expect(item.tags, ['coffee, tea, and books']);
+    await db.close();
+  });
+
+  test('FEAT-010 the timeline updates when a mood or tag changes, not just the text', () async {
+    final (db, repo) = await open();
+    final events = <List<String>>[];
+    final sub = repo.watchTimeline().listen((l) => events.add(l.isEmpty ? const [] : l.first.tags));
+    final a = (await repo.create(day: '2026-09-20', body: 'entry'))!;
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    await repo.update(id: a.id, day: a.day, body: a.body, tags: ['Health']);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    await sub.cancel();
+    expect(events.any((e) => e.contains('Health')), isTrue);
+    await db.close();
+  });
+
+  test('FEAT-010 AC-1 a mood is saved with the entry and read back', () async {
+    final (db, repo) = await open();
+    final e = (await repo.create(day: '2026-09-20', body: 'a good day', mood: Mood.good))!;
+    expect(e.mood, Mood.good);
+    expect((await repo.get(e.id))!.mood, Mood.good);
+    await db.close();
+  });
+
+  test('FEAT-010 AC-2 a mood can be changed, or cleared, on an existing entry', () async {
+    final (db, repo) = await open();
+    final e = (await repo.create(day: '2026-09-20', body: 'entry', mood: Mood.bad))!;
+    expect(await repo.update(id: e.id, day: e.day, body: e.body, mood: Mood.great), isTrue);
+    expect((await repo.get(e.id))!.mood, Mood.great);
+    expect(await repo.update(id: e.id, day: e.day, body: e.body), isTrue); // mood omitted: clears it
+    expect((await repo.get(e.id))!.mood, isNull);
+    await db.close();
+  });
+
+  test('FEAT-010 AC-3 tags from the preset list, free text, or both are saved and read back', () async {
+    final (db, repo) = await open();
+    final e = (await repo.create(day: '2026-09-20', body: 'entry', tags: ['Family', 'photography', 'Family']))!;
+    expect(e.tags, ['Family', 'photography'], reason: 'duplicates collapse; order is preserved otherwise');
+    expect((await repo.get(e.id))!.tags, ['Family', 'photography']);
+    await db.close();
+  });
+
+  test('FEAT-010 AC-4 removing a tag on save stops it showing on that entry', () async {
+    final (db, repo) = await open();
+    final e = (await repo.create(day: '2026-09-20', body: 'entry', tags: ['Work', 'Travel']))!;
+    expect(await repo.update(id: e.id, day: e.day, body: e.body, tags: ['Work']), isTrue);
+    expect((await repo.get(e.id))!.tags, ['Work']);
+    await db.close();
+  });
+
+  test('FEAT-010 the same tag name is stored once and shared across entries', () async {
+    final (db, repo) = await open();
+    await repo.create(day: '2026-09-20', body: 'a', tags: ['Health']);
+    await repo.create(day: '2026-09-21', body: 'b', tags: ['Health']);
+    final rows = await db.select(db.tags).get();
+    expect(rows.length, 1, reason: 'one row for "Health", reused by both entries, not duplicated');
+    await db.close();
+  });
+
   test('AC-8 an empty or blank entry is not saved', () async {
     final (db, repo) = await open();
     expect(await repo.create(day: '2026-09-20', body: ''), isNull);

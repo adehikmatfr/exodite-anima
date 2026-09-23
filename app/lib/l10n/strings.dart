@@ -1,3 +1,5 @@
+import '../data/entry_repository.dart' show Mood;
+
 /// Every user-visible string of the app, in English and Indonesian.
 ///
 /// The language is chosen in Settings (follow the phone, English, or
@@ -26,6 +28,7 @@ class S {
   static String get newEntry => _t('New entry', 'Catatan baru');
   static String get today => _t('Today', 'Hari ini');
   static String get yesterday => _t('Yesterday', 'Kemarin');
+  static String get onThisDayTitle => _t('On this day', 'Pada hari ini');
   static String get loading => _t('Opening your journal...', 'Membuka jurnal Anda...');
   static String get back => _t('Back', 'Kembali');
   static String get save => _t('Save', 'Simpan');
@@ -201,6 +204,23 @@ class S {
   static String get passcodeChangedBody => _t('Your journal opens with the new passcode from now on. Your entries are unchanged.', 'Mulai sekarang jurnal Anda terbuka dengan kode sandi baru. Catatan Anda tidak berubah.');
   static String get passcodeChangeFailed => _t('The passcode could not be changed. Nothing was changed. Try again.', 'Kode sandi tidak bisa diganti. Tidak ada yang diubah. Coba lagi.');
   static String get chooseLanguageTitle => _t('Language', 'Bahasa');
+  static String get addTag => _t('Add a tag', 'Tambah tag');
+  static String get addTagHint => _t('Type a tag and press done', 'Ketik tag lalu tekan selesai');
+  static String get clearMood => _t('Clear mood', 'Hapus mood');
+
+  // Photos (FEAT-011)
+  static String get addPhoto => _t('Add photo', 'Tambah foto');
+  static String get takePhoto => _t('Take a photo', 'Ambil foto');
+  static String get chooseFromLibrary => _t('Choose from library', 'Pilih dari galeri');
+  static String get photoGenericLabel => _t('Photo', 'Foto');
+  static String get addCaptionHint => _t('Add a caption (optional)', 'Tambah keterangan (opsional)');
+  static String get removePhotoAction => _t('Remove', 'Hapus');
+  static String get removePhotoTitle => _t('Remove this photo?', 'Hapus foto ini?');
+  static String get removePhotoBody => _t('This cannot be undone. The photo is removed from this entry.', 'Tindakan ini tidak bisa dibatalkan. Foto dihapus dari catatan ini.');
+  static String get photoAddFailedTitle => _t('Couldn\'t add that photo', 'Foto tidak bisa ditambahkan');
+  static String get photoAddFailedBody => _t('Free some space on the phone, then try again.', 'Kosongkan sedikit ruang di ponsel, lalu coba lagi.');
+  static String get photoOpenFailedTitle => _t('This photo can\'t be opened', 'Foto ini tidak bisa dibuka');
+  static String get photoOpenFailedBody => _t('It may be damaged. Everything else in this entry is unaffected.', 'Foto ini mungkin rusak. Bagian lain dari catatan ini tidak terpengaruh.');
 
   // Text with a value in it
   static String entryDateLabel(String date) => _lang == 'id' ? 'Tanggal catatan, $date, ubah' : 'Entry date, $date, change';
@@ -210,6 +230,31 @@ class S {
   static String noResults(String q) => _lang == 'id' ? 'Tidak ada catatan yang memuat "$q".' : 'No entries contain "$q".';
   static String matched(String word) => _lang == 'id' ? 'cocok: $word' : 'matched: $word';
   static String waitMessage(String time) => _lang == 'id' ? 'Terlalu banyak percobaan. Anda bisa mencoba lagi dalam $time.' : 'Too many tries. You can try again in $time.';
+  static String onThisDayItemLabel(String date) => _lang == 'id' ? 'Pada hari ini, $date' : 'On this day, $date';
+
+  /// FEAT-010's mood scale. The stored value is [Mood.index]; only the label
+  /// shown to the person is translated.
+  static String moodLabel(Mood mood) => switch (mood) {
+        Mood.great => _t('Great', 'Luar biasa'),
+        Mood.good => _t('Good', 'Baik'),
+        Mood.okay => _t('Okay', 'Biasa'),
+        Mood.bad => _t('Bad', 'Buruk'),
+        Mood.awful => _t('Awful', 'Sangat buruk'),
+      };
+
+  /// A preset tag's display label. [key] must be one of [presetTags]; the
+  /// stored and exported value is always the English key, never this label.
+  static String presetTagLabel(String key) => switch (key) {
+        'Work' => _t('Work', 'Kerja'),
+        'Family' => _t('Family', 'Keluarga'),
+        'Relationships' => _t('Relationships', 'Hubungan'),
+        'Health' => _t('Health', 'Kesehatan'),
+        'Travel' => _t('Travel', 'Perjalanan'),
+        'Gratitude' => _t('Gratitude', 'Syukur'),
+        'Goals' => _t('Goals', 'Tujuan'),
+        'Reflection' => _t('Reflection', 'Refleksi'),
+        _ => key, // a free-text tag: shown exactly as typed, never translated
+      };
 }
 
 const _daysEn = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -237,6 +282,7 @@ List<(String, String, String)> allStringsForTest() => [
   ('newEntry', 'New entry', 'Catatan baru'),
   ('today', 'Today', 'Hari ini'),
   ('yesterday', 'Yesterday', 'Kemarin'),
+  ('onThisDayTitle', 'On this day', 'Pada hari ini'),
   ('loading', 'Opening your journal...', 'Membuka jurnal Anda...'),
   ('back', 'Back', 'Kembali'),
   ('save', 'Save', 'Simpan'),
@@ -410,4 +456,19 @@ List<(String, String, String)> allStringsForTest() => [
   ('passcodeChangedBody', 'Your journal opens with the new passcode from now on. Your entries are unchanged.', 'Mulai sekarang jurnal Anda terbuka dengan kode sandi baru. Catatan Anda tidak berubah.'),
   ('passcodeChangeFailed', 'The passcode could not be changed. Nothing was changed. Try again.', 'Kode sandi tidak bisa diganti. Tidak ada yang diubah. Coba lagi.'),
   ('chooseLanguageTitle', 'Language', 'Bahasa'),
+  ('addTag', 'Add a tag', 'Tambah tag'),
+  ('addTagHint', 'Type a tag and press done', 'Ketik tag lalu tekan selesai'),
+  ('clearMood', 'Clear mood', 'Hapus mood'),
+  ('addPhoto', 'Add photo', 'Tambah foto'),
+  ('takePhoto', 'Take a photo', 'Ambil foto'),
+  ('chooseFromLibrary', 'Choose from library', 'Pilih dari galeri'),
+  ('photoGenericLabel', 'Photo', 'Foto'),
+  ('addCaptionHint', 'Add a caption (optional)', 'Tambah keterangan (opsional)'),
+  ('removePhotoAction', 'Remove', 'Hapus'),
+  ('removePhotoTitle', 'Remove this photo?', 'Hapus foto ini?'),
+  ('removePhotoBody', 'This cannot be undone. The photo is removed from this entry.', 'Tindakan ini tidak bisa dibatalkan. Foto dihapus dari catatan ini.'),
+  ('photoAddFailedTitle', 'Couldn\'t add that photo', 'Foto tidak bisa ditambahkan'),
+  ('photoAddFailedBody', 'Free some space on the phone, then try again.', 'Kosongkan sedikit ruang di ponsel, lalu coba lagi.'),
+  ('photoOpenFailedTitle', 'This photo can\'t be opened', 'Foto ini tidak bisa dibuka'),
+  ('photoOpenFailedBody', 'It may be damaged. Everything else in this entry is unaffected.', 'Foto ini mungkin rusak. Bagian lain dari catatan ini tidak terpengaruh.'),
 ];

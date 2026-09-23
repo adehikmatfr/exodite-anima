@@ -16,12 +16,14 @@ import 'package:flutter_test/flutter_test.dart';
 const fast = EnvelopeParams(memoryKiB: 1024, iterations: 1, lanes: 1);
 const pw = 'export password 1';
 
-StoredEntry entry(int i, {String? text}) => StoredEntry(
+StoredEntry entry(int i, {String? text, Mood? mood, List<String> tags = const []}) => StoredEntry(
       uid: i.toRadixString(16).padLeft(32, '0'),
       day: '2026-09-${(i % 28 + 1).toString().padLeft(2, '0')}',
       text: text ?? 'Synthetic entry $i. Zebra-$i.',
       createdAtMs: DateTime.utc(2026, 9, 1).millisecondsSinceEpoch + i * 1000,
       updatedAtMs: DateTime.utc(2026, 9, 1).millisecondsSinceEpoch + i * 2000,
+      mood: mood,
+      tags: tags,
     );
 
 bool has(Uint8List data, String needle) {
@@ -60,6 +62,54 @@ void main() {
         expect(back.entries[i].createdAtMs, entries[i].createdAtMs);
         expect(back.entries[i].updatedAtMs, entries[i].updatedAtMs);
       }
+    });
+
+    test('FEAT-010 AC-7, AC-8: mood and tags survive an export/import round trip exactly', () async {
+      final withMeta = [
+        entry(1, text: 'has mood and tags', mood: Mood.good, tags: const ['Family', 'photography']),
+        entry(2, text: 'has neither'),
+        entry(3, text: 'a tag with a comma', tags: const ['coffee, tea, and books']),
+      ];
+      final file = await createBackup(withMeta, password: pw, params: fast);
+      final back = await readBackup(file, password: pw);
+      expect(back.entries[0].mood, Mood.good);
+      expect(back.entries[0].tags, ['Family', 'photography']);
+      expect(back.entries[1].mood, isNull);
+      expect(back.entries[1].tags, isEmpty);
+      expect(back.entries[2].tags, ['coffee, tea, and books']);
+    });
+
+    test('FEAT-010: an export made before this feature (no mood or tags field) still imports, with neither set', () async {
+      final noMeta = jsonEncode({
+        'formatVersion': currentFormatVersion,
+        'schemaVersion': 1,
+        'entries': [
+          {
+            'id': entries[0].uid,
+            'entryDate': entries[0].day,
+            'createdAt': DateTime.fromMillisecondsSinceEpoch(entries[0].createdAtMs, isUtc: true).toIso8601String(),
+            'updatedAt': DateTime.fromMillisecondsSinceEpoch(entries[0].updatedAtMs, isUtc: true).toIso8601String(),
+            'text': entries[0].text,
+          },
+        ],
+      });
+      final entriesBytes = Uint8List.fromList(utf8.encode(noMeta));
+      final manifest = jsonEncode({
+        'format': backupFormatName,
+        'formatVersion': currentFormatVersion,
+        'schemaVersion': 1,
+        'appVersion': appVersionText,
+        'createdAt': DateTime.now().toUtc().toIso8601String(),
+        'entryCount': 1,
+        'entriesSha256': sha256Hex(entriesBytes),
+      });
+      final zip = writeZip([
+        ZipEntry('manifest.json', Uint8List.fromList(utf8.encode(manifest))),
+        ZipEntry('entries.json', entriesBytes),
+      ]);
+      final back = await readBackup(zip);
+      expect(back.entries.single.mood, isNull);
+      expect(back.entries.single.tags, isEmpty);
     });
 
     test('a plaintext export imports back the same way, and holds readable Markdown (FEAT-006 AC-3 content)', () async {
@@ -271,6 +321,25 @@ void main() {
       dir2.deleteSync(recursive: true);
     });
 
+    test('FEAT-010 AC-7, AC-8: mood and tags round-trip through two real journals, not just the format', () async {
+      await repo.create(day: '2026-09-20', body: 'first', mood: Mood.great, tags: ['Work', 'Travel']);
+      await repo.create(day: '2026-09-21', body: 'second');
+      final exported = await repo.readAllForExport();
+      final file = await createBackup(exported, password: pw, params: fast);
+
+      final dir2 = Directory.systemTemp.createTempSync('exodite_import_meta_');
+      final db2 = await JournalDatabase.openEncrypted(File('${dir2.path}/journal.db'), key);
+      final repo2 = EntryRepository(db2);
+      await repo2.importEntries((await readBackup(file, password: pw)).entries);
+      final again = await repo2.readAllForExport();
+      for (var i = 0; i < exported.length; i++) {
+        expect(again[i].mood, exported[i].mood);
+        expect(again[i].tags, exported[i].tags);
+      }
+      await db2.close();
+      dir2.deleteSync(recursive: true);
+    });
+
     test('importing the same file twice creates no duplicates (FEAT-007 AC-6)', () async {
       final file = await createBackup(entries);
       final list = (await readBackup(file)).entries;
@@ -318,6 +387,163 @@ void main() {
       final t = DateTime(2026, 9, 20, 10, 30);
       await repo.recordExport(t);
       expect(await repo.lastExportAt(), t);
+    });
+
+    test('FEAT-011: a photo travels through a full round trip between two real journals', () async {
+      final mediaDir1 = Directory('${dir.path}/media');
+      final repoWithPhotos = EntryRepository(db, mediaDirectory: mediaDir1, dataKey: key);
+      final entry1 = (await repoWithPhotos.create(day: '2026-09-01', body: 'a walk'))!;
+      final entry2 = (await repoWithPhotos.create(day: '2026-09-02', body: 'no photo here'))!;
+      final photo = await repoWithPhotos.addPhoto(entryId: entry1.id, bytes: Uint8List.fromList([9, 8, 7, 6, 5]), mimeType: 'image/jpeg', caption: 'the old oak');
+
+      final exported = await repoWithPhotos.readAllForExport();
+      final photoBytes = {photo.uid: await repoWithPhotos.readPhotoBytes(photo.uid)};
+      final file = await createBackup(exported, password: pw, params: fast, photoBytes: photoBytes);
+
+      final dir2 = Directory.systemTemp.createTempSync('exodite_import_photo_');
+      final db2 = await JournalDatabase.openEncrypted(File('${dir2.path}/journal.db'), key);
+      final mediaDir2 = Directory('${dir2.path}/media');
+      final repo2 = EntryRepository(db2, mediaDirectory: mediaDir2, dataKey: key);
+      final back = await readBackup(file, password: pw);
+      final outcome = await repo2.importEntries(back.entries, mediaBytes: back.mediaBytes);
+      expect(outcome.added, 2);
+
+      final reExported = await repo2.readAllForExport();
+      final imported1 = reExported.firstWhere((e) => e.uid == entry1.uid);
+      final imported2 = reExported.firstWhere((e) => e.uid == entry2.uid);
+      expect(imported1.media.single.uid, photo.uid);
+      expect(imported1.media.single.caption, 'the old oak');
+      expect(imported2.media, isEmpty);
+
+      // The imported entry has a new row id in repo2's own database.
+      final rebuilt = await (db2.select(db2.entries)..where((e) => e.uid.equals(entry1.uid))).getSingle();
+      expect((await repo2.photosFor(rebuilt.id)).single.uid, photo.uid);
+      expect(await repo2.readPhotoBytes(photo.uid), Uint8List.fromList([9, 8, 7, 6, 5]));
+      await db2.close();
+      dir2.deleteSync(recursive: true);
+    });
+
+    test('FEAT-011 AC-8: a photo whose bytes cannot be decrypted is left out of the export, not a failed export', () async {
+      final mediaDir = Directory('${dir.path}/media_ac8');
+      final repoWithPhotos = EntryRepository(db, mediaDirectory: mediaDir, dataKey: key);
+      final e = (await repoWithPhotos.create(day: '2026-09-01', body: 'a walk'))!;
+      await repoWithPhotos.addPhoto(entryId: e.id, bytes: Uint8List.fromList([1, 2, 3]), mimeType: 'image/jpeg');
+
+      final exported = await repoWithPhotos.readAllForExport();
+      // No photoBytes supplied at all: as if every photo failed to decrypt.
+      final file = await createBackup(exported);
+      final back = await readBackup(file);
+      expect(back.entries.single.media, isEmpty);
+    });
+  });
+
+  group('photos at the format level (FEAT-011)', () {
+    final photoUid = 'aa'.padRight(32, '0');
+
+    StoredEntry withPhoto({String? caption}) => StoredEntry(
+          uid: entries[0].uid,
+          day: entries[0].day,
+          text: entries[0].text,
+          createdAtMs: entries[0].createdAtMs,
+          updatedAtMs: entries[0].updatedAtMs,
+          media: [StoredMediaRef(uid: photoUid, mimeType: 'image/jpeg', caption: caption)],
+        );
+
+    test('a photo with a caption round-trips, and its bytes are recovered by uid', () async {
+      final photoBytes = Uint8List.fromList([1, 2, 3, 4, 5]);
+      final file = await createBackup([withPhoto(caption: 'sunset')], password: pw, params: fast, photoBytes: {photoUid: photoBytes});
+      final back = await readBackup(file, password: pw);
+      final ref = back.entries.single.media.single;
+      expect(ref.uid, photoUid);
+      expect(ref.mimeType, 'image/jpeg');
+      expect(ref.caption, 'sunset');
+      expect(back.mediaBytes[photoUid], photoBytes);
+    });
+
+    test('a photo without a caption has no caption field, and none after reading it back', () async {
+      final file = await createBackup([withPhoto()], password: pw, params: fast, photoBytes: {photoUid: Uint8List.fromList([1])});
+      final back = await readBackup(file, password: pw);
+      expect(back.entries.single.media.single.caption, isNull);
+    });
+
+    test('a photo missing from photoBytes at export time is left out of entries.json and the archive entirely', () async {
+      final file = await createBackup([withPhoto()]); // no photoBytes: as if it could not be read
+      final back = await readBackup(file);
+      expect(back.entries.single.media, isEmpty);
+      expect(has(file, 'media/'), isFalse);
+    });
+
+    test('an entry with a photo, from an app version that does not know FEAT-011, still imports its text', () async {
+      final e = entries[0];
+      final entriesJson = Uint8List.fromList(utf8.encode(jsonEncode({
+        'formatVersion': 1,
+        'schemaVersion': 1,
+        'entries': [
+          {
+            'id': e.uid,
+            'entryDate': e.day,
+            'createdAt': DateTime.fromMillisecondsSinceEpoch(e.createdAtMs, isUtc: true).toIso8601String(),
+            'updatedAt': DateTime.fromMillisecondsSinceEpoch(e.updatedAtMs, isUtc: true).toIso8601String(),
+            'text': e.text,
+          },
+        ],
+      })));
+      final manifest = Uint8List.fromList(utf8.encode(jsonEncode({
+        'format': backupFormatName,
+        'formatVersion': 1,
+        'schemaVersion': 1,
+        'appVersion': '1.0.0',
+        'createdAt': DateTime.now().toUtc().toIso8601String(),
+        'entryCount': 1,
+        'entriesSha256': sha256Hex(entriesJson),
+      })));
+      final zip = writeZip([ZipEntry('manifest.json', manifest), ZipEntry('entries.json', entriesJson)]);
+      final back = await readBackup(zip);
+      expect(back.entries.single.media, isEmpty);
+      expect(back.entries.single.text, e.text);
+    });
+
+    test('a malformed media reference is dropped, never treated as a valid photo, and never fails the import', () async {
+      final e = entries[0];
+      final goodUid = 'bb'.padRight(32, '0');
+      final mismatchUid = 'cc'.padRight(32, '0');
+      final entriesJson = Uint8List.fromList(utf8.encode(jsonEncode({
+        'formatVersion': 1,
+        'schemaVersion': 3,
+        'entries': [
+          {
+            'id': e.uid,
+            'entryDate': e.day,
+            'createdAt': DateTime.fromMillisecondsSinceEpoch(e.createdAtMs, isUtc: true).toIso8601String(),
+            'updatedAt': DateTime.fromMillisecondsSinceEpoch(e.updatedAtMs, isUtc: true).toIso8601String(),
+            'text': e.text,
+            'media': [
+              {'id': 'not-a-valid-hex-id', 'path': 'media/not-a-valid-hex-id.jpg'},
+              {'id': mismatchUid, 'path': 'media/$goodUid.jpg'}, // id does not match its own path
+              {'id': goodUid, 'path': '../../evil.jpg'}, // outside media/, wrong shape entirely
+              {'id': goodUid, 'path': 'media/$goodUid.jpg', 'caption': 12345}, // caption of the wrong type
+            ],
+          },
+        ],
+      })));
+      final manifest = Uint8List.fromList(utf8.encode(jsonEncode({
+        'format': backupFormatName,
+        'formatVersion': 1,
+        'schemaVersion': 3,
+        'appVersion': '1.0.0',
+        'createdAt': DateTime.now().toUtc().toIso8601String(),
+        'entryCount': 1,
+        'entriesSha256': sha256Hex(entriesJson),
+      })));
+      final zip = writeZip([
+        ZipEntry('manifest.json', manifest),
+        ZipEntry('entries.json', entriesJson),
+        ZipEntry('media/$goodUid.jpg', Uint8List.fromList([1, 2, 3])), // never opened: no valid reference names it
+        ZipEntry('../../evil.jpg', Uint8List.fromList([9, 9, 9])),
+      ]);
+      final back = await readBackup(zip);
+      expect(back.entries.single.media, isEmpty, reason: 'every reference above is malformed in some way');
+      expect(back.mediaBytes, isEmpty);
     });
   });
 }
