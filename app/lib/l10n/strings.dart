@@ -2,9 +2,9 @@
 ///
 /// The language is chosen in Settings (follow the phone, English, or
 /// Indonesian; English when the phone uses neither). Every string exists in
-/// both languages: `test/strings_test.dart` fails when one is missing. The
-/// Indonesian text is a draft for the owner's review. Do not write text inline
-/// in widgets.
+/// both languages: `test/settings_test.dart` fails when one is missing. The
+/// Indonesian text was reviewed and accepted by the owner on 2026-09-23. Do
+/// not write text inline in widgets.
 String _lang = 'en';
 
 /// The language code in use: `en` or `id`.
@@ -146,7 +146,7 @@ class S {
   static String get warnTitle => _t('If you forget your passcode, your journal is gone', 'Jika Anda lupa kode sandi, jurnal Anda hilang');
   static String get warnBody1 => _t('Nobody can reset your passcode, including us. We never have your data.', 'Tidak ada yang bisa mereset kode sandi Anda, termasuk kami. Kami tidak pernah memegang data Anda.');
   static String get warnBody2 => _t('Export your journal from time to time to keep a backup you control.', 'Ekspor jurnal Anda sesekali untuk menyimpan cadangan yang Anda kendalikan.');
-  static String get warnCheck => _t('I understand that a forgotten passcode can\'t be recovered', 'Saya mengerti bahwa kode sandi yang terlupa tidak bisa dipulihkan');
+  static String get warnCheck => _t('I understand that a forgotten passcode can\'t be recovered', 'Saya mengerti bahwa kode sandi tidak bisa dipulihkan jika terlupa');
   static String get warnNeeded => _t('Tick the box to continue.', 'Centang kotak untuk melanjutkan.');
   static String get startJournaling => _t('Start journaling', 'Mulai menulis');
   static String get settingUp => _t('Setting up...', 'Menyiapkan...');
@@ -206,7 +206,7 @@ class S {
   static String entryDateLabel(String date) => _lang == 'id' ? 'Tanggal catatan, $date, ubah' : 'Entry date, $date, change';
   static String lastExport(String when) => _lang == 'id' ? 'Ekspor terakhir: $when' : 'Last export: $when';
   static String entryCount(int n) => _lang == 'id' ? '$n catatan' : n == 1 ? '1 entry' : '$n entries';
-  static String importDoneBody(int added, int skipped) => _lang == 'id' ? '$added catatan ditambahkan. $skipped sudah ada di ponsel ini.' : '${entryCount(added)} added. ${skipped == 1 ? '1 was' : '$skipped were'} already on this phone.';
+  static String importDoneBody(int added, int skipped) => _lang == 'id' ? '$added catatan ditambahkan. $skipped catatan sudah ada di ponsel ini.' : '${entryCount(added)} added. ${skipped == 1 ? '1 was' : '$skipped were'} already on this phone.';
   static String noResults(String q) => _lang == 'id' ? 'Tidak ada catatan yang memuat "$q".' : 'No entries contain "$q".';
   static String matched(String word) => _lang == 'id' ? 'cocok: $word' : 'matched: $word';
   static String waitMessage(String time) => _lang == 'id' ? 'Terlalu banyak percobaan. Anda bisa mencoba lagi dalam $time.' : 'Too many tries. You can try again in $time.';
@@ -357,7 +357,7 @@ List<(String, String, String)> allStringsForTest() => [
   ('warnTitle', 'If you forget your passcode, your journal is gone', 'Jika Anda lupa kode sandi, jurnal Anda hilang'),
   ('warnBody1', 'Nobody can reset your passcode, including us. We never have your data.', 'Tidak ada yang bisa mereset kode sandi Anda, termasuk kami. Kami tidak pernah memegang data Anda.'),
   ('warnBody2', 'Export your journal from time to time to keep a backup you control.', 'Ekspor jurnal Anda sesekali untuk menyimpan cadangan yang Anda kendalikan.'),
-  ('warnCheck', 'I understand that a forgotten passcode can\'t be recovered', 'Saya mengerti bahwa kode sandi yang terlupa tidak bisa dipulihkan'),
+  ('warnCheck', 'I understand that a forgotten passcode can\'t be recovered', 'Saya mengerti bahwa kode sandi tidak bisa dipulihkan jika terlupa'),
   ('warnNeeded', 'Tick the box to continue.', 'Centang kotak untuk melanjutkan.'),
   ('startJournaling', 'Start journaling', 'Mulai menulis'),
   ('settingUp', 'Setting up...', 'Menyiapkan...'),

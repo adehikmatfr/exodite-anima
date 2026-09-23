@@ -26,15 +26,15 @@ Loss procedure for the signing key: if the upload key is lost, the store account
 |------|-------|
 | Manifest and `Info.plist` permissions equal permissions used | biometrics only; see `permission-and-privacy-register.md` |
 | Rationale strings written and localised | Face ID string drafted |
-| Privacy label, privacy manifest, and Data safety reconciled with the packages actually included | not done; needs the final package list |
+| Privacy label, privacy manifest, and Data safety reconciled with the packages actually included | draft answers written 2026-09-23 (`store-listing-and-data-safety-v1.md`); not reconciled with the final package list |
 | No network permission in the merged release manifest (ADR-005) | checked once on the template app; needs a CI check (TC-084) |
 | Backup excluded on both platforms | Android done; iOS not built |
 | Release build has no debug logging and the release key (TC-091) | no |
 | Account deletion, sign-in rules, in-app purchase rules | not applicable: no accounts, no purchases |
 | Review notes | The reviewer must create a passcode on first launch; there are no accounts or demo credentials; explain that the app is offline by design |
 | Export compliance (encryption), content rating, age rating, regions | to be answered by the owner at submission (RISK-007) |
-| Public app name and store listing | pending (`public-app-name`) |
-| Legal applicability | pending (`legal-applicability-confirmation`) |
+| Public app name and store listing | name decided, store availability informally checked 2026-09-23, listing text drafted (`public-app-name`, `store-listing-and-data-safety-v1.md`); submission-time console check still needed |
+| Legal applicability | accepted by the owner 2026-09-23 (`legal-applicability-confirmation`, `legal-self-assessment-v1.md`) |
 | Readiness review (`production-readiness-review.md`) | Operations row is N/A (no server); other rows open |
 
 ## Rollout candidates (for the owner's decision `v1-rollout-plan`)

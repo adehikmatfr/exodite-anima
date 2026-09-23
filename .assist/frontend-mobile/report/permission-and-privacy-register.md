@@ -48,6 +48,8 @@ Read from the merged release manifest on 2026-09-20 (Android): `USE_BIOMETRIC` a
 
 Declarations are updated in the same change that alters collection, permissions, or dependencies, and reconciled before each submission.
 
+**Drafted 2026-09-23:** concrete answers for the Google Play Data safety form, Apple App Privacy label, and content/age rating are in `store-listing-and-data-safety-v1.md`, along with draft store listing text. Not yet reconciled with the final release build; the owner reviews before submission.
+
 ## Compliance mapping
 Nothing is collected by the developer, so UU PDP and GDPR rows stay "Confirm" (`../../_shared/compliance/compliance-matrix.md`, RISK-008). Store rules apply now. If any data ever leaves the device, the Confirm rows become binding and this register must be redone.
 

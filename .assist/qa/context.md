@@ -34,7 +34,7 @@ Synthetic only: no real journal content, no real passcodes, no real names. Entri
 The plan is `TP-001` (`test-plans/TP-001-v1-release.md`); its test cases are in `test-cases/`. Execution logs are in each case; the review of readiness is `report/PRR-001-v1-android.md`.
 
 ## Known gaps
-- Results (2026-09-20): 66 cases passed by automated test on the host or the Android emulator, 16 partial, 18 not executed, 1 passed by hand, 1 failed (TC-091). No case is recorded on a physical phone.
+- Results (2026-09-20): 66 cases passed by automated test on the host or the Android emulator, 16 partial, 18 not executed, 1 passed by hand, 1 failed (TC-091). Updated since (`report/PRR-001-v1-android.md`): physical-phone runs recorded 27 test-case logs (23 Pass, 4 Partial); TC-091 is now Partial (release key signs the build). The accessibility block (TC-087 to TC-089, `workflow/phone-test-checklist.md` Block E) is requested from the owner on 2026-09-23 and not yet run.
 - 2 cases are blocked by open decisions (numeric import limits, and the proposal that nothing is stored before the warning is acknowledged).
 - iOS cannot be executed (QR-13, RISK-004).
 - No physical device; the reference is an emulator, whose rendering speed is not stable (TC-019), so frame-rate and biometric cases cannot be judged.

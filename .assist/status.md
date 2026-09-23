@@ -1,19 +1,19 @@
 # Status
 
-Where the project stands. Update it in the postflight of every piece of work (`orchestration.md`). Last updated: 2026-09-20.
+Where the project stands. Update it in the postflight of every piece of work (`orchestration.md`). Last updated: 2026-09-23.
 
 ## Phase
 All nine phases have work in them; none is finished.
-- Planning and requirements (1), UX discovery (2), architecture (3): done as drafts. All nine feature specs are `in-progress` (built) and every question is answered.
-- Security design (4): drafted and self-reviewed; open blockers are G1 (key-derivation settings: measured on a phone, 64 MiB / 3 passes / 2 lanes chosen and built; a second phone and an independent review are still needed), G10 (the CI manifest check passed on the first run; keep it for every release) and G11 (iOS, out of scope for the first release). No independent review yet.
+- Planning and requirements (1), UX discovery (2), architecture (3): done as drafts. All nine v1 feature specs are `in-progress` (built) and every question is answered. FEAT-010 (v1.1 candidate, tags/mood/On this day) is `ready`, not yet built.
+- Security design (4): drafted and self-reviewed; open blockers are G1 (key-derivation settings: measured on a phone, 64 MiB / 3 passes / 2 lanes chosen and built; a second phone still needed), G10 (the CI manifest check passed on the first run; keep it for every release) and G11 (iOS, out of scope for the first release). An informal independent review by a friend of the owner found no issues (2026-09-23, `cyber-security/report/independent-review-scope-v1.md`); RISK-005 is lowered, not closed, since it was one informal read, not a formal audit, and did not cover the not-yet-built ADR-006 migration code.
 - Test strategy (5): TP-001 has 102 cases; results from execution logs: 66 passed by automated test on the host and the Android emulator, 16 partial, 18 not executed, 1 passed by hand, 1 failed (TC-091, release signing). Nothing has been recorded on a physical phone per case.
 - Visual design (6): tokens, components, all screens and states; logo A2 and the app icon; Lucide icons. The owner has not reviewed the `.pen` files in OpenPencil since the rebuild.
 - Build (7): all nine v1 features are built for Android (Flutter). 98 unit tests on the host and screen tests on the emulator for every feature. The owner tried the release APK on a physical phone and reported that it ran smoothly (owner-reported, not per case). iOS is not built (no Mac; Android first).
-- Verify and release (8): PRR-001 (`qa/report/PRR-001-v1-android.md`) says **No-Go for production**; the app is ready for an internal test on a physical phone. Not started: release signing key, first CI run, store material.
+- Verify and release (8): PRR-001 (`qa/report/PRR-001-v1-android.md`) says **No-Go for production**; the app is ready for an internal test on a physical phone. Release signing key and first CI run are done (2026-09-20). Store material (data-safety answers, listing text, privacy statement) drafted and owner-accepted 2026-09-23, not yet reconciled with the final build.
 - Maintain (9): not started. See the phase table in `orchestration.md`.
 
 ## Features and gates
-All nine specs are `in-progress`: built and tested to the level shown. Moving a spec to `released` needs the production readiness review (PRR-001) to reach Go.
+All nine v1 specs are `in-progress`: built and tested to the level shown. Moving a spec to `released` needs the production readiness review (PRR-001) to reach Go. FEAT-010 is `ready` for a v1.1 build; not started.
 
 | FEAT | Title | Gate reached | What is still open |
 |------|-------|--------------|--------------------|
@@ -26,6 +26,7 @@ All nine specs are `in-progress`: built and tested to the level shown. Moving a 
 | FEAT-007 | Import | in-progress | AC-1 to AC-3, AC-6 to AC-9 tested; AC-4 needs a second format version; import limits are provisional |
 | FEAT-008 | Export reminder | in-progress | AC-1 to AC-7 tested with a simulated clock; the card appeared on a phone after a simulated 31 days (TC-070); re-checked when the timeline opens, not while open across midnight |
 | FEAT-009 | Settings | in-progress | AC-1 to AC-6, AC-8, AC-9 tested; AC-7 partial (`qa/report/privacy-claims-trace.md`); Indonesian text is a draft for the owner |
+| FEAT-010 | Tags, mood, and On this day | ready | Spec complete: icon-based mood (5-point, Lucide), tags (preset list of 8 plus free text), bundled with photos in v1.1, "On this day" shows every past year. Software-architect read (ADR-002, ADR-003 updates: schema 1 -> 2, `formatVersion` unchanged) and effort read (frontend-mobile, size L, driven by ADR-006's migration rules) both done. Owner confirmed `ready` on 2026-09-23. Not started: build, qa test cases, ADR-006 implementation |
 
 RISK-001 scores 20 and is covered by the owner's written acceptance in ADR-001.
 
@@ -36,13 +37,13 @@ RISK-001 scores 20 and is covered by the owner's written acceptance in ADR-001.
 | Back up the release key and both passwords in a second place (the key itself exists since 2026-09-20; TC-091) | Any store upload, and every update |
 | (done) Private vulnerability reporting is on, and the push and first CI run are done | G10 closed by the CI run |
 | Read the risk and legal notes and confirm they may be public; run a final scan before making the repository public | The first public push |
-| Owner reads and signs off `product-manager/report/legal-self-assessment-v1.md` (not legal advice) | First store release in each region |
-| Check that the name Exodite Anima is free on both stores | Store listing |
+| (done 2026-09-23) Owner accepted `product-manager/report/legal-self-assessment-v1.md` as the basis for the first Android release (not legal advice) | First store release in each region |
+| (informally checked 2026-09-23, `public-app-name.md`) Confirm at submission that the name Exodite Anima registers in Play Console / App Store Connect | Store listing |
 | Halt-trigger numbers for the staged release (plan decided; set after the internal test) | Release readiness |
 | A physical phone for the performance targets (the owner chose a limited emulator, which cannot prove the frame-rate target) | Declaring the performance targets met |
-| Independent review of the encryption and export design | RISK-005, the Security row of PRR-001 |
-| Accessibility runs on a real screen reader and all screens at 200% text | The Compliance row of PRR-001 |
-| Review of the Indonesian copy (all 180 strings, `app/lib/l10n/strings.dart`) and of the About text | Release of the Indonesian interface |
+| (done 2026-09-23, informal) A friend of the owner read the encryption and export design/code; no issues found (`cyber-security/report/independent-review-scope-v1.md`). A more formal review is still open if the owner wants stronger assurance | RISK-005, the Security row of PRR-001 |
+| (done) Accessibility: TC-087 screen reader (2026-09-20), TC-088 200% text both themes (2026-09-20), TC-089 contrast measured with a tool (2026-09-23), all owner-reported Pass | The Compliance row of PRR-001 |
+| (done 2026-09-23) Owner reviewed and accepted the Indonesian copy (all 180 strings, `app/lib/l10n/strings.dart`); About text is part of it | Release of the Indonesian interface |
 | iOS: decided to follow Android; needs a Mac or cloud CI later | Any iOS release |
 
 Decided on 2026-09-20: v1 choices (`v1-choices-2026-09-20`: Android first, limited emulator, no high contrast, Lucide icons, pinned button, friends for RS-001), the legal approach and its written assessment, the staged rollout, the MIT licence, the public name (display name Exodite Anima) and a public repository, contributions welcome, platforms and languages, provisional performance targets, lock and passcode policy, the answers to all spec questions, ADR-005 (accepted), ADR-006 (new), RISK-009 and RISK-010 (accepted). The technical spike decided the export envelope (custom, on vetted primitives) and the storage engine on Android; ADR-001 R1 (device-bound key) was not evaluated.
@@ -65,13 +66,23 @@ RISK-001 (data loss, 20), RISK-002 (format compatibility, 15), RISK-003 (side-ch
 1. The owner installs the release APK on a physical phone and runs the cases listed in PRR-001 ("What would turn this into a Go"); results go into the test cases.
 2. Create the release signing key and keep it outside the repository, with a backup.
 3. (done 2026-09-20) Private vulnerability reporting is on; the push and the first CI run are done.
-4. Independent review of the encryption and export design; accessibility runs; owner sign-offs (legal, privacy statement, Indonesian text).
-5. Store material: data-safety answers, privacy statement page, listing text, name check.
+4. (done 2026-09-23) Independent review (informal, one friend, no issues found), accessibility runs (TC-087, TC-088, TC-089 all owner-reported Pass), and owner sign-offs (legal, Indonesian text, privacy statement) are all complete. Still open if stronger assurance is wanted: a more formal independent review; TC-088's "both languages at 200% text" was not explicitly re-stated; touch-target sizes not re-measured with TC-089.
+5. (drafted and accepted by the owner 2026-09-23) Store material: data-safety answers, listing text (`frontend-mobile/report/store-listing-and-data-safety-v1.md`), privacy statement page (`docs/privacy.md`), informal name check (`public-app-name.md`). Still needed: reconciliation with the final build, and the real console name check at submission.
 6. Before making the repository public: the checklist in `publishing.md`, and a final scan.
 
 ## Recent changes
 | Date | Change |
 |------|--------|
+| 2026-09-23 | FEAT-010 (Tags, mood, and On this day) drafted at the owner's request; registered as `draft`; roadmap in `product-manager/context.md` updated; four open questions await the owner and a software-architect read on the schema/export-version impact |
+| 2026-09-23 | Owner answered FEAT-010's four open questions: icon-based mood, tags support preset and free text, ships bundled with photos in v1.1, "On this day" shows every past year with an entry; roadmap updated to place FEAT-010 with photos; two new open questions raised (exact icon set, exact preset tag list) |
+| 2026-09-23 | Product-manager proposed the mood icon set (5-point, Lucide) and preset tag list (8 items) for FEAT-010, closing its remaining open questions. Software-architect read followed: schema step for FEAT-010 recorded as updates to ADR-002 (`journalSchemaVersion` 1 -> 2, `mood` column, normalized `tags` table) and ADR-003 (manifest `schemaVersion` 2, export `formatVersion` unchanged). Only blocker left before `ready` is an effort read from frontend-mobile; ADR-006's migration rules still need to be implemented before this ships |
+| 2026-09-23 | Frontend-mobile gave an effort read for FEAT-010: size L (`frontend-mobile/report/effort-read-v1.md`), driven by ADR-006's migration safety rules being implemented for the first time, not by the mood/tag UI alone. Every `write-feature-spec` readiness-checklist item is now met; FEAT-010 awaits the owner's confirmation to move to `ready` |
+| 2026-09-23 | Owner confirmed FEAT-010 as `ready`; registered in `_shared/index.md` as `active`, roadmap in `product-manager/context.md` updated. Hand-off recorded to FEAT-002, FEAT-003, FEAT-006, FEAT-007 for build, and to qa for `TC-` derivation from AC-1 to AC-9 once build starts. Not yet built; ADR-006's migration rules still need implementing first |
+| 2026-09-23 | Cyber-security reviewed FEAT-010 (personal-data hand-off trigger): no new `THR-` or trust boundary needed; covered by existing THR-001, THR-002, THR-004, THR-006, THR-010 (migration), THR-013 (`cyber-security/report/threat-model-v1.md`, Update 2026-09-23). G2 (design ready) still needs ux-design's flow and product-design's screens before qa (G3) and build (G4) |
+| 2026-09-23 | Worked four v1 production blockers at the owner's request: (1) independent-review scope prepared for a friend to read the code (`cyber-security/report/independent-review-scope-v1.md`), not yet run; (2) accessibility run pointed to the existing checklist (`qa/workflow/phone-test-checklist.md` Block E), not yet run; (3) owner read and accepted `legal-self-assessment-v1.md` as the basis for the first Android release; (4) store material drafted: `docs/privacy.md` (privacy statement, not yet owner-reviewed) and `frontend-mobile/report/store-listing-and-data-safety-v1.md` (data-safety answers, listing text); an informal web search found no conflicting app named "Exodite Anima" (`public-app-name.md`), pending the real console check at submission |
+| 2026-09-23 | Reviewed all 180 Indonesian strings (`app/lib/l10n/strings.dart`) for linguistic quality: no errors found; two minor wording fixes applied (`warnCheck`, `importDoneBody`) and confirmed by the owner. `test/settings_test.dart` (20 cases, covers string completeness) still passes. Indonesian text sign-off is done; only the privacy statement page still needs the owner's review among the four blockers |
+| 2026-09-23 | Owner closed the remaining three blockers: (1) a friend of the owner completed the informal independent review of the encryption/export design and code, no issues found (`cyber-security/report/independent-review-scope-v1.md`); RISK-005 lowered, not closed. (2) Owner accepted the store material drafts (`docs/privacy.md`, `frontend-mobile/report/store-listing-and-data-safety-v1.md`). (3) Accessibility: found while checking that TC-087 and TC-088 were already Pass since 2026-09-20 (a correction to what this session said earlier); TC-089 (contrast) newly measured with a tool on 2026-09-23 and upgraded to Pass. PRR-001 rows 6 and 12 updated accordingly; still No-Go for production overall (remaining gaps: second phone for G1, formal review if wanted, release-key backup, dependency scan, iOS, store submission checks) |
+| 2026-09-23 | Closed finding D1 (dependency vulnerability scanning not automated): added `.github/workflows/osv-scanner.yml` (OSV-Scanner, `google/osv-scanner-action@v2.6.0`), scanning `app/pubspec.lock` on push, PR, and a weekly schedule, reporting to the repository's Security tab. Owner confirmed adding this CI workflow before it was created. Not yet run: needs the first push to the remote. `dependency-review.md`, `cyber-security/context.md`, and PRR-001 row 14 updated |
 | 2026-09-20 | Foundation (`_shared`), product-manager, and ux-design stages completed as drafts |
 | 2026-09-20 | `devops` role removed; `product-design` added |
 | 2026-09-20 | `.assist/` is now tracked and pushed; README, orchestration, publishing, status, and preflight added |

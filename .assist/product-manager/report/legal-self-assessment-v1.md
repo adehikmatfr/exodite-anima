@@ -1,6 +1,6 @@
 # Legal applicability self-assessment (version 1)
 
-Status: draft, 2026-09-20. Method: skill `compliance-and-legal-check`, following the owner's decision to self-assess from the official texts (`decisions/legal-applicability-confirmation.md`). Related: RISK-008, `_shared/compliance/compliance-matrix.md`.
+Status: accepted, 2026-09-23 (owner sign-off, section 7). Method: skill `compliance-and-legal-check`, following the owner's decision to self-assess from the official texts (`decisions/legal-applicability-confirmation.md`). Related: RISK-008, `_shared/compliance/compliance-matrix.md`.
 
 **This is not legal advice.** It is an engineering reading of the official texts, written by the assistant from the sources listed at the end. It can be wrong. The owner reads it and signs off (section 7). If a store, a regulator, or a lawyer says otherwise, that view wins.
 
@@ -78,9 +78,9 @@ Any of the following makes the answers above wrong and this assessment must be r
 ## 7. Owner sign-off
 | Item | Value |
 |------|-------|
-| Read by | pending: project owner |
-| Accepted as the basis for the first Android release | pending |
-| Date | pending |
+| Read by | project owner (summary reviewed in conversation; residual doubts in sections 2, 3, 4 acknowledged) |
+| Accepted as the basis for the first Android release | yes |
+| Date | 2026-09-23 |
 
 ## Sources (read on 2026-09-20)
 - UU No. 27/2022 (Pelindungan Data Pribadi), text of Pasal 1, 2 and 4, from the PDF published at hukumonline: https://learning.hukumonline.com/wp-content/uploads/2023/07/Undang-Undang-No.27-Tahun-2022-Hukumonline.pdf (official record: https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022)

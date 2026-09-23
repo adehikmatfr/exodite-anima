@@ -168,7 +168,7 @@ Execution log: Physical Android phone, 2026-09-20, owner-reported (checklist `..
 | Priority | P1 |
 | Type | positive |
 | Automation | manual |
-| Status | draft |
+| Status | active |
 | Owner | qa |
 
 **Preconditions:** Both themes. Environment: see TP-001 section 4. Data: synthetic only, no real content or real passcodes.
@@ -180,6 +180,8 @@ Execution log: Physical Android phone, 2026-09-20, owner-reported (checklist `..
 
 
 Execution log: Physical Android phone, 2026-09-20, owner-reported (checklist `../workflow/phone-test-checklist.md`; no per-case notes were kept): Partial. Both themes looked at by eye; contrast was not measured on the phone.
+
+Execution log: Physical Android phone, 2026-09-23, owner-reported (a contrast-measuring app/tool, no per-pair figures kept): Pass. Contrast measured with a tool in both themes, meeting the design tokens; touch-target sizes not re-measured this run (unchanged from construction, `product-design/design/library/tokens.json`).
 
 ### TC-090: Verify launch, unlock, save, search, export, and import on the supported OS versions
 

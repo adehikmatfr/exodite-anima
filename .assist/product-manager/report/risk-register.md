@@ -36,5 +36,5 @@ Written after the app was built; the scores above are unchanged.
 - RISK-002 (format compatibility): only `formatVersion` 1 exists; every future version needs a fixture and a reader (ADR-003).
 - RISK-003 (side-channel leaks): Android cloud backup off, content cover and secure window built; iOS parts not built; logs and network not verified on a device (TC-083, TC-086).
 - RISK-004 (storage on the platforms): encrypted storage, search and export proven on the Android emulator; the owner ran the release APK on a phone (reported smooth); iOS unverified, so the risk stays open.
-- RISK-005 (cryptography mistakes): vetted primitives, tamper and wrong-password tests pass; no independent review yet.
+- RISK-005 (cryptography mistakes): vetted primitives, tamper and wrong-password tests pass. An informal independent review by a friend of the owner (2026-09-23, `cyber-security/report/independent-review-scope-v1.md`) found no issues in key handling, database encryption, the export envelope, and import safety; it did not cover ADR-006's migration implementation, which does not exist yet. Likelihood lowered from the review; not closed, since a single informal read is lighter assurance than a paid audit.
 - RISK-006 to RISK-010: unchanged. RISK-008 has a written self-assessment awaiting the owner's sign-off.

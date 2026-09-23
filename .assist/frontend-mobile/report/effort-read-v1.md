@@ -1,6 +1,6 @@
 # Effort read: version 1 features
 
-Given by frontend-mobile (the assistant acting in this role) on 2026-09-20 for `write-feature-spec` step 9. It answers FEAT-001 to FEAT-009. Status: relative sizes only, not measured, not a schedule.
+Given by frontend-mobile (the assistant acting in this role) on 2026-09-20 for `write-feature-spec` step 9. It answers FEAT-001 to FEAT-009, plus FEAT-010 added 2026-09-23. Status: relative sizes only, not measured, not a schedule.
 
 ## How to read this
 - Sizes are relative: S = a small self-contained piece, M = several screens or one hard integration, L = a hard integration plus a security or data-safety burden. They are not days. The project has no velocity data, so converting sizes to days would be inventing a number.
@@ -20,6 +20,7 @@ Given by frontend-mobile (the assistant acting in this role) on 2026-09-20 for `
 | FEAT-007 | Import | L | Reading untrusted archives, limits, merge rule that keeps existing entries, wrong password and damaged file handling | ADR-003, ADR-006 | Limits come from spike S7; every failure leaves the current journal untouched |
 | FEAT-008 | Export reminder | S | Thresholds, a banner, no entry text | FEAT-006 | Reminder is local, no notification content |
 | FEAT-009 | Settings | M | Lock timeout, language switch with two complete languages, export and import entry points | FEAT-003, FEAT-006, FEAT-007 | All strings are externalised in English and Indonesian; the language change applies without restart |
+| FEAT-010 | Tags, mood, and On this day | L | Not the mood/tag UI itself (that alone would be M): the schema step (`journalSchemaVersion` 1 -> 2) is the first one to actually implement ADR-006's four safety rules, which exist only as a written decision today (`context.md` known gaps). That is new code and a new fixture/failure-injection test suite, not a repeat of an existing pattern. On top of that: mood-icon picker with accessible labels, tag input (preset chips plus free text) in the editor, mood/tag display in the timeline, the "On this day" query across every past year, and additive fields in export/import | ADR-002 (update 2026-09-23), ADR-003 (update 2026-09-23), ADR-006, FEAT-001, FEAT-002, FEAT-006, FEAT-007 | Migration must keep an encrypted copy until the first successful launch on schema 2 and restore it on failure (ADR-006); a database on a schema newer than the app knows is refused, never opened for writing |
 
 ## Order of building (by dependency)
 1. Storage and key handling (FEAT-001 base, FEAT-003 base, FEAT-004), because every other feature reads or writes through them.
@@ -35,6 +36,7 @@ Given by frontend-mobile (the assistant acting in this role) on 2026-09-20 for `
 | Custom envelope or an existing standard | FEAT-006, 007 | Spike S6 |
 | Import limits that are safe on a low-end phone | FEAT-007 | Spike S7 and the reference device |
 | How iOS will be built and tested | all | Owner decision, not yet made |
+| Whether the copy-before-migrate/restore-on-failure implementation (ADR-006) works cleanly with the encrypted database on both platforms | FEAT-010 | Not yet spiked; first real exercise of ADR-006 |
 
 ## Not covered
 - No person-day estimate, no calendar, no capacity figure.

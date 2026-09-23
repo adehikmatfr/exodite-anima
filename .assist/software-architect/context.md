@@ -53,4 +53,5 @@ A single mobile app for iOS and Android, built with Flutter (ADR-004), with no b
 - Export fixtures exist only for `formatVersion` 1; older-version fixtures come with the first format change (F4, RISK-002).
 - The device-bound key idea (ADR-001 R1) was not evaluated (spike S5).
 - No independent review of ADR-001 or ADR-003 (RISK-005).
+- FEAT-010 (tags, mood, and On this day) needs `journalSchemaVersion` 1 -> 2 and manifest `schemaVersion` 2 (updates recorded in ADR-002 and ADR-003, 2026-09-23); this is the first schema step to actually exercise ADR-006's migration safety rules, and frontend-mobile has not implemented them yet.
 

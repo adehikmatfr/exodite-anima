@@ -33,8 +33,8 @@ Escalation path when stakeholders disagree: the project owner decides.
 | Horizon | Theme / outcome | Candidate `FEAT-` | Confidence |
 |---------|-----------------|-------------------|-----------|
 | Now (current cycle) | Version 1: private journal with lock, search, export and import | FEAT-001 to FEAT-009 | medium |
-| Next (1-2 cycles) | Photos (v1.1) | not yet specified | low |
-| Later (unscheduled) | Audio (v1.2), tags, mood, favourites, daily writing reminder, rich text | not yet specified | low |
+| Next (1-2 cycles) | Photos (v1.1), plus tags, mood, and On this day (owner decided 2026-09-23 to bundle them) | Photos not yet specified; FEAT-010 `ready` (2026-09-23) | low |
+| Later (unscheduled) | Audio (v1.2), favourites, daily writing reminder, rich text | not yet specified | low |
 
 Planning cadence: no fixed cycle. Capacity per cycle: unknown (one person, no effort read yet). No FEAT- ID is reserved for later items; each gets one when its spec is written.
 
@@ -62,8 +62,8 @@ No in-app analytics, by design.
 - No user evidence for the segment or for the free-and-private positioning (A-1).
 - Relative effort reads exist (2026-09-20, sizes only, low confidence); no person-days, so no prioritisation scores (`decisions/v1-scope-and-non-goals.md`). Specs wait for the owner to confirm `ready`.
 - Numeric targets are provisional until measured in the spike (`decisions/nfr-targets-v1.md`, decided 2026-09-20).
-- Legal applicability: self-assessed from the official texts (`report/legal-self-assessment-v1.md`); owner sign-off pending, not legal advice, RISK-008.
+- Legal applicability: self-assessed from the official texts (`report/legal-self-assessment-v1.md`); owner accepted it as the basis for the first Android release on 2026-09-23 (not legal advice; residual doubts remain, RISK-008).
 - Public name decided (Exodite Anima); availability on the stores unchecked (`decisions/public-app-name.md`).
 - Public repository and MIT licence decided (`decisions/source-licence-and-publishing.md`); the publishing checklist is not finished.
 - Staged rollout decided (`decisions/v1-rollout-plan.md`); halt-trigger numbers follow the internal test.
-- Indonesian copy: not written; the owner reviews the drafts.
+- Indonesian copy: reviewed and accepted by the owner 2026-09-23 (180 strings, `app/lib/l10n/strings.dart`); two minor wording fixes applied.

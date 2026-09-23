@@ -125,6 +125,11 @@ Added when the ADR was moved into the software-architect role and checked agains
 - **Not yet done:** fixture archives for `formatVersion` 1 and the round-trip test do not exist; qa owns them (test plan stage). RISK-002 stays open until they do.
 - **Consulted:** none. The cyber-security role reviews the envelope and import limits (THR-006, THR-007, THR-008).
 
+## Update 2026-09-23 (FEAT-010: mood and tags)
+FEAT-010 adds `mood` (one of the 5 fixed values, or absent) and `tags` (a list of tag names, possibly empty) to each entry in `entries.json`. Per rule 2 above ("unknown fields inside a known version are ignored"), this is additive: **`formatVersion` stays 1.** The manifest's `schemaVersion` moves to 2 (matching the ADR-002 update), so an archive can be told apart from one made before FEAT-010 without a new archive layout.
+
+An older app version importing a FEAT-010 archive sees `entries.json` with fields it does not know; rule 2 says it ignores them, so entries import without mood or tags rather than failing. An import of a pre-FEAT-010 archive into a FEAT-010 app simply finds no `mood`/`tags` fields and leaves those entries unset — no special-case code needed. A fixture archive at `schemaVersion` 2 is follow-up work for qa (mirrors the existing rule that every past version stays importable, RISK-002), and is a smaller addition than a new `formatVersion` fixture would be.
+
 ## Update 2026-09-20 (spike S6 and S7)
 - The custom envelope was kept and option D (`age`) was not adopted: no maintained Dart implementation was found (see the spike plan). The envelope is specified in `app/lib/backup/envelope.dart`.
 - The importer uses its own minimal ZIP reader, not a general package, so size limits hold while unpacking. Supporting decision 3 above is implemented that way.

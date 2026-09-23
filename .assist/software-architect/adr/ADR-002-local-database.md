@@ -102,5 +102,20 @@ Added when the ADR was moved into the software-architect role and checked agains
 - **Trade-off scoring** (optional for T1) was not done; the choice rests on the documentation of the recommended path and on the spike.
 - **Consulted:** none. The cyber-security role reviews the key-handling parts with the threat model.
 
+## Update 2026-09-23 (FEAT-010: mood and tags)
+FEAT-010 (tags, mood, and On this day) needs two additive changes to the entry data model. This is the first real schema step since release readiness work began (`journalSchemaVersion` is still 1, `../../frontend-mobile/report/local-data-design.md`), so it is also the first time ADR-006's four safety rules are actually exercised end to end, not just written down.
+
+**Schema change (bumps `journalSchemaVersion` 1 -> 2):**
+- `mood`: a nullable small integer on the entry, one of 5 fixed values (product proposal in FEAT-010: Great, Good, Okay, Bad, Awful). Nullable because mood is optional.
+- Tags: a `tags` table (`id`, `name`, unique on `name`) plus an `entry_tags` join table (`entry_id`, `tag_id`), rather than a comma-separated string column.
+  - Considered and rejected: a single delimited-string column on the entry. It is simpler to write but conflates the preset list with free text, cannot enforce uniqueness or rename a tag across entries, and would need re-parsing if tag filtering (an explicit non-goal today) is ever built. Cost/effort difference is small; the join table is the boring, query-safe choice and costs one more table and one more join.
+  - Preset tags (FEAT-010's 8-item proposal) and free-text tags live in the same `tags` table; nothing distinguishes them at storage level, matching the product decision that both are just tags.
+
+**Migration:** this schema step must ship with ADR-006 Option A fully implemented (copy-before-migrate, restore-on-failure, refuse-newer-schema, transactional/resumable), because it is additive but still a real migration for any phone that already has entries under schema 1. Follow-up work for frontend-mobile: fixture database at schema 1, migration test to schema 2, and the failure-injection test named in ADR-006 (TC-015, TC-100, TC-101) — none of that exists yet for a real migration step.
+
+**Export impact:** see the ADR-003 update below; `schemaVersion` in the manifest moves to 2, `formatVersion` does not change.
+
+No new risk beyond what RISK-001 and ADR-006 already cover. This is an application of accepted decisions, not a new trade-off, so it is recorded here rather than as a new ADR.
+
 ## Update 2026-09-20 (search)
 Full-text search is built as decided: an FTS5 table (`unicode61` with accents removed, so `cafe` finds `Café`) lives inside the encrypted file, and three triggers keep it equal to the entries after every insert, edit and delete. Searching for a word matches from the start of a word (`riv` finds river; `iver` does not). Measured on an emulator with 20,000 entries: 0 to 24 ms (median) per query, and 0.7 s to insert the 20,000 entries with the index. Tests read the raw files after inserts and deletes and find no entry text (`app/test/search_test.dart`). Not verified on iOS.

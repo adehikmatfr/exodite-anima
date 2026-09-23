@@ -41,13 +41,13 @@ Reviewed and recorded in the table above: encrypted storage (sqlite3 with the SQ
 | Lock file committed | yes (`app/pubspec.lock`) |
 | Versions pinned exactly | yes for every package the team added; `cupertino_icons` and `flutter_lints` still use ranges |
 | SBOM per release | not generated; to be added to the release checklist |
-| CI and automated scanning | workflow written (`.github/workflows/ci.yml`), never run; no vulnerability scan yet |
+| CI and automated scanning | `.github/workflows/ci.yml` written, never run; `.github/workflows/osv-scanner.yml` (OSV-Scanner, dependency vulnerability scan) added 2026-09-23, never run — both need the first push |
 | Signing and provenance | release signing not set up (THR-014) |
 
 ## Findings
 | ID | Finding | Threat | Owner |
 |----|---------|--------|-------|
-| D1 | ~~No CI exists~~ CI written 2026-09-20 (`.github/workflows/ci.yml`): analyze, unit tests, generated-code check, the merged-manifest check (ADR-005), registry and preflight, and a secrets and local-path scan. It has not run yet: it needs the first push. Dependency vulnerability scanning is still not automated | THR-012, THR-015 | frontend-mobile |
+| D1 | ~~No CI exists~~ CI written 2026-09-20 (`.github/workflows/ci.yml`): analyze, unit tests, generated-code check, the merged-manifest check (ADR-005), registry and preflight, and a secrets and local-path scan. ~~Dependency vulnerability scanning is still not automated~~ Added 2026-09-23: `.github/workflows/osv-scanner.yml` (OSV-Scanner, `google/osv-scanner-action@v2.6.0`) scans `app/pubspec.lock` on every push, PR, and a weekly schedule, reporting to the repository's Security tab. Not yet run: needs a push to the remote | THR-012, THR-015 | frontend-mobile |
 | D2 | Caret version ranges allow silent minor upgrades; pin before release. Update 2026-09-20: every package added since the spike is pinned exactly; `cupertino_icons` (template) and `flutter_lints` still use ranges, and `cupertino_icons` is unused. The CI workflow pins actions by major version tag, not by commit hash | THR-012 | frontend-mobile |
 | D3 | No SBOM process (the lock file lists every package and version) | THR-012 | cyber-security |
 | D4 | `flutter pub get` reports 22 packages with newer versions that the Flutter 3.44.4 constraints do not allow (2026-09-20); not reviewed | THR-012 | frontend-mobile |

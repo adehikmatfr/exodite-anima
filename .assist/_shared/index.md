@@ -57,6 +57,7 @@ Every cross-role artifact gets a stable ID. Reference IDs, never file paths. IDs
 | FEAT-007 | Import | active | product-manager | `product-manager/features/FEAT-007-import.md` | ADR-001, ADR-002, RISK-002 |
 | FEAT-008 | Export reminder | active | product-manager | `product-manager/features/FEAT-008-export-reminder.md` | RISK-001, FEAT-006 |
 | FEAT-009 | Settings | active | product-manager | `product-manager/features/FEAT-009-settings.md` | ADR-001, FEAT-003 |
+| FEAT-010 | Tags, mood, and On this day | active | product-manager | `product-manager/features/FEAT-010-tags-mood-and-on-this-day.md` | ADR-002, ADR-003, ADR-006, RISK-001, RISK-002, FEAT-001, FEAT-002, FEAT-003, FEAT-006, FEAT-007 |
 
 Labels used inside a single document (`AC-n` acceptance criteria, `INV-n` invariants, `DA-n` documentation criteria, `JRN`, `INS`, `HE`, `PT`, `KI`) are local to that document and are **not** registered. Register an artifact only when another role cites it.
 
