@@ -138,10 +138,10 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
     setState(() => _photoAddFailed = false);
     final entryId = await _ensureEntryId();
     if (entryId == null) return;
-    final picked = await pickCompressedPhoto(source);
-    if (picked == null) return;
-    final (bytes, mimeType) = picked;
     try {
+      final picked = await pickCompressedPhoto(source);
+      if (picked == null) return;
+      final (bytes, mimeType) = picked;
       final photo = await widget.repository.addPhoto(entryId: entryId, bytes: bytes, mimeType: mimeType);
       if (mounted) setState(() => _photos = [..._photos, photo]);
     } catch (_) {
