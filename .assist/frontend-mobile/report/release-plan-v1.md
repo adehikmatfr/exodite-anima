@@ -11,7 +11,7 @@ Method: skill `mobile-release-and-store-compliance`. Status: draft, 2026-09-20. 
 ## Build and signing
 | Step | Current state | Needed |
 |------|---------------|--------|
-| Version | `1.1.0+3` in `app/pubspec.yaml` (v1.0.0+1 was v1.0.0-beta.1's pre-release, 2026-09-20; bumped to 1.1.0+2 for v1.1.0-beta.1, 2026-09-23, bundling FEAT-010 and FEAT-011; bumped to 1.1.0+3 for v1.1.0-beta.2, 2026-09-23, a photo-add bug fix only, no feature change) | Marketing version plus a build number that only increases (Android versionCode, iOS build number) |
+| Version | `1.1.0+4` in `app/pubspec.yaml` (v1.0.0+1 was v1.0.0-beta.1's pre-release, 2026-09-20; bumped to 1.1.0+2 for v1.1.0-beta.1, 2026-09-23, bundling FEAT-010 and FEAT-011; bumped to 1.1.0+3 for v1.1.0-beta.2, 2026-09-23, a photo-add bug fix only; bumped to 1.1.0+4 for v1.1.0-beta.3, 2026-09-23, two more real-device photo bugs plus the camera permission, no feature change) | Marketing version plus a build number that only increases (Android versionCode, iOS build number) |
 | Reproducible CI build | No CI | Build once in CI, sign in CI, submit the tested artifact (skill rule); until CI exists, builds are local and the release record says so |
 | Android signing | **The template signs release builds with the debug key** (`android/app/build.gradle.kts`, Flutter's own TODO) | Create an upload key, keep it and its passwords outside the repository (THR-014), use Play App Signing, keep an offline copy of anything that cannot be recreated. Test case TC-091 |
 | Apple signing | Not set up; no Mac | Certificates, profiles, and a build machine (Mac or cloud CI) |
