@@ -8,13 +8,15 @@ The app has no account, no server, no analytics, and no third-party SDK. The rul
 | Permission | Feature | Data class | API used | Rationale string | Denial fallback | Declaration updated | Compliance row |
 |------------|---------|-----------|----------|------------------|-----------------|---------------------|----------------|
 | Biometrics (Android `USE_BIOMETRIC`; iOS `NSFaceIDUsageDescription`) | FEAT-003, FEAT-004, FEAT-009 | none: the phone checks the face or fingerprint and the app never receives it | The platform biometric prompt, gating access to the key held in the OS key store (ADR-001) | iOS: "Face ID unlocks your journal on this phone. Your face data stays with iOS and is never seen by the app." (draft; must be localised) | The passcode always works (FEAT-003 AC-4, test case TC-024; changed biometrics: TC-028) | no: not yet declared | app store rules |
+| Camera (Android `CAMERA`) | FEAT-011 | none collected by the app: a photo the user takes is encrypted and stored the same as one picked from the library; nothing is sent anywhere | `image_picker`'s own runtime request, triggered by the manifest declaration (`ImagePickerDelegate`), shown only when the user taps "Take a photo" | Choosing "Choose from library" still works; a denied camera does not block writing or saving text (draft rationale string, not yet localised; iOS `NSCameraUsageDescription` not set - iOS is not built yet) | yes, 2026-09-23 (added after a real device could not reach the camera without it; ADR-002 update) | Data row (FEAT-011 privacy claims not yet reconciled with the store form) |
 
-Read from the merged release manifest on 2026-09-20 (Android): `USE_BIOMETRIC` and `USE_FINGERPRINT` (both from `local_auth`; the second is the older name of the same right), and the app's own non-exported receiver permission added by AndroidX. There is no `INTERNET` permission. Since export and import were added (2026-09-20) the merged manifest also holds a `ShareFileProvider` (from `share_plus`, for handing the export file to the share sheet) and a `queries` element; neither adds a permission.
+Read from the merged release manifest on 2026-09-20 (Android): `USE_BIOMETRIC` and `USE_FINGERPRINT` (both from `local_auth`; the second is the older name of the same right), and the app's own non-exported receiver permission added by AndroidX. There is no `INTERNET` permission. Since export and import were added (2026-09-20) the merged manifest also holds a `ShareFileProvider` (from `share_plus`, for handing the export file to the share sheet) and a `queries` element; neither adds a permission. Since FEAT-011 (2026-09-23) it also holds `CAMERA` (see the row above) and `image_picker`'s own `FileProvider` (no permission).
 
 ## Not requested in version 1, with reason
 | Capability | Why not |
 |------------|---------|
-| Camera, microphone, photo library | Photos (v1.1) and audio (v1.2) are out of scope; when added, use the narrowest picker and a just-in-time prompt with its own explanation screen |
+| Photo library read (Android `READ_MEDIA_IMAGES`/`READ_EXTERNAL_STORAGE`) | Not requested and not needed: `image_picker`'s Android code requests no storage permission for the library picker (Android 13+ uses the system Photo Picker; older versions read through `ACTION_GET_CONTENT`, serviced by the gallery app), confirmed by reading the plugin's source (ADR-002 update 2026-09-23). Declaring either would sit unused, against this register's own "no justification, no permission" rule |
+| Microphone | Audio (v1.2) is out of scope; when added, use a just-in-time prompt with its own explanation screen |
 | Notifications | In-app reminders only in v1 (FEAT-008); a later daily reminder would request permission after the first value moment |
 | Location, contacts, Bluetooth, health | Not needed |
 | Storage or file access | Export and import use the system save, share, and file-picker dialogs, which need no storage permission |
@@ -35,7 +37,7 @@ Read from the merged release manifest on 2026-09-20 (Android): `USE_BIOMETRIC` a
 | Clipboard | The app never writes entry text to the clipboard; secure fields block copy | built: the app writes nothing to the clipboard and passcode fields are obscured (Flutter blocks copying from an obscured field); not tested on a device |
 | Screenshots and task switcher | Content hidden in the app-switcher preview on both platforms; Android screenshots and screen recording blocked (decided 2026-09-20) | **Android**: secure-window flag set in release builds (`adb screencap` returned an empty image on the emulator); the app also covers its content when inactive. iOS not built; preview not looked at (TC-023, TC-094) |
 | Backups | Excluded from OS cloud and device backup | **Android done 2026-09-20**: `android:allowBackup="false"` set in the main manifest; iOS exclusion attribute on stored files not built |
-| Media metadata | Photos are not in version 1; when added, strip location and camera data unless the owner decides otherwise | not applicable yet |
+| Media metadata | FEAT-011 (2026-09-23): embedded metadata (e.g. EXIF location) is kept as-is, owner decision, not stripped | built as decided; residual privacy risk recorded as RISK-013, not mitigated by this rule |
 
 ## Store declarations plan
 | Declaration | Intended answer | Condition | Owner | Reconciled with code |

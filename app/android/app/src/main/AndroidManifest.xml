@@ -1,4 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- FEAT-011 (Photos): CAMERA, added 2026-09-23 after a real device could
+         not reach the camera without it (ADR-002 update). image_picker's own
+         Android code (`ImagePickerDelegate`, `ImagePickerUtils.isPermissionPresentInManifest`)
+         checks the manifest for this exact permission and, only if present,
+         requests it at runtime just before it opens the camera - not at
+         launch; denial falls back to the photo library or to writing
+         text-only, the same as before FEAT-011. The photo library needs no
+         permission: image_picker's own docs say Android needs no
+         configuration for it, confirmed by its source (nothing in
+         `ImagePickerDelegate` checks for a storage permission) - Android 13+
+         uses the system Photo Picker (no permission at all), and older
+         versions read through `ACTION_GET_CONTENT`, which the gallery app
+         itself services. A `READ_MEDIA_IMAGES`/`READ_EXTERNAL_STORAGE`
+         declaration would sit unused, since nothing in this app or
+         image_picker would ever request it - against this project's own
+         "no justification, no permission" rule
+         (`frontend-mobile/report/permission-and-privacy-register.md`). -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- The journal works with only the photo library on a phone with no
+         camera (e.g. some tablets); do not require one to install. -->
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
         android:allowBackup="false"
         android:label="Exodite Anima"

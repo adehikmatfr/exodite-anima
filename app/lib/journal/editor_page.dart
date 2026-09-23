@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../data/entry_repository.dart';
 import '../l10n/strings.dart';
+import '../lock/auto_lock_guard.dart';
 import '../theme/tokens.dart';
 import '../theme/app_icons.dart';
 import 'mood_and_tags.dart';
@@ -36,6 +37,7 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
   Timer? _draftTimer;
   bool _saveFailed = false;
   bool _photoAddFailed = false;
+  bool _photoNeedsText = false;
   bool _done = false;
 
   @override
@@ -134,19 +136,32 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
     return _entryId;
   }
 
+  /// Picking and saving a photo hands control to an external activity (the
+  /// camera or the library) and can take a while; [AutoLockGuard.hold] tells
+  /// the app not to lock mid-pick, so the photo lands on a still-open,
+  /// still-keyed database instead of being lost when the pick returns to a
+  /// journal the lock has already closed (FEAT-011, FEAT-003).
   Future<void> _addPhoto(ImageSource source) async {
-    setState(() => _photoAddFailed = false);
-    final entryId = await _ensureEntryId();
-    if (entryId == null) return;
-    try {
-      final picked = await pickCompressedPhoto(source);
-      if (picked == null) return;
-      final (bytes, mimeType) = picked;
-      final photo = await widget.repository.addPhoto(entryId: entryId, bytes: bytes, mimeType: mimeType);
-      if (mounted) setState(() => _photos = [..._photos, photo]);
-    } catch (_) {
-      if (mounted) setState(() => _photoAddFailed = true);
-    }
+    setState(() {
+      _photoAddFailed = false;
+      _photoNeedsText = false;
+    });
+    await AutoLockGuard.hold(() async {
+      final entryId = await _ensureEntryId();
+      if (entryId == null) {
+        if (mounted) setState(() => _photoNeedsText = true);
+        return;
+      }
+      try {
+        final picked = await pickCompressedPhoto(source);
+        if (picked == null) return;
+        final (bytes, mimeType) = picked;
+        final photo = await widget.repository.addPhoto(entryId: entryId, bytes: bytes, mimeType: mimeType);
+        if (mounted) setState(() => _photos = [..._photos, photo]);
+      } catch (_) {
+        if (mounted) setState(() => _photoAddFailed = true);
+      }
+    });
   }
 
   Future<void> _leave() async {
@@ -254,7 +269,11 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
                 ),
                 if (_photoAddFailed) ...[
                   const SizedBox(height: AppSpace.s8),
-                  _PhotoAddError(),
+                  _PhotoAddError(title: S.photoAddFailedTitle, body: S.photoAddFailedBody),
+                ],
+                if (_photoNeedsText) ...[
+                  const SizedBox(height: AppSpace.s8),
+                  _PhotoAddError(title: S.photoNeedsTextFirst, body: null),
                 ],
                 const SizedBox(height: AppSpace.s12),
                 if (_saveFailed) _SaveError(onRetry: _save),
@@ -302,11 +321,17 @@ class _EditorPageState extends State<EditorPage> with WidgetsBindingObserver {
   }
 }
 
-/// FEAT-011: a photo failed to be added (e.g. the phone ran out of space).
-/// Reuses [_SaveError]'s inline-banner pattern; nothing about the entry's
-/// text or other photos is affected (AC-8's "leave everything else
-/// untouched" rule, applied here to the add path too).
+/// FEAT-011: a photo could not be added - either it failed outright (e.g.
+/// the phone ran out of space) or there is no saved entry yet for it to
+/// attach to ([body] null covers the second, title-only case). Reuses
+/// [_SaveError]'s inline-banner pattern; nothing about the entry's text or
+/// other photos is affected (AC-8's "leave everything else untouched" rule,
+/// applied here to the add path too).
 class _PhotoAddError extends StatelessWidget {
+  const _PhotoAddError({required this.title, required this.body});
+  final String title;
+  final String? body;
+
   @override
   Widget build(BuildContext context) {
     final c = AppColors.of(context);
@@ -323,9 +348,11 @@ class _PhotoAddError extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(S.photoAddFailedTitle, style: AppType.label),
-            const SizedBox(height: AppSpace.s4),
-            Text(S.photoAddFailedBody, style: AppType.caption.copyWith(color: c.textSecondary)),
+            Text(title, style: AppType.label),
+            if (body != null) ...[
+              const SizedBox(height: AppSpace.s4),
+              Text(body!, style: AppType.caption.copyWith(color: c.textSecondary)),
+            ],
           ],
         ),
       ),

@@ -14,6 +14,7 @@ import 'journal/cannot_open_page.dart';
 import 'journal/journal_session.dart';
 import 'journal/timeline_page.dart';
 import 'l10n/strings.dart';
+import 'lock/auto_lock_guard.dart';
 import 'lock/lock_page.dart';
 import 'onboarding/onboarding_flow.dart';
 import 'security/biometrics.dart';
@@ -123,22 +124,38 @@ class _ShellState extends State<_Shell> with WidgetsBindingObserver {
   bool _obscured = false;
   DateTime? _leftAt;
 
+  /// A lock was due (FEAT-003's immediate rule, or the timeout, fired) while
+  /// [AutoLockGuard] was holding it off for a photo pick in flight
+  /// (FEAT-011); applied the moment that hold ends (`_onAutoLockGuardChanged`).
+  bool _lockPending = false;
+
   DateTime get _now => (widget.now ?? DateTime.now)();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    AutoLockGuard.changes.addListener(_onAutoLockGuardChanged);
     _boot();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    AutoLockGuard.changes.removeListener(_onAutoLockGuardChanged);
     _settings?.removeListener(_onSettings);
     _session?.database.close();
     _key?.fillRange(0, _key!.length, 0);
     super.dispose();
+  }
+
+  /// A hold just started or ended. Nothing to do while one is still active;
+  /// once the last one ends, run whatever lock the lifecycle handler below
+  /// deferred instead of skipping.
+  void _onAutoLockGuardChanged() {
+    if (AutoLockGuard.held || !_lockPending) return;
+    _lockPending = false;
+    _lock();
   }
 
   Future<void> _boot() async {
@@ -216,6 +233,10 @@ class _ShellState extends State<_Shell> with WidgetsBindingObserver {
   /// Closes the journal and forgets the key, then shows the lock screen (FEAT-003).
   Future<void> _lock() async {
     if (_phase == _Phase.booting || _phase == _Phase.onboarding || _phase == _Phase.locked) return;
+    if (AutoLockGuard.held) {
+      _lockPending = true;
+      return;
+    }
     final session = _session;
     final key = _key;
     _session = null;

@@ -221,6 +221,7 @@ class S {
   static String get photoAddFailedBody => _t('Free some space on the phone, then try again.', 'Kosongkan sedikit ruang di ponsel, lalu coba lagi.');
   static String get photoOpenFailedTitle => _t('This photo can\'t be opened', 'Foto ini tidak bisa dibuka');
   static String get photoOpenFailedBody => _t('It may be damaged. Everything else in this entry is unaffected.', 'Foto ini mungkin rusak. Bagian lain dari catatan ini tidak terpengaruh.');
+  static String get photoNeedsTextFirst => _t('Write something first, then add a photo.', 'Tulis sesuatu dulu, baru tambahkan foto.');
 
   // Text with a value in it
   static String entryDateLabel(String date) => _lang == 'id' ? 'Tanggal catatan, $date, ubah' : 'Entry date, $date, change';
@@ -471,4 +472,5 @@ List<(String, String, String)> allStringsForTest() => [
   ('photoAddFailedBody', 'Free some space on the phone, then try again.', 'Kosongkan sedikit ruang di ponsel, lalu coba lagi.'),
   ('photoOpenFailedTitle', 'This photo can\'t be opened', 'Foto ini tidak bisa dibuka'),
   ('photoOpenFailedBody', 'It may be damaged. Everything else in this entry is unaffected.', 'Foto ini mungkin rusak. Bagian lain dari catatan ini tidak terpengaruh.'),
+  ('photoNeedsTextFirst', 'Write something first, then add a photo.', 'Tulis sesuatu dulu, baru tambahkan foto.'),
 ];

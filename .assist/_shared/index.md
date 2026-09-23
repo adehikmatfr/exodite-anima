@@ -49,7 +49,7 @@ Every cross-role artifact gets a stable ID. Reference IDs, never file paths. IDs
 | TC-092..102 | Test cases added after the owner's decisions | draft | qa | `qa/test-cases/decisions-2026-09-20.md` | FEAT-001, FEAT-003, FEAT-005, FEAT-006, FEAT-007, FEAT-009, ADR-006 |
 | TC-103..111 | Test cases: Tags, mood, and On this day | draft | qa | `qa/test-cases/FEAT-010-tags-mood-and-on-this-day.md` | FEAT-010, FEAT-003, ADR-002, ADR-003, RISK-001, RISK-002 |
 | TC-112..120 | Test cases: Photos | draft | qa | `qa/test-cases/FEAT-011-photos.md` | FEAT-011, FEAT-003, ADR-002, ADR-003, RISK-002, RISK-003, RISK-011 |
-| RISK-001..013 | Product and technical risk register | active | product-manager | `product-manager/report/risk-register.md` | ADR-001, ADR-002, ADR-003, ADR-006, FEAT-001..011 |
+| RISK-001..014 | Product and technical risk register | active | product-manager | `product-manager/report/risk-register.md` | ADR-001, ADR-002, ADR-003, ADR-006, FEAT-001..011 |
 | FEAT-001 | Entry management | active | product-manager | `product-manager/features/FEAT-001-entry-management.md` | ADR-001, ADR-002 |
 | FEAT-002 | Timeline | active | product-manager | `product-manager/features/FEAT-002-timeline.md` | ADR-002 |
 | FEAT-003 | App lock and screen privacy | active | product-manager | `product-manager/features/FEAT-003-app-lock.md` | ADR-001, RISK-003 |

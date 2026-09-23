@@ -20,8 +20,10 @@ fi
 [ -n "$aapt2" ] && [ -x "$aapt2" ] || { echo "FAIL: aapt2 not found (set AAPT2 or ANDROID_HOME)"; exit 2; }
 
 # Permissions the release build may declare. Anything else fails the check.
+# CAMERA: FEAT-011, requested just-in-time by image_picker before it opens
+# the camera (ADR-002 update 2026-09-23), never at launch.
 # The last one is added by AndroidX for the app itself and is not exported.
-allowed_regex='^(android\.permission\.USE_BIOMETRIC|android\.permission\.USE_FINGERPRINT|[A-Za-z0-9_.]+\.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION)$'
+allowed_regex='^(android\.permission\.USE_BIOMETRIC|android\.permission\.USE_FINGERPRINT|android\.permission\.CAMERA|[A-Za-z0-9_.]+\.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION)$'
 
 fail=0
 while IFS= read -r name; do
