@@ -15,10 +15,12 @@ class MoodPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Each option takes an equal share of the width: five fixed 64 dp columns
+    // (320 dp) overflowed a 360 dp phone's 312 dp of content.
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        for (final mood in Mood.values) _MoodOption(mood: mood, selected: mood == selected, onChanged: onChanged),
+        for (final mood in Mood.values)
+          Expanded(child: _MoodOption(mood: mood, selected: mood == selected, onChanged: onChanged)),
       ],
     );
   }
@@ -44,7 +46,6 @@ class _MoodOption extends StatelessWidget {
         onTap: () => onChanged(selected ? null : mood),
         borderRadius: BorderRadius.circular(AppRadius.lg),
         child: SizedBox(
-          width: 64,
           child: Column(
             children: [
               Container(
